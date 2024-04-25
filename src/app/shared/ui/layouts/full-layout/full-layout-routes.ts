@@ -14,4 +14,11 @@ export const FULL_ROUTES: Routes = [
         (m) => m.DashboardModule
       ),
   },
+  {
+    path: 'tickets-management',
+    loadChildren: () =>
+      import(
+        '../../../../features/tickets-management/tickets-management.module'
+      ).then((m) => m.TicketsManagementModule),
+  },
 ];
