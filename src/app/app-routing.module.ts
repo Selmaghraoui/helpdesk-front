@@ -9,12 +9,12 @@ const routes: Routes = [
     component: FullLayoutComponent,
     children: FULL_ROUTES,
   },
-  // {
-  //   // canActivate: [false],
-  //   path: '',
-  //   loadChildren: () =>
-  //     import('./pages/pages.module').then((m) => m.PagesModule),
-  // },
+  {
+    // canActivate: [false],
+    path: '',
+    loadChildren: () =>
+      import('./pages/pages.module').then((m) => m.PagesModule),
+  },
 ];
 
 @NgModule({
