@@ -27,4 +27,11 @@ export const FULL_ROUTES: Routes = [
         (m) => m.UsersModule
       ),
   },
+  {
+    path: 'profil',
+    loadChildren: () =>
+      import('../../../../features/profil/profil.module').then(
+        (m) => m.ProfilModule
+      ),
+  },
 ];

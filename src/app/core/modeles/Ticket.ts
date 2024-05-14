@@ -1,4 +1,5 @@
 import { IUser } from './IUser';
+import { TaskStatus } from './TaskStatus';
 import { TypesTicket } from './TypesTicket';
 
 export interface Ticket {
@@ -6,7 +7,7 @@ export interface Ticket {
   title: string;
   type: TypesTicket;
   priority: string;
-  status: string;
+  status: TaskStatus;
   createdBy: IUser;
   createdTime: string;
   affectedTo: IUser;

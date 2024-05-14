@@ -1,6 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { IBreadcrumb } from 'src/app/core/modeles/IBreadcrumb';
+import { Role } from 'src/app/core/modeles/Role';
+import { TaskPriority } from 'src/app/core/modeles/TaskPriority';
+import { TaskStatus } from 'src/app/core/modeles/TaskStatus';
 import { Ticket } from 'src/app/core/modeles/Ticket';
 import { TicketService } from 'src/app/core/services/ticket.service';
 
@@ -10,6 +13,13 @@ import { TicketService } from 'src/app/core/services/ticket.service';
   styleUrls: ['./tickets.component.scss'],
 })
 export class TicketsComponent implements OnInit {
+  TaskStatus = TaskStatus;
+  TaskPriority = TaskPriority;
+  Role = Role;
+  // roleUser = 'helpDesk';
+  // roleUser = 'user';
+  roleUser = 'admin';
+
   breadCrumb: IBreadcrumb[] = [
     {
       title: 'Tickets',
@@ -21,7 +31,7 @@ export class TicketsComponent implements OnInit {
   ticketList: Ticket[] = [
     {
       id: 1,
-      title: 'Ticket 1',
+      title: 'Ticket 1 test testtes ',
       type: {
         id: 1,
         label: 'Application',
@@ -29,7 +39,7 @@ export class TicketsComponent implements OnInit {
         description: '',
       },
       priority: 'Hight',
-      status: 'In progress',
+      status: TaskStatus.done,
       createdBy: {
         id: 1,
         image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
@@ -52,15 +62,17 @@ export class TicketsComponent implements OnInit {
     },
     {
       id: 2,
-      title: 'Ticket 2',
+      // todo : add ... 3point apres un nombre de lettres
+      title: 'Ticket 2 Ticket 2 Ticket 2 Ticket 2 Ticket 2 ',
       type: {
         id: 1,
-        label: 'Application',
+        label: 'Achat',
         lien: '',
         description: '',
       },
-      priority: 'Hight',
-      status: 'In progress',
+      priority: 'Meduim',
+      status: TaskStatus.inProgress,
+
       createdBy: {
         id: 1,
         image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
@@ -86,12 +98,12 @@ export class TicketsComponent implements OnInit {
       title: 'Ticket 3',
       type: {
         id: 1,
-        label: 'Application',
+        label: 'Incedent',
         lien: '',
         description: '',
       },
-      priority: 'Hight',
-      status: 'In progress',
+      priority: 'Low',
+      status: TaskStatus.todo,
       createdBy: {
         id: 2,
         image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
