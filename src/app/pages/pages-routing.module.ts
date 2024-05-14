@@ -4,19 +4,21 @@ import { ErrorPageContentComponent } from './components/error-page-content/error
 import { ErrorPageLayoutComponent } from './components/error-page-layout/error-page-layout.component';
 
 const routes: Routes = [
-  {
-    path: ':segment',
-    component: ErrorPageContentComponent,
-  },
-  {
-    path: '**',
-    // redirectTo: 'not-found',
-    component: ErrorPageLayoutComponent,
-  },
+  // {
+  //   path: 'not-found',
+  //   component: ErrorPageContentComponent,
+  // },
+  // {
+  //   path: '**',
+  //   redirectTo: 'not-found',
+  //   component: ErrorPageLayoutComponent,
+  // },
+  { path: 'not-found', component: ErrorPageLayoutComponent },
+  { path: '**', redirectTo: 'not-found' },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
 export class PagesRoutingModule {}

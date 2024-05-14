@@ -1,0 +1,31 @@
+<div class="mb-6">
+  <app-breadcrumb [breadcrumb]="breadCrumb"></app-breadcrumb>
+</div>
+
+<h5
+  class="mb-6 mt-14 text-xl tracking-tight text-gray-900 dark:text-white h-full"
+>
+  Choose type of your ticket
+</h5>
+
+<div
+  class="grid min-w-full max-w-6xl grid-cols-1 gap-8 mt-8 sm:grid-cols-2 lg:grid-cols-3 cursor-pointer"
+>
+  <div
+    (click)="selectType(type.lien)"
+    class="card1 p-6 grow basis-0 rounded-lg img-hover-zoom img-hover-zoom--brightness"
+    *ngFor="let type of typesTicket"
+  >
+    <a>
+      <h3>
+        {{ type.label }}
+      </h3>
+      <p class="small">
+        {{ type.description }}
+      </p>
+      <div class="go-corner" href="#">
+        <div class="go-arrow">→</div>
+      </div>
+    </a>
+  </div>
+</div>

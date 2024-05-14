@@ -1,13 +1,30 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>App</title>
-  <base href="/">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-</head>
-<body>
-  <app-root></app-root>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <title>App</title>
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+
+    <script src="//cdn.tinymce.com/6/tinymce.min.js"></script>
+
+    <script nonce="{{window.__CSP_NONCE__}}" async>
+      if (window.trustedTypes && trustedTypes.createPolicy) {
+        trustedTypes.createPolicy("default", {
+          createHTML: (string) => DOMPurify.sanitize(string),
+          createScriptURL: (string) => string,
+          createScript: (string) => string,
+        });
+        trustedTypes.createPolicy("tinymce", {
+          createHTML: (string) => string,
+          createScriptURL: (input) => input,
+          createScript: (input) => input,
+        });
+      }
+    </script>
+  </head>
+  <body>
+    <app-root></app-root>
+  </body>
 </html>

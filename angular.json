@@ -28,13 +28,16 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              {"glob": "**/*", "input": "node_modules/tinymce", "output": "/tinymce/"}
+
             ],
             "styles": [
               "src/styles.scss"
             ],
             "scripts": [
-              "node_modules/preline/preline.js"
+              "node_modules/preline/preline.js",
+              "node_modules/tinymce/tinymce.min.js"
             ]
           },
           "configurations": {

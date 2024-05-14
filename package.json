@@ -19,8 +19,10 @@
     "@angular/platform-browser-dynamic": "~13.0.0-next.0",
     "@angular/router": "~13.0.0-next.0",
     "@preline/overlay": "^2.1.0",
+    "@tinymce/tinymce-angular": "^6.0.1",
     "preline": "^2.1.0",
     "rxjs": "~7.4.0",
+    "tinymce": "^6.7.2",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
   },

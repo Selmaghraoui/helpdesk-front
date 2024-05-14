@@ -1,15 +1,20 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+// import { BrowserModule } from '@angular/platform-browser';
+// import { EditorModule, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
 import { FullLayoutComponent } from './shared';
+import { BrowserModule } from '@angular/platform-browser';
+import { EditorModule, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 
 @NgModule({
   declarations: [AppComponent, FullLayoutComponent],
-  imports: [BrowserModule, AppRoutingModule, SharedModule],
-  providers: [],
+  imports: [BrowserModule, AppRoutingModule, SharedModule, EditorModule],
+  providers: [
+    { provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce/tinymce.min.js' },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

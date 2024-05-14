@@ -1,0 +1,46 @@
+::-webkit-scrollbar {
+  width: 6px !important;
+  height: 6px !important;
+  padding: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: gray !important;
+  border-radius: 6px !important;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #4f46e5 !important;
+}
+
+.comments {
+  height: 1018px !important;
+
+  .image-upload {
+    img {
+      display: block;
+      object-fit: contain;
+      border-radius: 8px;
+      border: 1px solid rgba(227, 226, 224, 0.5);
+      cursor: zoom-in;
+      min-width: 240px;
+      width: 240px;
+      height: auto;
+      max-height: 240px !important;
+    }
+  }
+
+  .content-comment {
+    .image-comment {
+      img {
+        display: block;
+        object-fit: contain;
+        border-radius: 8px;
+        border: 1px solid rgba(227, 226, 224, 0.5);
+        cursor: zoom-in;
+        height: auto;
+        max-height: 240px !important;
+      }
+    }
+  }
+}

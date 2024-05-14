@@ -1,0 +1,114 @@
+<app-breadcrumb [breadcrumb]="breadCrumb"></app-breadcrumb>
+
+<div class="flex flex-col overflow-x-auto sm:rounded-lg gap-4">
+  <div
+    class="flex items-center justify-between flex-column md:flex-row flex-wrap space-y-4 md:space-y-0 bg-white dark:bg-gray-900"
+  >
+    <app-chips></app-chips>
+
+    <button
+      routerLink="create-ticket"
+      type="button"
+      class="flex items-end justify-end text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-sm px-6 py-2.5 text-center me-2 mb-2"
+    >
+      Add ticket
+    </button>
+  </div>
+
+  <table
+    class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
+  >
+    <thead
+      class="text-xs text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+    >
+      <tr>
+        <th scope="col" class="px-6 py-4">Title</th>
+        <th scope="col" class="px-6 py-4">Type</th>
+        <th scope="col" class="px-6 py-4">Priority</th>
+        <th scope="col" class="px-6 py-4">Status</th>
+
+        <!-- For User -->
+        <th scope="col" class="px-6 py-4">Created By</th>
+        <th scope="col" class="px-6 py-4">Created Time</th>
+        <th scope="col" class="px-6 py-4">Affected To</th>
+        <!-- For HelpDesk -->
+        <th scope="col" class="px-6 py-4">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+        *ngFor="let ticket of ticketList"
+      >
+        <!-- scope="row" -->
+        <th class="px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
+          <!-- <div class="ps-3">
+            <div class="text-base font-semibold">Neil Sims</div>
+            <div class="font-normal text-gray-500">neil.sims@flowbite.com</div>
+          </div> -->
+          <!-- <div class="text-base font-semibold">{{ ticket.title }}</div> -->
+
+          {{ ticket.title }}
+        </th>
+        <td class="px-6 py-4">
+          {{ ticket.type.label }}
+        </td>
+        <td class="px-6 py-4">
+          <span
+            class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10"
+            >{{ ticket.priority }}</span
+          >
+        </td>
+        <td class="px-6 py-4">
+          <span
+            class="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10"
+            >{{ ticket.status }}</span
+          >
+        </td>
+        <td class="px-6 py-4">
+          <div
+            class="flex items-center text-gray-900 whitespace-nowrap dark:text-white"
+          >
+            <img
+              class="w-10 h-10 rounded-full"
+              src="{{ ticket.createdBy.image }}"
+              alt="image"
+            />
+            <div class="ps-3">
+              {{ ticket.createdBy.firstName }}
+              {{ ticket.createdBy.lastName }}
+            </div>
+          </div>
+        </td>
+        <td class="px-6 py-4">
+          {{ ticket.createdTime }}
+        </td>
+        <td class="px-6 py-4">
+          <div
+            class="flex items-center text-gray-900 whitespace-nowrap dark:text-white"
+          >
+            <img
+              class="w-10 h-10 rounded-full"
+              src="{{ ticket.affectedTo.image }}"
+              alt="Jese image"
+            />
+            <div class="ps-3">
+              {{ ticket.affectedTo.firstName }}
+              {{ ticket.affectedTo.lastName }}
+            </div>
+          </div>
+        </td>
+        <td class="px-6 py-4">
+          <a
+            [routerLink]="['detail', ticket.id]"
+            type="button"
+            data-modal-target="editUserModal"
+            data-modal-show="editUserModal"
+            class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+            >Edit</a
+          >
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -7,6 +7,21 @@ import { Router } from '@angular/router';
   styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent implements OnInit {
+  listElementSidebar = [
+    {
+      routerLink: 'dashboard',
+      label: 'Dashboard',
+    },
+    {
+      routerLink: 'tickets',
+      label: 'Tickets Management',
+    },
+    {
+      routerLink: 'users',
+      label: 'Users',
+    },
+  ];
+
   constructor(private router: Router) {}
 
   ngOnInit() {}
