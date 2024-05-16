@@ -3,6 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { IBreadcrumb } from 'src/app/core/modeles/IBreadcrumb';
+import { Role } from 'src/app/core/modeles/Role';
+import { TaskPriority } from 'src/app/core/modeles/TaskPriority';
+import { TaskStatus } from 'src/app/core/modeles/TaskStatus';
 import { Ticket } from 'src/app/core/modeles/Ticket';
 import { TicketService } from 'src/app/core/services/ticket.service';
 
@@ -104,128 +107,197 @@ export class CreateEditTicketComponent implements OnInit {
         ],
       },
     },
-    // {
-    //   id: 1,
-    //   user: {
-    //     image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-    //     firstName: 'Soufiane',
-    //     lastName: 'El Maghraoui',
-    //   },
-    //   comment: {
-    //     text: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio minima vero quia molestiae quidem veritatis amet fugiat iusto possimus! Eos a est molestias odio deserunt perspiciatis et repellendus illo quia!',
-    //     images: [
-    //       // {
-    //       //   imageAlt:
-    //       //     'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-    //       // },
-    //     ],
-    //   },
-    // },
-    // {
-    //   id: 1,
-    //   user: {
-    //     image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-    //     firstName: 'Soufiane',
-    //     lastName: 'El Maghraoui',
-    //   },
-    //   comment: {
-    //     text: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio minima vero quia molestiae quidem veritatis amet fugiat iusto possimus! Eos a est molestias odio deserunt perspiciatis et repellendus illo quia!',
-    //     images: [
-    //       {
-    //         imageAlt:
-    //           'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-    //       },
-    //     ],
-    //   },
-    // },
-    // {
-    //   id: 1,
-    //   user: {
-    //     image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-    //     firstName: 'Soufiane',
-    //     lastName: 'El Maghraoui',
-    //   },
-    //   comment: {
-    //     text: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio minima vero quia molestiae quidem veritatis amet fugiat iusto possimus! Eos a est molestias odio deserunt perspiciatis et repellendus illo quia!',
-    //     images: [
-    //       {
-    //         imageAlt:
-    //           'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-    //       },
-    //     ],
-    //   },
-    // },
-    // {
-    //   id: 1,
-    //   user: {
-    //     image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-    //     firstName: 'Soufiane',
-    //     lastName: 'El Maghraoui',
-    //   },
-    //   comment: {
-    //     text: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio minima vero quia molestiae quidem veritatis amet fugiat iusto possimus! Eos a est molestias odio deserunt perspiciatis et repellendus illo quia!',
-    //     images: [
-    //       {
-    //         imageAlt:
-    //           'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-    //       },
-    //     ],
-    //   },
-    // },
-    // {
-    //   id: 1,
-    //   user: {
-    //     image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-    //     firstName: 'Soufiane',
-    //     lastName: 'El Maghraoui',
-    //   },
-    //   comment: {
-    //     text: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio minima vero quia molestiae quidem veritatis amet fugiat iusto possimus! Eos a est molestias odio deserunt perspiciatis et repellendus illo quia!',
-    //     images: [
-    //       {
-    //         imageAlt:
-    //           'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-    //       },
-    //     ],
-    //   },
-    // },
-    // {
-    //   id: 1,
-    //   user: {
-    //     image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-    //     firstName: 'Soufiane',
-    //     lastName: 'El Maghraoui',
-    //   },
-    //   comment: {
-    //     text: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio minima vero quia molestiae quidem veritatis amet fugiat iusto possimus! Eos a est molestias odio deserunt perspiciatis et repellendus illo quia!',
-    //     images: [
-    //       {
-    //         imageAlt:
-    //           'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-    //       },
-    //     ],
-    //   },
-    // },
-    // {
-    //   id: 1,
-    //   user: {
-    //     image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-    //     firstName: 'Soufiane',
-    //     lastName: 'El Maghraoui',
-    //   },
-    //   comment: {
-    //     text: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio minima vero quia molestiae quidem veritatis amet fugiat iusto possimus! Eos a est molestias odio deserunt perspiciatis et repellendus illo quia!',
-    //     images: [
-    //       {
-    //         imageAlt:
-    //           'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-    //       },
-    //     ],
-    //   },
-    // },
+    {
+      id: 1,
+      user: {
+        image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+        firstName: 'Soufiane',
+        lastName: 'El Maghraoui',
+      },
+      comment: {
+        text: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio minima vero quia molestiae quidem veritatis amet fugiat iusto possimus! Eos a est molestias odio deserunt perspiciatis et repellendus illo quia!',
+        images: [
+          // {
+          //   imageAlt:
+          //     'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+          // },
+        ],
+      },
+    },
+    {
+      id: 1,
+      user: {
+        image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+        firstName: 'Soufiane',
+        lastName: 'El Maghraoui',
+      },
+      comment: {
+        text: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio minima vero quia molestiae quidem veritatis amet fugiat iusto possimus! Eos a est molestias odio deserunt perspiciatis et repellendus illo quia!',
+        images: [
+          {
+            imageAlt:
+              'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+          },
+        ],
+      },
+    },
+    {
+      id: 1,
+      user: {
+        image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+        firstName: 'Soufiane',
+        lastName: 'El Maghraoui',
+      },
+      comment: {
+        text: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio minima vero quia molestiae quidem veritatis amet fugiat iusto possimus! Eos a est molestias odio deserunt perspiciatis et repellendus illo quia!',
+        images: [
+          {
+            imageAlt:
+              'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+          },
+        ],
+      },
+    },
+    {
+      id: 1,
+      user: {
+        image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+        firstName: 'Soufiane',
+        lastName: 'El Maghraoui',
+      },
+      comment: {
+        text: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio minima vero quia molestiae quidem veritatis amet fugiat iusto possimus! Eos a est molestias odio deserunt perspiciatis et repellendus illo quia!',
+        images: [
+          {
+            imageAlt:
+              'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+          },
+        ],
+      },
+    },
+    {
+      id: 1,
+      user: {
+        image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+        firstName: 'Soufiane',
+        lastName: 'El Maghraoui',
+      },
+      comment: {
+        text: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio minima vero quia molestiae quidem veritatis amet fugiat iusto possimus! Eos a est molestias odio deserunt perspiciatis et repellendus illo quia!',
+        images: [
+          {
+            imageAlt:
+              'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+          },
+        ],
+      },
+    },
+    {
+      id: 1,
+      user: {
+        image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+        firstName: 'Soufiane',
+        lastName: 'El Maghraoui',
+      },
+      comment: {
+        text: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio minima vero quia molestiae quidem veritatis amet fugiat iusto possimus! Eos a est molestias odio deserunt perspiciatis et repellendus illo quia!',
+        images: [
+          {
+            imageAlt:
+              'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+          },
+        ],
+      },
+    },
+    {
+      id: 1,
+      user: {
+        image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+        firstName: 'Soufiane',
+        lastName: 'El Maghraoui',
+      },
+      comment: {
+        text: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio minima vero quia molestiae quidem veritatis amet fugiat iusto possimus! Eos a est molestias odio deserunt perspiciatis et repellendus illo quia!',
+        images: [
+          {
+            imageAlt:
+              'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+          },
+        ],
+      },
+    },
   ];
+  TaskStatus = TaskStatus;
+  TaskPriority = TaskPriority;
+  Role = Role;
+  roleUser = 'helpDesk';
+  // roleUser = 'user';
+  // roleUser = 'admin';
+  ticket?: Ticket = {
+    id: 1,
+    title: 'Ticket 1 ',
+    description:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    type: {
+      id: 1,
+      label: 'Application',
+      lien: '',
+      description: '',
+    },
+    priority: 'Hight',
+    status: TaskStatus.open,
+    createdBy: {
+      id: 1,
+      image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+      firstName: 'Soufiane',
+      lastName: 'El Maghraoui',
+      email: 'soufiane.elmaghraoui@gmail.com',
+      status: false,
+      position: 'Front End Developer',
+      department: '',
+      phoneNUmber: '',
+    },
+    createdTime: '11-05-2024',
+    affectedTo: [
+      {
+        id: 2,
+        image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+        firstName: 'Ismail',
+        lastName: 'Meggouri',
+        email: 'ismail.meggouri@gmail.com',
+        status: true,
+        position: 'Back End Developer',
+        department: '',
+        phoneNUmber: '',
+      },
+    ],
+    reference: '',
+    sharedWith: [
+      {
+        id: 1,
+        image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+        firstName: 'Soufiane',
+        lastName: 'El Maghraoui',
+        email: 'soufiane.elmaghraoui@gmail.com',
+        status: false,
+        position: 'Front End Developer',
+        department: '',
+        phoneNUmber: '',
+      },
+      {
+        id: 2,
+        image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+        firstName: 'Ismail',
+        lastName: 'Meggouri',
+        email: 'ismail.meggouri@gmail.com',
+        status: true,
+        position: 'Back End Developer',
+        department: '',
+        phoneNUmber: '',
+      },
+    ],
+  };
 
-  ticket?: Ticket;
   constructor(
     private TicketService: TicketService,
     private activatedRoute: ActivatedRoute

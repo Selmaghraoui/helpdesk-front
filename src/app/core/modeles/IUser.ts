@@ -6,4 +6,6 @@ export interface IUser {
   email: string;
   status: boolean;
   position: string;
+  department: string;
+  phoneNUmber: string;
 }

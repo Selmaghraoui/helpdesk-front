@@ -16,9 +16,9 @@ export class TicketsComponent implements OnInit {
   TaskStatus = TaskStatus;
   TaskPriority = TaskPriority;
   Role = Role;
-  // roleUser = 'helpDesk';
+  roleUser = 'helpDesk';
   // roleUser = 'user';
-  roleUser = 'admin';
+  // roleUser = 'admin';
 
   breadCrumb: IBreadcrumb[] = [
     {
@@ -39,7 +39,7 @@ export class TicketsComponent implements OnInit {
         description: '',
       },
       priority: 'Hight',
-      status: TaskStatus.done,
+      status: TaskStatus.open,
       createdBy: {
         id: 1,
         image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
@@ -48,17 +48,65 @@ export class TicketsComponent implements OnInit {
         email: 'soufiane.elmaghraoui@gmail.com',
         status: false,
         position: 'Front End Developer',
+        department: '',
+        phoneNUmber: '',
       },
       createdTime: '11-05-2024',
-      affectedTo: {
-        id: 2,
-        image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-        firstName: 'Ismail',
-        lastName: 'Meggouri',
-        email: 'ismail.meggouri@gmail.com',
-        status: true,
-        position: 'Back End Developer',
-      },
+      affectedTo: [
+        {
+          id: 2,
+          image:
+            'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+          firstName: 'Ismail',
+          lastName: 'Meggouri',
+          email: 'ismail.meggouri@gmail.com',
+          status: true,
+          position: 'Back End Developer',
+          department: '',
+          phoneNUmber: '',
+        },
+        {
+          id: 2,
+          image:
+            'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+          firstName: 'Ismail',
+          lastName: 'Meggouri',
+          email: 'ismail.meggouri@gmail.com',
+          status: true,
+          position: 'Back End Developer',
+          department: '',
+          phoneNUmber: '',
+        },
+      ],
+      reference: '',
+      description:
+        'Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem ',
+      sharedWith: [
+        {
+          id: 1,
+          image:
+            'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+          firstName: 'Soufiane',
+          lastName: 'El Maghraoui',
+          email: 'soufiane.elmaghraoui@gmail.com',
+          status: false,
+          position: 'Front End Developer',
+          department: '',
+          phoneNUmber: '',
+        },
+        {
+          id: 2,
+          image:
+            'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+          firstName: 'Ismail',
+          lastName: 'Meggouri',
+          email: 'ismail.meggouri@gmail.com',
+          status: true,
+          position: 'Back End Developer',
+          department: '',
+          phoneNUmber: '',
+        },
+      ],
     },
     {
       id: 2,
@@ -72,7 +120,6 @@ export class TicketsComponent implements OnInit {
       },
       priority: 'Meduim',
       status: TaskStatus.inProgress,
-
       createdBy: {
         id: 1,
         image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
@@ -81,17 +128,53 @@ export class TicketsComponent implements OnInit {
         email: 'soufiane.elmaghraoui@gmail.com',
         status: false,
         position: 'Front End Developer',
+        department: '',
+        phoneNUmber: '',
       },
       createdTime: '11-05-2024',
-      affectedTo: {
-        id: 2,
-        image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-        firstName: 'Ismail',
-        lastName: 'Meggouri',
-        email: 'ismail.meggouri@gmail.com',
-        status: true,
-        position: 'Back End Developer',
-      },
+      affectedTo: [
+        {
+          id: 2,
+          image:
+            'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+          firstName: 'Ismail',
+          lastName: 'Meggouri',
+          email: 'ismail.meggouri@gmail.com',
+          status: true,
+          position: 'Back End Developer',
+          department: '',
+          phoneNUmber: '',
+        },
+      ],
+      reference: '',
+      description:
+        'Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem ',
+      sharedWith: [
+        {
+          id: 1,
+          image:
+            'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+          firstName: 'Soufiane',
+          lastName: 'El Maghraoui',
+          email: 'soufiane.elmaghraoui@gmail.com',
+          status: false,
+          position: 'Front End Developer',
+          department: '',
+          phoneNUmber: '',
+        },
+        {
+          id: 2,
+          image:
+            'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+          firstName: 'Ismail',
+          lastName: 'Meggouri',
+          email: 'ismail.meggouri@gmail.com',
+          status: true,
+          position: 'Back End Developer',
+          department: '',
+          phoneNUmber: '',
+        },
+      ],
     },
     {
       id: 3,
@@ -103,7 +186,7 @@ export class TicketsComponent implements OnInit {
         description: '',
       },
       priority: 'Low',
-      status: TaskStatus.todo,
+      status: TaskStatus.canceled,
       createdBy: {
         id: 2,
         image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
@@ -112,17 +195,321 @@ export class TicketsComponent implements OnInit {
         email: 'ismail.meggouri@gmail.com',
         status: true,
         position: 'Back End Developer',
+        department: '',
+        phoneNUmber: '',
       },
       createdTime: '11-05-2024',
-      affectedTo: {
+      affectedTo: [
+        {
+          id: 1,
+          image:
+            'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+          firstName: 'Soufiane',
+          lastName: 'El Maghraoui',
+          email: 'soufiane.elmaghraoui@gmail.com',
+          status: false,
+          position: 'Front End Developer',
+          department: '',
+          phoneNUmber: '',
+        },
+      ],
+      reference: '',
+      description:
+        'Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem ',
+      sharedWith: [
+        {
+          id: 1,
+          image:
+            'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+          firstName: 'Soufiane',
+          lastName: 'El Maghraoui',
+          email: 'soufiane.elmaghraoui@gmail.com',
+          status: false,
+          position: 'Front End Developer',
+          department: '',
+          phoneNUmber: '',
+        },
+        {
+          id: 2,
+          image:
+            'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+          firstName: 'Ismail',
+          lastName: 'Meggouri',
+          email: 'ismail.meggouri@gmail.com',
+          status: true,
+          position: 'Back End Developer',
+          department: '',
+          phoneNUmber: '',
+        },
+      ],
+    },
+    {
+      id: 3,
+      title: 'Ticket 3',
+      type: {
         id: 1,
-        image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-        firstName: 'Soufiane',
-        lastName: 'El Maghraoui',
-        email: 'soufiane.elmaghraoui@gmail.com',
-        status: false,
-        position: 'Front End Developer',
+        label: 'Incedent',
+        lien: '',
+        description: '',
       },
+      priority: 'Low',
+      status: TaskStatus.evaluating,
+      createdBy: {
+        id: 2,
+        image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+        firstName: 'Ismail',
+        lastName: 'Meggouri',
+        email: 'ismail.meggouri@gmail.com',
+        status: true,
+        position: 'Back End Developer',
+        department: '',
+        phoneNUmber: '',
+      },
+      createdTime: '11-05-2024',
+      affectedTo: [
+        {
+          id: 1,
+          image:
+            'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+          firstName: 'Soufiane',
+          lastName: 'El Maghraoui',
+          email: 'soufiane.elmaghraoui@gmail.com',
+          status: false,
+          position: 'Front End Developer',
+          department: '',
+          phoneNUmber: '',
+        },
+      ],
+      reference: '',
+      description:
+        'Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem ',
+      sharedWith: [
+        {
+          id: 1,
+          image:
+            'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+          firstName: 'Soufiane',
+          lastName: 'El Maghraoui',
+          email: 'soufiane.elmaghraoui@gmail.com',
+          status: false,
+          position: 'Front End Developer',
+          department: '',
+          phoneNUmber: '',
+        },
+        {
+          id: 2,
+          image:
+            'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+          firstName: 'Ismail',
+          lastName: 'Meggouri',
+          email: 'ismail.meggouri@gmail.com',
+          status: true,
+          position: 'Back End Developer',
+          department: '',
+          phoneNUmber: '',
+        },
+      ],
+    },
+    {
+      id: 3,
+      title: 'Ticket 3',
+      type: {
+        id: 1,
+        label: 'Incedent',
+        lien: '',
+        description: '',
+      },
+      priority: 'Low',
+      status: TaskStatus.resolved,
+      createdBy: {
+        id: 2,
+        image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+        firstName: 'Ismail',
+        lastName: 'Meggouri',
+        email: 'ismail.meggouri@gmail.com',
+        status: true,
+        position: 'Back End Developer',
+        department: '',
+        phoneNUmber: '',
+      },
+      createdTime: '11-05-2024',
+      affectedTo: [
+        {
+          id: 1,
+          image:
+            'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+          firstName: 'Soufiane',
+          lastName: 'El Maghraoui',
+          email: 'soufiane.elmaghraoui@gmail.com',
+          status: false,
+          position: 'Front End Developer',
+          department: '',
+          phoneNUmber: '',
+        },
+      ],
+      reference: '',
+      description:
+        'Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem ',
+      sharedWith: [
+        {
+          id: 1,
+          image:
+            'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+          firstName: 'Soufiane',
+          lastName: 'El Maghraoui',
+          email: 'soufiane.elmaghraoui@gmail.com',
+          status: false,
+          position: 'Front End Developer',
+          department: '',
+          phoneNUmber: '',
+        },
+        {
+          id: 2,
+          image:
+            'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+          firstName: 'Ismail',
+          lastName: 'Meggouri',
+          email: 'ismail.meggouri@gmail.com',
+          status: true,
+          position: 'Back End Developer',
+          department: '',
+          phoneNUmber: '',
+        },
+      ],
+    },
+    {
+      id: 3,
+      title: 'Ticket 3',
+      type: {
+        id: 1,
+        label: 'Incedent',
+        lien: '',
+        description: '',
+      },
+      priority: 'Low',
+      status: TaskStatus.rejected,
+      createdBy: {
+        id: 2,
+        image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+        firstName: 'Ismail',
+        lastName: 'Meggouri',
+        email: 'ismail.meggouri@gmail.com',
+        status: true,
+        position: 'Back End Developer',
+        department: '',
+        phoneNUmber: '',
+      },
+      createdTime: '11-05-2024',
+      affectedTo: [
+        {
+          id: 1,
+          image:
+            'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+          firstName: 'Soufiane',
+          lastName: 'El Maghraoui',
+          email: 'soufiane.elmaghraoui@gmail.com',
+          status: false,
+          position: 'Front End Developer',
+          department: '',
+          phoneNUmber: '',
+        },
+      ],
+      reference: '',
+      description:
+        'Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem ',
+      sharedWith: [
+        {
+          id: 1,
+          image:
+            'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+          firstName: 'Soufiane',
+          lastName: 'El Maghraoui',
+          email: 'soufiane.elmaghraoui@gmail.com',
+          status: false,
+          position: 'Front End Developer',
+          department: '',
+          phoneNUmber: '',
+        },
+        {
+          id: 2,
+          image:
+            'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+          firstName: 'Ismail',
+          lastName: 'Meggouri',
+          email: 'ismail.meggouri@gmail.com',
+          status: true,
+          position: 'Back End Developer',
+          department: '',
+          phoneNUmber: '',
+        },
+      ],
+    },
+    {
+      id: 3,
+      title: 'Ticket 3',
+      type: {
+        id: 1,
+        label: 'Incedent',
+        lien: '',
+        description: '',
+      },
+      priority: 'Low',
+      status: TaskStatus.closed,
+      createdBy: {
+        id: 2,
+        image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+        firstName: 'Ismail',
+        lastName: 'Meggouri',
+        email: 'ismail.meggouri@gmail.com',
+        status: true,
+        position: 'Back End Developer',
+        department: '',
+        phoneNUmber: '',
+      },
+      createdTime: '11-05-2024',
+      affectedTo: [
+        {
+          id: 1,
+          image:
+            'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+          firstName: 'Soufiane',
+          lastName: 'El Maghraoui',
+          email: 'soufiane.elmaghraoui@gmail.com',
+          status: false,
+          position: 'Front End Developer',
+          department: '',
+          phoneNUmber: '',
+        },
+      ],
+      reference: '',
+      description:
+        'Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem ',
+      sharedWith: [
+        {
+          id: 1,
+          image:
+            'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+          firstName: 'Soufiane',
+          lastName: 'El Maghraoui',
+          email: 'soufiane.elmaghraoui@gmail.com',
+          status: false,
+          position: 'Front End Developer',
+          department: '',
+          phoneNUmber: '',
+        },
+        {
+          id: 2,
+          image:
+            'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+          firstName: 'Ismail',
+          lastName: 'Meggouri',
+          email: 'ismail.meggouri@gmail.com',
+          status: true,
+          position: 'Back End Developer',
+          department: '',
+          phoneNUmber: '',
+        },
+      ],
     },
   ];
 

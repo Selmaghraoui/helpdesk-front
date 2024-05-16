@@ -10,3 +10,18 @@
 @import "tailwindcss/utilities";
 
 @import "./app/shared/shared.scss";
+
+::-webkit-scrollbar {
+  width: 6px !important;
+  height: 6px !important;
+  padding: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: gray !important;
+  border-radius: 6px !important;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #4f46e5 !important;
+}

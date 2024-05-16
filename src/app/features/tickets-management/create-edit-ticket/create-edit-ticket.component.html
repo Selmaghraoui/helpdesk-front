@@ -1,293 +1,580 @@
-<div class="mb-1">
-  <app-breadcrumb [breadcrumb]="breadCrumb"></app-breadcrumb>
-</div>
+<app-breadcrumb [breadcrumb]="breadCrumb"></app-breadcrumb>
 
-<form [formGroup]="ticketFormGroup">
-  <div class="flex flex-col gap-8">
-    <!-- Title -->
-    <div class="flex items-center w-3/4">
-      <input
-        class="appearance-none bg-transparent h-full w-full text-gray-700 mr-3 p-2 leading-tight focus:outline-none text-8xl font-medium"
-        type="text"
-        placeholder="Title"
-        aria-label="title"
-        formControlName="title"
-      />
-    </div>
-
-    <div class="flex gap-4">
-      <div class="w-2/3 flex flex-col gap-8">
-        <!-- Priority -->
-        <div class="flex gap-6">
-          <label
-            class="flex items-center text-xl font-medium leading-6 text-gray-900 w-1/4"
-          >
-            Priority
-          </label>
-
-          <select
-            id="underline_select"
-            class="block mb-1 py-2.5 px-1 w-2/4 text-xl text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0"
-            formControlName="priority"
-          >
-            <option value="Low">Low</option>
-            <option value="Meduim">Meduim</option>
-            <option value="Height">Height</option>
-          </select>
-        </div>
-
-        <!-- Type -->
-        <div class="flex gap-6">
-          <label
-            class="flex items-center text-xl font-medium leading-6 text-gray-900 w-1/4"
-          >
-            Type
-          </label>
-
-          <select
-            id="underline_select"
-            class="block mb-1 py-2.5 px-1 w-2/4 text-xl text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0"
-            formControlName="type"
-          >
-            <option value="Application">Application</option>
-            <option value="Incedent">Incedent</option>
-            <option value="Achat">Achat</option>
-          </select>
-        </div>
-
-        <!-- Description -->
-        <div>
-          <label
-            for="description"
-            class="block text-xl font-medium leading-6 text-gray-900 mb-4"
-            >Description</label
-          >
-          <app-custom-editor formControlName="description"></app-custom-editor>
-        </div>
-
-        <!-- Upload file -->
-        <div class="col-span-full cursor-pointer">
-          <label class="block text-xl font-medium leading-6 text-gray-900 mb-4"
-            >Upload file</label
-          >
-          <div
-            class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10"
-            for="file-upload"
-          >
-            <div class="text-center">
-              <svg
-                class="mx-auto h-12 w-12 text-gray-300"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M1.5 6a2.25 2.25 0 012.25-2.25h16.5A2.25 2.25 0 0122.5 6v12a2.25 2.25 0 01-2.25 2.25H3.75A2.25 2.25 0 011.5 18V6zM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0021 18v-1.94l-2.69-2.689a1.5 1.5 0 00-2.12 0l-.88.879.97.97a.75.75 0 11-1.06 1.06l-5.16-5.159a1.5 1.5 0 00-2.12 0L3 16.061zm10.125-7.81a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0z"
-                  clip-rule="evenodd"
-                />
-              </svg>
-              <div class="mt-4 flex text-xl leading-6 text-gray-600">
-                <label
-                  class="relative rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
-                >
-                  <span>Upload a file</span>
-                  <input
-                    id="file-upload"
-                    name="file-upload"
-                    type="file"
-                    class="sr-only"
-                  />
-                </label>
-                <p class="pl-1">or drag and drop</p>
-              </div>
-              <p class="text-xs leading-5 text-gray-600">
-                PNG, JPG, GIF up to 10MB
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <!-- action -->
+<div class="flex gap-4">
+  <div class="w-4/6 flex flex-col">
+    <div class="overflow-x-auto">
+      <div class="min-w-full inline-block align-middle">
         <div
-          class="mt-6 flex items-center justify-end gap-x-6 border-t border-gray-900/10 pt-6"
+          class="p-8 bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden dark:bg-neutral-800 dark:border-neutral-700"
         >
-          <button
-            type="button"
-            class="text-sm font-semibold leading-6 text-gray-900"
+          <!-- Grid -->
+          <div
+            class="mb-5 pb-5 flex justify-between items-center border-b border-gray-200 dark:border-neutral-700"
           >
-            Cancel
-          </button>
-          <button
-            type="submit"
-            (click)="createEditTicket(ticketFormGroup)"
-            class="rounded-md bg-indigo-600 px-7 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-          >
-            Save
-          </button>
-        </div>
-      </div>
-      <!-- Comments -->
-      <div class="comments flex flex-col w-1/3 border rounded-lg p-4">
-        <!-- Header -->
-        <div class="text-4xl dark:bg-neutral-500 font-semibold pt-3 pb-5">
-          Comments
-        </div>
+            <div>
+              <h2
+                class="text-2xl font-semibold text-gray-800 dark:text-neutral-200"
+              >
+                {{ ticket?.title }}
+              </h2>
+            </div>
+            <!-- Col -->
 
-        <!-- Body -->
-        <div class="body overflow-y-scroll flex flex-col gap-5">
-          <ng-container *ngIf="listComments.length !== 0">
-            <!-- Timeline -->
-            <div class="comments">
-              <ng-container *ngFor="let comment of listComments">
-                <!-- Item -->
-                <div class="flex gap-x-3">
-                  <!-- Icon -->
-                  <div
-                    class="relative last:after:hidden after:absolute after:top-7 after:bottom-0 after:start-4 after:w-px after:-translate-x-[0.5px] after:bg-gray-200 dark:after:bg-neutral-700"
+            <div class="inline-flex gap-x-2">
+              <a
+                class="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-lg border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-neutral-900 dark:hover:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
+                href="#"
+              >
+                <svg
+                  class="flex-shrink-0 size-4"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <polyline points="7 10 12 15 17 10" />
+                  <line x1="12" x2="12" y1="15" y2="3" />
+                </svg>
+                Invoice PDF
+              </a>
+              <a
+                class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
+                href="#"
+              >
+                <svg
+                  class="flex-shrink-0 size-4"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <polyline points="6 9 6 2 18 2 18 9" />
+                  <path
+                    d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"
+                  />
+                  <rect width="12" height="8" x="6" y="14" />
+                </svg>
+                Print
+              </a>
+            </div>
+            <!-- Col -->
+          </div>
+          <!-- End Grid -->
+
+          <!-- Grid -->
+          <div class="grid md:grid-cols-2 gap-6">
+            <div>
+              <div class="grid space-y-3 gap-7">
+                <!-- Created By -->
+                <dl class="grid sm:flex gap-x-3 text-sm">
+                  <dt
+                    class="min-w-36 max-w-[200px] text-gray-500 dark:text-neutral-500"
                   >
+                    Created By :
+                  </dt>
+                  <dd class="text-gray-800 dark:text-neutral-200">
                     <div
-                      class="relative z-10 size-8 flex justify-center items-center"
+                      class="inline-flex flex-nowrap items-center bg-white border border-gray-200 rounded-full p-1.5 pe-3 dark:bg-neutral-900 dark:border-neutral-700"
                     >
                       <img
-                        class="flex-shrink-0 size-8 rounded-full"
-                        src="{{ comment.user.image }}"
+                        class="me-1.5 inline-block size-6 rounded-full"
+                        src="{{ ticket?.createdBy?.image }}"
                         alt="Image Description"
                       />
-                    </div>
-                  </div>
-                  <!-- End Icon -->
-
-                  <!-- Right Content -->
-                  <div class="grow pt-0.5 pb-8">
-                    <h3
-                      class="flex gap-x-1.5 font-semibold text-gray-800 dark:text-white"
-                    >
-                      {{ comment.user.firstName }}
-                      {{ comment.user.lastName }}
-                    </h3>
-                    <div class="content-comment gap-2 flex flex-col">
-                      <p
-                        class="mt-1 text-sm text-gray-600 dark:text-neutral-400"
+                      <div
+                        class="text-sm font-medium text-gray-800 dark:text-white"
                       >
-                        {{ comment.comment.text }}
-                      </p>
-                      <div class="image-comment flex gap-4">
-                        <div *ngFor="let image of comment.comment.images">
-                          <img src="{{ image.imageAlt }}" alt="Image Preview" />
-                        </div>
+                        {{ ticket?.createdBy?.firstName }}
+                        {{ ticket?.createdBy?.lastName }}
                       </div>
                     </div>
-                  </div>
-                  <!-- End Right Content -->
-                </div>
-                <!-- End Item -->
-              </ng-container>
-            </div>
-            <!-- End Timeline --></ng-container
-          >
-        </div>
+                  </dd>
+                </dl>
 
-        <!-- Add comment -->
-        <form [formGroup]="commentFormGroup">
-          <div
-            class="flex items-center flex-col gap-4 text-gray-900 whitespace-nowrap dark:text-white w-full"
-          >
-            <div class="flex items-center gap-4 w-full">
-              <img
-                class="w-10 h-10 rounded-full"
-                src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-                alt="Jese image"
-              />
-              <div class="flex w-full">
-                <input
-                  class="appearance-none bg-transparent border-none w-full pr-3 leading-tight focus:outline-none text-sm"
-                  type="text"
-                  placeholder="add a comment ..."
-                  aria-label="comment"
-                  formControlName="text"
-                />
-                <!-- image -->
-                <div class="hover:bg-gray-100 p-1.5 rounded-lg">
-                  <input
-                    type="file"
-                    id="imageInput"
-                    multiple
-                    accept="image/*"
-                    style="display: none"
-                    (change)="onImageChange($event)"
-                  />
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    width="16"
-                    height="16"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    class="w-6 h-6"
-                    (click)="openFileInput()"
+                <!-- Created Time -->
+                <dl class="grid sm:flex gap-x-3 text-sm">
+                  <dt
+                    class="min-w-36 max-w-[200px] text-gray-500 dark:text-neutral-500"
                   >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
-                    />
-                  </svg>
-                </div>
-              </div>
-            </div>
+                    Created Time :
+                  </dt>
+                  <dd class="font-medium text-gray-800 dark:text-neutral-200">
+                    {{ ticket?.createdTime }}
+                  </dd>
+                </dl>
 
-            <div class="container image-upload rounded-lg w-full">
-              <div
-                class="preview-container flex flex-row gap-4 overflow-x-scroll py-1"
-                *ngIf="previewImages.length > 0"
-              >
-                <ng-container
-                  *ngFor="let image of previewImages; let i = index"
-                >
-                  <div class="relative">
-                    <img [src]="image" alt="Image Preview" />
-                    <svg
-                      (click)="onDeleteImage(i)"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      stroke-width="1.5"
-                      stroke="currentColor"
-                      class="w-6 h-6 cursor-pointer border"
-                      style="
-                        position: absolute;
-                        background: white;
-                        border-radius: 100%;
-                        left: 88%;
-                        top: 4%;
-                        width: auto;
-                      "
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M6 18 18 6M6 6l12 12"
-                      />
-                    </svg>
-                  </div>
-                </ng-container>
+                <!-- Description -->
+                <dl class="grid sm:flex gap-x-3 text-sm">
+                  <dt
+                    class="min-w-36 max-w-[200px] text-gray-500 dark:text-neutral-500"
+                  >
+                    Description :
+                  </dt>
+                  <dd class="font-light text-gray-800 dark:text-neutral-200">
+                    {{ ticket?.description }}
+                  </dd>
+                </dl>
+
+                <!-- File -->
+                <dl class="grid sm:flex gap-x-3 text-sm">
+                  <dt
+                    class="min-w-36 max-w-[200px] text-gray-500 dark:text-neutral-500"
+                  >
+                    File :
+                  </dt>
+                  <dd class="font-light text-gray-800 dark:text-neutral-200">
+                    file file file here ..!
+                  </dd>
+                </dl>
               </div>
             </div>
-            <div class="flex justify-end w-full">
-              <button
-                (click)="addComment(commentFormGroup)"
-                class="rounded-md bg-indigo-600 px-7 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                type="button"
-              >
-                Send
-              </button>
+            <!-- Col -->
+
+            <div>
+              <div class="grid space-y-3 gap-7">
+                <!-- Affected to -->
+                <dl class="grid sm:flex gap-x-3 text-sm">
+                  <dt
+                    class="min-w-36 max-w-[200px] text-gray-500 dark:text-neutral-500"
+                  >
+                    Affected to :
+                  </dt>
+                  <dd
+                    class="font-medium text-gray-800 dark:text-neutral-200 flex flex-col gap-1"
+                  >
+                    <!-- SearchBox -->
+                    <div class="max-w-sm">
+                      <div
+                        class="relative"
+                        data-hs-combo-box='{
+                                  "groupingType": "default",
+                                  "isOpenOnFocus": true,
+                                  "apiUrl": "../assets/data/searchbox.json",
+                                  "apiGroupField": "category",
+                                  "outputItemTemplate": "<div data-hs-combo-box-output-item><span class=\"flex items-center cursor-pointer py-2 px-4 w-full text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:bg-neutral-800 dark:hover:bg-neutral-700 dark:text-neutral-200 dark:focus:bg-neutral-700\"><div class=\"flex items-center w-full\"><div class=\"flex items-center justify-center rounded-full bg-gray-200 size-6 overflow-hidden me-2.5\"><img class=\"flex-shrink-0\" data-hs-combo-box-output-item-attr=&apos;[{\"valueFrom\": \"image\", \"attr\": \"src\"}, {\"valueFrom\": \"name\", \"attr\": \"alt\"}]&apos; /></div><div data-hs-combo-box-output-item-field=\"name\" data-hs-combo-box-search-text data-hs-combo-box-value></div></div><span class=\"hidden hs-combo-box-selected:block\"><svg class=\"flex-shrink-0 size-3.5 text-blue-600 dark:text-blue-500\" xmlns=\"http:.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"20 6 9 17 4 12\"></polyline></svg></span></span></div>",
+                                  "groupingTitleTemplate": "<div class=\"text-xs uppercase text-gray-500 m-3 mb-1 dark:text-neutral-500\"></div>"
+                                }'
+                      >
+                        <div class="relative">
+                          <div
+                            class="absolute inset-y-0 start-0 flex items-center pointer-events-none z-20 ps-3.5"
+                          >
+                            <svg
+                              class="flex-shrink-0 size-4 text-gray-400 dark:text-white/60"
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="24"
+                              height="24"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            >
+                              <circle cx="11" cy="11" r="8"></circle>
+                              <path d="m21 21-4.3-4.3"></path>
+                            </svg>
+                          </div>
+                          <input
+                            class="py-2 ps-10 pe-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+                            type="text"
+                            placeholder="Type a name"
+                            value=""
+                            data-hs-combo-box-input=""
+                          />
+                        </div>
+
+                        <!-- SearchBox Dropdown -->
+                        <div
+                          class="absolute z-50 w-full bg-white border border-gray-200 rounded-lg dark:bg-neutral-800 dark:border-neutral-700"
+                          style="display: none"
+                          data-hs-combo-box-output=""
+                        >
+                          <div
+                            class="max-h-72 rounded-b-lg overflow-hidden overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500"
+                            data-hs-combo-box-output-items-wrapper=""
+                          ></div>
+                        </div>
+                        <!-- End SearchBox Dropdown -->
+                      </div>
+                    </div>
+                    <!-- End SearchBox -->
+
+                    <ng-container
+                      *ngFor="let userAffected of ticket?.affectedTo"
+                    >
+                      <div
+                        class="inline-flex flex-nowrap items-center bg-white border border-gray-200 rounded-full p-1.5 dark:bg-neutral-900 dark:border-neutral-700"
+                      >
+                        <img
+                          class="me-1.5 inline-block size-6 rounded-full"
+                          src="{{ userAffected.image }}"
+                          alt="Image Description"
+                        />
+                        <div
+                          class="text-sm font-medium text-gray-800 dark:text-white"
+                        >
+                          {{ userAffected.firstName }}
+                          {{ userAffected.lastName }}
+                        </div>
+                        <div
+                          class="ms-2.5 inline-flex justify-center items-center size-5 rounded-full text-gray-800 bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 dark:bg-neutral-700/50 dark:hover:bg-neutral-700 dark:text-neutral-400 cursor-pointer"
+                        >
+                          <svg
+                            class="flex-shrink-0 size-3"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          >
+                            <path d="M18 6 6 18"></path>
+                            <path d="m6 6 12 12"></path>
+                          </svg>
+                        </div>
+                      </div>
+                    </ng-container>
+                  </dd>
+                </dl>
+
+                <!-- Priority -->
+                <dl class="grid sm:flex gap-x-3 text-sm">
+                  <dt
+                    class="min-w-36 max-w-[200px] text-gray-500 dark:text-neutral-500"
+                  >
+                    Priority :
+                  </dt>
+                  <dd class="font-medium text-gray-800 dark:text-neutral-200">
+                    <span
+                      class="inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium"
+                      [ngClass]="{
+                        'bg-blue-100 text-blue-800 dark:bg-blue-800/30 dark:text-blue-500':
+                          ticket?.priority === 'Meduim',
+                        'bg-red-100 text-red-800 dark:bg-red-800/30 dark:text-red-500':
+                          ticket?.priority === 'Hight',
+                        'bg-yellow-100 text-yellow-800 dark:bg-yellow-800/30 dark:text-yellow-500':
+                          ticket?.priority === 'Low'
+                      }"
+                    >
+                      <span
+                        class="size-1.5 inline-block rounded-full"
+                        [ngClass]="{
+                          ' bg-blue-800 dark:bg-blue-500':
+                            ticket?.priority === TaskPriority.meduim,
+                          ' bg-red-800 dark:bg-red-500':
+                            ticket?.priority === TaskPriority.hight,
+                          ' bg-yellow-800 dark:bg-yellow-500':
+                            ticket?.priority === TaskPriority.low
+                        }"
+                      ></span>
+                      {{ ticket?.priority }}
+                    </span>
+                  </dd>
+                </dl>
+
+                <!-- Type -->
+                <dl class="grid sm:flex gap-x-3 text-sm">
+                  <dt
+                    class="min-w-36 max-w-[200px] text-gray-500 dark:text-neutral-500"
+                  >
+                    Type :
+                  </dt>
+                  <dd class="font-medium text-gray-800 dark:text-neutral-200">
+                    <span
+                      class="inline-flex items-center gap-1.5 p-2 rounded-lg text-xs font-medium bg-gray-100 text-gray-800 dark:bg-neutral-900 dark:text-neutral-200"
+                    >
+                      {{ ticket?.type?.label }}
+                    </span>
+                  </dd>
+                </dl>
+
+                <!-- Shared with -->
+                <dl class="grid sm:flex gap-x-3 text-sm">
+                  <dt
+                    class="min-w-36 max-w-[200px] text-gray-500 dark:text-neutral-500"
+                  >
+                    Shared with :
+                  </dt>
+                  <dd
+                    class="font-medium text-gray-800 dark:text-neutral-200 flex flex-col gap-1"
+                  >
+                    <!-- SearchBox -->
+                    <div class="max-w-sm">
+                      <div
+                        class="relative"
+                        data-hs-combo-box='{
+                          "groupingType": "default",
+                          "isOpenOnFocus": true,
+                          "apiUrl": "../assets/data/searchbox.json",
+                          "apiGroupField": "category",
+                          "outputItemTemplate": "<div data-hs-combo-box-output-item><span class=\"flex items-center cursor-pointer py-2 px-4 w-full text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:bg-neutral-800 dark:hover:bg-neutral-700 dark:text-neutral-200 dark:focus:bg-neutral-700\"><div class=\"flex items-center w-full\"><div class=\"flex items-center justify-center rounded-full bg-gray-200 size-6 overflow-hidden me-2.5\"><img class=\"flex-shrink-0\" data-hs-combo-box-output-item-attr=&apos;[{\"valueFrom\": \"image\", \"attr\": \"src\"}, {\"valueFrom\": \"name\", \"attr\": \"alt\"}]&apos; /></div><div data-hs-combo-box-output-item-field=\"name\" data-hs-combo-box-search-text data-hs-combo-box-value></div></div><span class=\"hidden hs-combo-box-selected:block\"><svg class=\"flex-shrink-0 size-3.5 text-blue-600 dark:text-blue-500\" xmlns=\"http:.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"20 6 9 17 4 12\"></polyline></svg></span></span></div>",
+                          "groupingTitleTemplate": "<div class=\"text-xs uppercase text-gray-500 m-3 mb-1 dark:text-neutral-500\"></div>"
+                        }'
+                      >
+                        <div class="relative">
+                          <div
+                            class="absolute inset-y-0 start-0 flex items-center pointer-events-none z-20 ps-3.5"
+                          >
+                            <svg
+                              class="flex-shrink-0 size-4 text-gray-400 dark:text-white/60"
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="24"
+                              height="24"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            >
+                              <circle cx="11" cy="11" r="8"></circle>
+                              <path d="m21 21-4.3-4.3"></path>
+                            </svg>
+                          </div>
+                          <input
+                            class="py-2 ps-10 pe-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+                            type="text"
+                            placeholder="Type a name"
+                            value=""
+                            data-hs-combo-box-input=""
+                          />
+                        </div>
+
+                        <!-- SearchBox Dropdown -->
+                        <div
+                          class="absolute z-50 w-full bg-white border border-gray-200 rounded-lg dark:bg-neutral-800 dark:border-neutral-700"
+                          style="display: none"
+                          data-hs-combo-box-output=""
+                        >
+                          <div
+                            class="max-h-72 rounded-b-lg overflow-hidden overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500"
+                            data-hs-combo-box-output-items-wrapper=""
+                          ></div>
+                        </div>
+                        <!-- End SearchBox Dropdown -->
+                      </div>
+                    </div>
+                    <!-- End SearchBox -->
+
+                    <ng-container
+                      *ngFor="let usersSharedWith of ticket?.sharedWith"
+                    >
+                      <div
+                        class="max-w-max inline-flex flex-nowrap items-center bg-white border border-gray-200 rounded-full p-1.5 dark:bg-neutral-900 dark:border-neutral-700"
+                      >
+                        <img
+                          class="me-1.5 inline-block size-6 rounded-full"
+                          src="{{ usersSharedWith.image }}"
+                          alt="Image Description"
+                        />
+                        <div
+                          class="text-sm font-medium text-gray-800 dark:text-white"
+                        >
+                          {{ usersSharedWith.firstName }}
+                          {{ usersSharedWith.lastName }}
+                        </div>
+                        <div
+                          class="ms-2.5 inline-flex justify-center items-center size-5 rounded-full text-gray-800 bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 dark:bg-neutral-700/50 dark:hover:bg-neutral-700 dark:text-neutral-400 cursor-pointer"
+                        >
+                          <svg
+                            class="flex-shrink-0 size-3"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          >
+                            <path d="M18 6 6 18"></path>
+                            <path d="m6 6 12 12"></path>
+                          </svg>
+                        </div>
+                      </div>
+                    </ng-container>
+                  </dd>
+                </dl>
+              </div>
             </div>
+            <!-- Col -->
           </div>
-        </form>
+          <!-- End Grid -->
+        </div>
       </div>
     </div>
   </div>
-</form>
+  <!-- Comments -->
+  <div class="comments flex flex-col w-2/6 rounded-lg px-4">
+    <!-- Header -->
+    <div class="text-4xl dark:bg-neutral-500 font-semibold pt-3 pb-6">
+      Comments
+    </div>
+
+    <!-- Body -->
+    <div class="body overflow-y-scroll flex flex-col gap-5">
+      <ng-container *ngIf="listComments.length !== 0">
+        <!-- Timeline -->
+        <div class="comments">
+          <ng-container *ngFor="let comment of listComments">
+            <!-- Item -->
+            <div class="flex gap-x-3">
+              <!-- Icon -->
+              <div
+                class="relative last:after:hidden after:absolute after:top-7 after:bottom-0 after:start-4 after:w-px after:-translate-x-[0.5px] after:bg-gray-200 dark:after:bg-neutral-700"
+              >
+                <div
+                  class="relative z-10 size-8 flex justify-center items-center"
+                >
+                  <img
+                    class="flex-shrink-0 size-8 rounded-full"
+                    src="{{ comment.user.image }}"
+                    alt="Image Description"
+                  />
+                </div>
+              </div>
+              <!-- End Icon -->
+
+              <!-- Right Content -->
+              <div class="grow pt-0.5 pb-8">
+                <h3
+                  class="flex gap-x-1.5 font-semibold text-gray-800 dark:text-white"
+                >
+                  {{ comment.user.firstName }}
+                  {{ comment.user.lastName }}
+                </h3>
+                <div class="content-comment gap-2 flex flex-col">
+                  <p class="mt-1 text-sm text-gray-600 dark:text-neutral-400">
+                    {{ comment.comment.text }}
+                  </p>
+                  <div class="image-comment flex gap-4">
+                    <div *ngFor="let image of comment.comment.images">
+                      <img src="{{ image.imageAlt }}" alt="Image Preview" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- End Right Content -->
+            </div>
+            <!-- End Item -->
+          </ng-container>
+        </div>
+        <!-- End Timeline --></ng-container
+      >
+    </div>
+
+    <!-- Add comment -->
+    <form [formGroup]="commentFormGroup">
+      <div
+        class="flex items-center flex-col gap-4 text-gray-900 whitespace-nowrap dark:text-white w-full"
+      >
+        <div class="flex items-center gap-4 w-full">
+          <img
+            class="w-10 h-10 rounded-full"
+            src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+            alt="Jese image"
+          />
+          <div class="flex w-full">
+            <input
+              class="appearance-none bg-transparent border-none w-full pr-3 leading-tight focus:outline-none text-sm"
+              type="text"
+              placeholder="add a comment ..."
+              aria-label="comment"
+              formControlName="text"
+            />
+            <!-- image -->
+            <div class="hover:bg-gray-100 p-1.5 rounded-lg">
+              <input
+                type="file"
+                id="imageInput"
+                multiple
+                accept="image/*"
+                style="display: none"
+                (change)="onImageChange($event)"
+              />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                width="16"
+                height="16"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6"
+                (click)="openFileInput()"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="container image-upload rounded-lg w-full">
+          <div
+            class="preview-container flex flex-row gap-4 overflow-x-scroll py-1"
+            *ngIf="previewImages.length > 0"
+          >
+            <ng-container *ngFor="let image of previewImages; let i = index">
+              <div class="relative">
+                <img [src]="image" alt="Image Preview" />
+                <svg
+                  (click)="onDeleteImage(i)"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="w-6 h-6 cursor-pointer border"
+                  style="
+                    position: absolute;
+                    background: white;
+                    border-radius: 100%;
+                    left: 88%;
+                    top: 4%;
+                    width: auto;
+                  "
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M6 18 18 6M6 6l12 12"
+                  />
+                </svg>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+        <div class="flex justify-end w-full">
+          <button
+            (click)="addComment(commentFormGroup)"
+            class="rounded-md bg-indigo-600 px-7 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            type="button"
+          >
+            Send
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

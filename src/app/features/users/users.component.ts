@@ -26,6 +26,8 @@ export class UsersComponent implements OnInit {
       email: 'soufiane.elmaghraoui@gmail.com',
       status: false,
       position: 'Front End Developer',
+      department: 'Developpment',
+      phoneNUmber: '',
     },
     {
       id: 2,
@@ -35,6 +37,19 @@ export class UsersComponent implements OnInit {
       email: 'ismail.meggouri@gmail.com',
       status: true,
       position: 'Back End Developer',
+      department: 'Developpment',
+      phoneNUmber: '',
+    },
+    {
+      id: 3,
+      image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+      firstName: 'Hala',
+      lastName: 'El Gallouli',
+      email: 'hala.algallouli@gmail.com',
+      status: true,
+      position: 'RH',
+      department: 'Ressource Humain',
+      phoneNUmber: '',
     },
   ];
 
