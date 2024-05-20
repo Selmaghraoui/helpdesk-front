@@ -24,41 +24,39 @@
             </div>
           </div>
           <div class="flex justify-between">
-            <div>
-              <div class="max-w-sm">
-                <!-- SearchBox -->
-                <div class="relative w-80">
-                  <div
-                    class="absolute inset-y-0 start-0 flex items-center pointer-events-none z-20 ps-3.5"
+            <div class="max-w-sm">
+              <!-- SearchBox -->
+              <div class="relative w-80">
+                <div
+                  class="absolute inset-y-0 start-0 flex items-center pointer-events-none z-20 ps-3.5"
+                >
+                  <svg
+                    class="flex-shrink-0 size-4 text-gray-400 dark:text-white/60"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
                   >
-                    <svg
-                      class="flex-shrink-0 size-4 text-gray-400 dark:text-white/60"
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    >
-                      <circle cx="11" cy="11" r="8"></circle>
-                      <path d="m21 21-4.3-4.3"></path>
-                    </svg>
-                  </div>
-                  <input
-                    style="
-                      background-color: rgb(243 244 246 / var(--tw-bg-opacity));
-                    "
-                    class="py-3 ps-10 pe-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
-                    type="text"
-                    placeholder="Type a name"
-                    value=""
-                  />
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="m21 21-4.3-4.3"></path>
+                  </svg>
                 </div>
-                <!-- End SearchBox -->
+                <input
+                  style="
+                    background-color: rgb(243 244 246 / var(--tw-bg-opacity));
+                  "
+                  class="py-3 ps-10 pe-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+                  type="text"
+                  placeholder="Type a name"
+                  value=""
+                />
               </div>
+              <!-- End SearchBox -->
             </div>
 
             <div *ngIf="ticketList.length != 0">
@@ -215,7 +213,7 @@
             <thead class="dark:bg-neutral-800">
               <tr>
                 <!-- title -->
-                <th scope="col" class="p-3 text-start min-w-[440px]">
+                <th scope="col" class="py-3 px-1.5 text-start min-w-[440px]">
                   <a class="group inline-flex items-center gap-x-2">
                     <span
                       class="text-lg font-semibold tracking-wide text-gray-800 dark:text-neutral-200"
@@ -226,7 +224,7 @@
                 </th>
 
                 <!-- type -->
-                <th scope="col" class="p-3 text-start">
+                <th scope="col" class="py-3 px-1.5 text-start">
                   <a class="group inline-flex items-center gap-x-2">
                     <span
                       class="text-lg font-semibold tracking-wide text-gray-800 dark:text-neutral-200"
@@ -237,7 +235,7 @@
                 </th>
 
                 <!-- priority -->
-                <th scope="col" class="p-3 text-start">
+                <th scope="col" class="py-3 px-1.5 text-start">
                   <a class="group inline-flex items-center gap-x-2">
                     <span
                       class="text-lg font-semibold tracking-wide text-gray-800 dark:text-neutral-200"
@@ -251,7 +249,7 @@
                 <ng-container
                   *ngIf="roleUser == Role.helpDesk || roleUser == Role.admin"
                 >
-                  <th scope="col" class="p-3 text-start">
+                  <th scope="col" class="py-3 px-1.5 text-start">
                     <a class="group inline-flex items-center gap-x-2">
                       <span
                         class="text-lg font-semibold tracking-wide text-gray-800 dark:text-neutral-200"
@@ -263,7 +261,7 @@
                 </ng-container>
 
                 <!-- created time -->
-                <th scope="col" class="p-3 text-start">
+                <th scope="col" class="py-3 px-1.5 text-start">
                   <a class="group inline-flex items-center gap-x-2">
                     <span
                       class="text-lg font-semibold tracking-wide text-gray-800 dark:text-neutral-200"
@@ -274,7 +272,7 @@
                 </th>
 
                 <!-- status -->
-                <th scope="col" class="p-3 text-start">
+                <th scope="col" class="py-3 px-1.5 text-start">
                   <a class="group inline-flex items-center gap-x-2">
                     <span
                       class="text-lg font-semibold tracking-wide text-gray-800 dark:text-neutral-200"
@@ -284,11 +282,11 @@
                   </a>
                 </th>
 
+                <!-- affected to -->
                 <ng-container
                   *ngIf="roleUser == Role.helpDesk || roleUser == Role.admin"
                 >
-                  <!-- affected to -->
-                  <th scope="col" class="p-3 text-start">
+                  <th scope="col" class="py-3 px-1.5 text-start">
                     <a class="group inline-flex items-center gap-x-2">
                       <span
                         class="text-lg font-semibold tracking-wide text-gray-800 dark:text-neutral-200"
@@ -300,20 +298,25 @@
                 </ng-container>
 
                 <!-- actions -->
-                <th scope="col" class="p-3 text-end"></th>
+                <th scope="col" class="py-3 px-1.5 text-end"></th>
               </tr>
             </thead>
 
             <tbody class="divide-y divide-gray-200 dark:divide-neutral-700">
               <tr
-                class="bg-white hover:bg-gray-50 dark:bg-neutral-900 dark:hover:bg-neutral-800"
+                class="bg-white dark:bg-neutral-900 dark:hover:bg-neutral-800"
                 *ngFor="let ticket of ticketList"
+                [ngClass]="
+                  ticket.status == TaskStatus.canceled
+                    ? '!border-b !border-t !border-red-200 hover:bg-red-50'
+                    : 'hover:bg-gray-50'
+                "
               >
                 <!-- title -->
                 <td class="min-w-[440px]">
                   <a class="block relative z-10">
                     <div
-                      class="text-sm font-semibold p-3 text-gray-900 whitespace-nowrap dark:text-white"
+                      class="text-sm font-semibold py-3 px-1.5 whitespace-nowrap dark:text-white"
                     >
                       {{ ticket.title }}
                     </div>
@@ -322,43 +325,20 @@
                 <!-- type -->
                 <td class="">
                   <a class="block relative z-10">
-                    <div class="p-3">
-                      <span
-                        class="inline-flex items-center gap-1.5 p-2 rounded-lg text-xs font-medium bg-gray-100 text-gray-800 dark:bg-neutral-900 dark:text-neutral-200"
-                      >
-                        {{ ticket.type.label }}
-                      </span>
+                    <div class="py-3 px-1.5">
+                      <app-badge-type
+                        [type]="ticket?.type?.label"
+                      ></app-badge-type>
                     </div>
                   </a>
                 </td>
                 <!-- priority -->
                 <td class="">
                   <a class="block relative z-10">
-                    <div class="p-3">
-                      <span
-                        class="inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium"
-                        [ngClass]="{
-                          'bg-blue-100 text-blue-800 dark:bg-blue-800/30 dark:text-blue-500':
-                            ticket.priority === 'Meduim',
-                          'bg-red-100 text-red-800 dark:bg-red-800/30 dark:text-red-500':
-                            ticket.priority === 'Hight',
-                          'bg-yellow-100 text-yellow-800 dark:bg-yellow-800/30 dark:text-yellow-500':
-                            ticket.priority === 'Low'
-                        }"
-                      >
-                        <span
-                          class="size-1.5 inline-block rounded-full"
-                          [ngClass]="{
-                            ' bg-blue-800 dark:bg-blue-500':
-                              ticket.priority === TaskPriority.meduim,
-                            ' bg-red-800 dark:bg-red-500':
-                              ticket.priority === TaskPriority.hight,
-                            ' bg-yellow-800 dark:bg-yellow-500':
-                              ticket.priority === TaskPriority.low
-                          }"
-                        ></span>
-                        {{ ticket.priority }}
-                      </span>
+                    <div class="py-3 px-1.5">
+                      <app-badge-priority
+                        [badgePriority]="ticket.priority"
+                      ></app-badge-priority>
                     </div>
                   </a>
                 </td>
@@ -368,57 +348,28 @@
                 >
                   <td class="">
                     <a class="block relative z-10">
-                      <div class="p-3 flex -space-x-2">
-                        <div
-                          class="inline-flex flex-nowrap items-center bg-white border border-gray-200 rounded-full p-1.5 pe-3 dark:bg-neutral-900 dark:border-neutral-700"
-                        >
-                          <img
-                            class="me-1.5 inline-block size-6 rounded-full"
-                            src="{{ ticket.createdBy.image }}"
-                            alt="Image Description"
-                          />
-                          <div
-                            class="text-sm font-medium text-gray-800 dark:text-white"
-                          >
-                            {{ ticket.createdBy.firstName }}
-                            {{ ticket.createdBy.lastName }}
-                          </div>
-                        </div>
+                      <div class="py-3 px-1.5 flex -space-x-2">
+                        <app-badge-user
+                          [badgeUser]="ticket.createdBy"
+                          [isDeleted]="false"
+                        ></app-badge-user>
                       </div>
                     </a>
                   </td>
                 </ng-container>
                 <!-- created time -->
                 <td class="">
-                  <div class="p-3 text-sm font-normal">
+                  <div class="py-3 px-1.5 text-sm font-normal">
                     {{ ticket.createdTime }}
                   </div>
                 </td>
                 <!-- status -->
                 <td class="">
                   <a class="block relative z-10">
-                    <div class="p-3 flex gap-x-1">
-                      <span
-                        class="inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium border"
-                        [ngClass]="{
-                          'border-gray-500 text-gray-500 dark:text-neutral-400':
-                            ticket.status === TaskStatus.open,
-                          'border-gray-800 text-gray-800 dark:border-neutral-200 dark:text-white':
-                            ticket.status === TaskStatus.evaluating,
-                          'border-teal-500 text-teal-500':
-                            ticket.status == TaskStatus.resolved,
-                          'border-blue-600 text-blue-600 dark:text-blue-500':
-                            ticket.status === TaskStatus.inProgress,
-                          'border-red-500 text-red-500':
-                            ticket.status === TaskStatus.rejected,
-                          'border-yellow-500 text-yellow-500':
-                            ticket.status === TaskStatus.canceled,
-                          'border-purple-500 text-purple-500':
-                            ticket.status === TaskStatus.closed
-                        }"
-                      >
-                        {{ ticket.status }}
-                      </span>
+                    <div class="py-3 px-1.5 flex gap-x-1">
+                      <app-badge-status
+                        [badgeStatus]="ticket.status"
+                      ></app-badge-status>
                     </div>
                   </a>
                 </td>
@@ -428,44 +379,14 @@
                 >
                   <td class="">
                     <a class="block relative z-10">
-                      <div class="flex p-3 flex-col gap-1">
+                      <div class="flex py-3 px-1.5 flex-col gap-1">
                         <ng-container
                           *ngFor="let userAffected of ticket.affectedTo"
                         >
-                          <div
-                            class="max-w-max inline-flex flex-nowrap items-center bg-white border border-gray-200 rounded-full p-1.5 dark:bg-neutral-900 dark:border-neutral-700"
-                          >
-                            <img
-                              class="me-1.5 inline-block size-6 rounded-full"
-                              src="{{ userAffected.image }}"
-                              alt="Image Description"
-                            />
-                            <div
-                              class="text-sm font-medium text-gray-800 dark:text-white"
-                            >
-                              {{ userAffected.firstName }}
-                              {{ userAffected.lastName }}
-                            </div>
-                            <div
-                              class="ms-2.5 inline-flex justify-center items-center size-5 rounded-full text-gray-800 bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 dark:bg-neutral-700/50 dark:hover:bg-neutral-700 dark:text-neutral-400 cursor-pointer"
-                            >
-                              <svg
-                                class="flex-shrink-0 size-3"
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                              >
-                                <path d="M18 6 6 18"></path>
-                                <path d="m6 6 12 12"></path>
-                              </svg>
-                            </div>
-                          </div>
+                          <app-badge-user
+                            [badgeUser]="userAffected"
+                            [isDeleted]="roleUser == Role.admin"
+                          ></app-badge-user>
                         </ng-container>
                       </div>
                     </a>
@@ -473,33 +394,25 @@
                 </ng-container>
                 <!-- actions -->
                 <td class="">
-                  <div class="p-3 flex gap-2 justify-end">
-                    <!-- <ng-container
-                      *ngIf="
-                        roleUser === Role.helpDesk || roleUser === Role.admin
-                      "
-                    > -->
+                  <div class="py-3 px-1.5 flex gap-2 justify-end">
                     <button
                       [routerLink]="['detail', ticket.id]"
                       type="button"
-                      class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-neutral-800"
+                      class="ring-2 ring-white py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-neutral-800 text-gray-900"
                     >
                       View
                     </button>
-                    <!-- </ng-container> -->
                     <ng-container *ngIf="roleUser == Role.user">
-                      <!-- <button
-                        [routerLink]="['detail', ticket.id]"
-                        type="button"
-                        class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-blue-600 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-neutral-800"
-                      >
-                        Edit
-                      </button> -->
                       <button
+                        [disabled]="ticket.status == TaskStatus.canceled"
                         type="button"
-                        class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-red-500 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-neutral-800"
+                        class="ring-2 ring-white py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-red-500 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-neutral-800"
                       >
-                        Cancel
+                        {{
+                          ticket.status == TaskStatus.canceled
+                            ? "Canceled"
+                            : "Cancel"
+                        }}
                       </button>
                     </ng-container>
                   </div>

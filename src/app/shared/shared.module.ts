@@ -9,6 +9,13 @@ import { CustomEditorComponent } from './ui/components/custom-editor/custom-edit
 import { BreadcrumbComponent } from './ui/components/breadcrumb/breadcrumb.component';
 import { ChipsComponent } from './ui/components/chips/chips.component';
 import { SelfDropdownComponent } from './ui/components/self-dropdown/self-dropdown.component';
+import { ProfilUserComponent } from './ui/components/profil-user/profil-user.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BadgePriorityComponent } from './ui/components/badge-priority/badge-priority.component';
+import { BadgeStatusComponent } from './ui/components/badge-status/badge-status.component';
+import { BadgeUserComponent } from './ui/components/badge-user/badge-user.component';
+import { BadgeTypeComponent } from './ui/components/badge-type/badge-type.component';
+import { BadgeDepartmentComponent } from './ui/components/badge-department/badge-department.component';
 
 @NgModule({
   declarations: [
@@ -18,8 +25,23 @@ import { SelfDropdownComponent } from './ui/components/self-dropdown/self-dropdo
     BreadcrumbComponent,
     ChipsComponent,
     SelfDropdownComponent,
+    ProfilUserComponent,
+
+    BadgePriorityComponent,
+    BadgeStatusComponent,
+    BadgeUserComponent,
+    BadgeTypeComponent,
+    BadgeDepartmentComponent,
   ],
-  imports: [CommonModule, HttpClientModule, RouterModule, EditorModule],
+  imports: [
+    CommonModule,
+    HttpClientModule,
+    RouterModule,
+    EditorModule,
+
+    FormsModule,
+    ReactiveFormsModule,
+  ],
   exports: [
     HeaderComponent,
     SidebarComponent,
@@ -27,6 +49,12 @@ import { SelfDropdownComponent } from './ui/components/self-dropdown/self-dropdo
     BreadcrumbComponent,
     ChipsComponent,
     SelfDropdownComponent,
+    ProfilUserComponent,
+    BadgePriorityComponent,
+    BadgeStatusComponent,
+    BadgeUserComponent,
+    BadgeTypeComponent,
+    BadgeDepartmentComponent,
   ],
   providers: [],
 })

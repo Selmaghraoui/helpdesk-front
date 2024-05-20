@@ -8,6 +8,7 @@ import { TaskPriority } from 'src/app/core/modeles/TaskPriority';
 import { TaskStatus } from 'src/app/core/modeles/TaskStatus';
 import { Ticket } from 'src/app/core/modeles/Ticket';
 import { TicketService } from 'src/app/core/services/ticket.service';
+import { IBadgeUser } from 'src/app/shared/ui/components/badge-user/badge-user.component';
 
 export interface Icomment {
   id: number;
@@ -28,7 +29,7 @@ export interface Icomment {
   styleUrls: ['./create-edit-ticket.component.scss'],
 })
 export class CreateEditTicketComponent implements OnInit {
-  isNewTicket: boolean = false;
+  isNewTicket: boolean = true;
   ticketFormGroup!: FormGroup;
   commentFormGroup!: FormGroup;
   breadCrumb: IBreadcrumb[] = [
@@ -230,9 +231,9 @@ export class CreateEditTicketComponent implements OnInit {
   TaskStatus = TaskStatus;
   TaskPriority = TaskPriority;
   Role = Role;
-  roleUser = 'helpDesk';
+  // roleUser = 'helpDesk';
   // roleUser = 'user';
-  // roleUser = 'admin';
+  roleUser = 'admin';
   ticket?: Ticket = {
     id: 1,
     title: 'Ticket 1 ',
@@ -245,7 +246,7 @@ export class CreateEditTicketComponent implements OnInit {
       description: '',
     },
     priority: 'Hight',
-    status: TaskStatus.open,
+    status: TaskStatus.rejected,
     createdBy: {
       id: 1,
       image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
@@ -253,9 +254,10 @@ export class CreateEditTicketComponent implements OnInit {
       lastName: 'El Maghraoui',
       email: 'soufiane.elmaghraoui@gmail.com',
       status: false,
-      position: 'Front End Developer',
+      post: 'Front End Developer',
       department: '',
-      phoneNUmber: '',
+      phoneNumber: '',
+      isActivate: true,
     },
     createdTime: '11-05-2024',
     affectedTo: [
@@ -266,9 +268,10 @@ export class CreateEditTicketComponent implements OnInit {
         lastName: 'Meggouri',
         email: 'ismail.meggouri@gmail.com',
         status: true,
-        position: 'Back End Developer',
+        post: 'Back End Developer',
         department: '',
-        phoneNUmber: '',
+        phoneNumber: '',
+        isActivate: true,
       },
     ],
     reference: '',
@@ -280,9 +283,10 @@ export class CreateEditTicketComponent implements OnInit {
         lastName: 'El Maghraoui',
         email: 'soufiane.elmaghraoui@gmail.com',
         status: false,
-        position: 'Front End Developer',
+        post: 'Front End Developer',
         department: '',
-        phoneNUmber: '',
+        phoneNumber: '',
+        isActivate: true,
       },
       {
         id: 2,
@@ -291,12 +295,46 @@ export class CreateEditTicketComponent implements OnInit {
         lastName: 'Meggouri',
         email: 'ismail.meggouri@gmail.com',
         status: true,
-        position: 'Back End Developer',
+        post: 'Back End Developer',
         department: '',
-        phoneNUmber: '',
+        phoneNumber: '',
+        isActivate: true,
       },
     ],
   };
+  helpDesk: IBadgeUser = {
+    image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+    firstName: 'Mohamed',
+    lastName: 'El Maghraoui',
+  };
+
+  helpDeskList: IBadgeUser[] = [
+    {
+      image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+      firstName: 'Mohamed',
+      lastName: 'El Maghraoui',
+    },
+    {
+      image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+      firstName: 'Brahim',
+      lastName: 'El Maghraoui',
+    },
+    {
+      image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+      firstName: 'Ahmed',
+      lastName: 'El Maghraoui',
+    },
+    {
+      image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+      firstName: 'Ismail',
+      lastName: 'Meggouri',
+    },
+    {
+      image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+      firstName: 'Mohamed',
+      lastName: 'Youssfi',
+    },
+  ];
 
   constructor(
     private TicketService: TicketService,
@@ -311,6 +349,7 @@ export class CreateEditTicketComponent implements OnInit {
       type: new FormControl(null, Validators.required),
       description: new FormControl(null, Validators.required),
       file: new FormControl(null, Validators.required),
+      // status: new FormControl(null, Validators.required),
     });
 
     this.commentFormGroup = new FormGroup({

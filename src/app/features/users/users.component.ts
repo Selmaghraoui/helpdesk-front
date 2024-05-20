@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { IBreadcrumb } from 'src/app/core/modeles/IBreadcrumb';
 import { IUser } from 'src/app/core/modeles/IUser';
+import { Role } from 'src/app/core/modeles/Role';
+interface User {
+  id: number;
+  name: string;
+  deactivated: boolean;
+}
 
 @Component({
   selector: 'app-users',
@@ -15,6 +21,10 @@ export class UsersComponent implements OnInit {
       lien: '/users',
     },
   ];
+  Role = Role;
+  // roleUser = 'helpDesk';
+  // roleUser = 'user';
+  roleUser = 'admin';
 
   // Mock Data :
   listUsers: IUser[] = [
@@ -25,9 +35,10 @@ export class UsersComponent implements OnInit {
       lastName: 'El Maghraoui',
       email: 'soufiane.elmaghraoui@gmail.com',
       status: false,
-      position: 'Front End Developer',
+      post: 'Front End Developer',
       department: 'Developpment',
-      phoneNUmber: '',
+      phoneNumber: '0635383046',
+      isActivate: true,
     },
     {
       id: 2,
@@ -36,9 +47,10 @@ export class UsersComponent implements OnInit {
       lastName: 'Meggouri',
       email: 'ismail.meggouri@gmail.com',
       status: true,
-      position: 'Back End Developer',
+      post: 'Back End Developer',
       department: 'Developpment',
-      phoneNUmber: '',
+      phoneNumber: '0635383046',
+      isActivate: true,
     },
     {
       id: 3,
@@ -47,10 +59,28 @@ export class UsersComponent implements OnInit {
       lastName: 'El Gallouli',
       email: 'hala.algallouli@gmail.com',
       status: true,
-      position: 'RH',
+      post: 'RH',
       department: 'Ressource Humain',
-      phoneNUmber: '',
+      phoneNumber: '0635383046',
+      isActivate: false,
     },
+    {
+      id: 4,
+      image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+      firstName: 'Edouard Kamavinga ',
+      lastName: 'El Gallouli',
+      email: 'hala.algallouli@gmail.com',
+      status: true,
+      post: 'RH',
+      department: 'Ressource Humain',
+      phoneNumber: '0635383046',
+      isActivate: true,
+    },
+  ];
+  users: User[] = [
+    { id: 1, name: 'John Doe', deactivated: false },
+    { id: 2, name: 'Jane Smith', deactivated: true },
+    // ... other users
   ];
 
   constructor() {}

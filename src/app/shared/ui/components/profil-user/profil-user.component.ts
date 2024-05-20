@@ -1,26 +1,24 @@
-import { Component, OnInit } from '@angular/core';
-import {
-  FormControl,
-  FormControlName,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormGroup, FormControl } from '@angular/forms';
 import { IUser } from 'src/app/core/modeles/IUser';
+import { Role } from 'src/app/core/modeles/Role';
 import { TaskStatus } from 'src/app/core/modeles/TaskStatus';
 import { Ticket } from 'src/app/core/modeles/Ticket';
-
-export interface Department {
-  id: number;
-  label: string;
-}
+import { Department } from 'src/app/features/profil/profil.component';
 
 @Component({
-  selector: 'app-profil',
-  templateUrl: './profil.component.html',
-  styleUrls: ['./profil.component.scss'],
+  selector: 'app-profil-user',
+  templateUrl: './profil-user.component.html',
+  styleUrls: ['./profil-user.component.scss'],
 })
-export class ProfilComponent implements OnInit {
+export class ProfilUserComponent implements OnInit {
+  @Input() isProfil: boolean = true;
+
   TaskStatus = TaskStatus;
+  Role = Role;
+  // roleUser = 'helpDesk';
+  // roleUser = 'user';
+  roleUser = 'admin';
 
   user: IUser = {
     id: 1,
@@ -118,9 +116,10 @@ export class ProfilComponent implements OnInit {
       label: 'Help Desk',
     },
   ];
-  profilFormGroup!: FormGroup;
+  profilUserFormGroup!: FormGroup;
+
   constructor() {
-    this.profilFormGroup = new FormGroup({
+    this.profilUserFormGroup = new FormGroup({
       referenceUser: new FormControl(this.user.referenceUser),
       email: new FormControl(this.user.email),
       userName: new FormControl(this.user.userName),
@@ -128,12 +127,19 @@ export class ProfilComponent implements OnInit {
       department: new FormControl(this.user.department),
       post: new FormControl(this.user.post),
     });
-    this.profilFormGroup.controls['referenceUser'].disable();
-    this.profilFormGroup.controls['email'].disable();
-    this.profilFormGroup.controls['userName'].disable();
+    if (this.roleUser == Role.helpDesk) {
+      this.profilUserFormGroup.controls['referenceUser'].disable();
+    }
+    if (this.roleUser == Role.user) {
+      this.profilUserFormGroup.controls['referenceUser'].disable();
+      this.profilUserFormGroup.controls['email'].disable();
+      this.profilUserFormGroup.controls['userName'].disable();
+    }
   }
 
-  ngOnInit() {
-    console.log('log :: ', this.profilFormGroup);
+  ngOnInit() {}
+
+  activateUser() {
+    this.user.isActivate = !this.user.isActivate;
   }
 }

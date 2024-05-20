@@ -1,11 +1,14 @@
 export interface IUser {
   id: number;
+  referenceUser?: string;
   image: string;
   firstName: string;
   lastName: string;
   email: string;
   status: boolean;
-  position: string;
+  post: string;
   department: string;
-  phoneNUmber: string;
+  phoneNumber: string;
+  userName?: string;
+  isActivate: boolean;
 }

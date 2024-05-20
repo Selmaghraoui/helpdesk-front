@@ -1,26 +1,24 @@
-<!-- Remove 'active' class, this is just to show in Codepen thumbnail -->
-<div class="select-menu active">
-  <div class="select-btn" (click)="select()">
-    <span class="sBtn-text">Select your option</span>
-    <i class="bx bx-chevron-down"></i>
-  </div>
-
-  <ul class="options">
-    <li class="option">
-      <i class="bx bxl-instagram-alt" style="color: #e1306c"></i>
-      <span class="option-text">Instagram</span>
-    </li>
-    <li class="option">
-      <i class="bx bxl-linkedin-square" style="color: #0e76a8"></i>
-      <span class="option-text">Linkedin</span>
-    </li>
-    <li class="option">
-      <i class="bx bxl-facebook-circle" style="color: #4267b2"></i>
-      <span class="option-text">Facebook</span>
-    </li>
-    <li class="option">
-      <i class="bx bxl-twitter" style="color: #1da1f2"></i>
-      <span class="option-text">Twitter</span>
-    </li>
-  </ul>
-</div>
+<!-- Select -->
+<select
+  data-hs-select='{
+  "placeholder": "Affect this ticket to an Help Desk",
+  "toggleTag": "<button type=\"button\" class=\"w-44 \"><span class=\"\" data-icon></span><span class=\"text-gray-800 flex items-center dark:text-neutral-200\" data-title></span></button>",
+  "toggleClasses": "flex items-center border w-full hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 relative inline-flex ring-2 ring-white p-1.5 pe-3 flex text-nowrap w-full cursor-pointer bg-white border border-gray-200 rounded-full text-start text-sm focus:border-blue-500 focus:ring-blue-500 before:absolute before:inset-0 before:z-[1] dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400",
+  "dropdownClasses": "min-w-[304px] mt-2 max-h-72 p-1 space-y-0.5 z-20 bg-white border border-gray-200 rounded-lg overflow-hidden overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500 dark:bg-neutral-900 dark:border-neutral-700",
+  "optionClasses": "py-2 px-3 w-full text-sm text-gray-800 flex items-center ursor-pointer hover:bg-gray-100 rounded-lg focus:outline-none focus:bg-gray-100 dark:bg-neutral-900 dark:hover:bg-neutral-800 flex items-center dark:text-neutral-200 dark:focus:bg-neutral-800",
+  "optionTemplate": "<div class=\"flex items-center\"><div class=\" inline-flex \" data-icon></div><div><div class=\"hs-selected:font-semibold flex items-center text-sm text-gray-800 dark:text-neutral-200\" data-title></div></div><div class=\"ms-auto\"><span class=\"hidden hs-selected:block\"></span></div></div>"
+}'
+  class="hidden"
+>
+  <option value="" selected=""></option>
+  <option
+    *ngFor="let helpDesk of helpDeskList; let index = index"
+    [value]="index"
+    data-hs-select-option='{
+    "icon": "<img class=\"me-1.5 inline-flex size-6 rounded-full\"  src=\"\{\{helpDesk?.image}}\" />"}'
+  >
+    {{ helpDesk.firstName }}
+    {{ helpDesk.lastName }}
+  </option>
+</select>
+<!-- End Select -->
