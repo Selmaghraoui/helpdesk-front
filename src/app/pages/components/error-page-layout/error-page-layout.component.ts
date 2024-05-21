@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-error-page-layout',
@@ -6,7 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./error-page-layout.component.scss'],
 })
 export class ErrorPageLayoutComponent implements OnInit {
-  constructor() {}
+  constructor(private route: Router) {}
 
   ngOnInit() {}
+
+  navigateTo() {
+    this.route.navigateByUrl('dashboard');
+  }
 }

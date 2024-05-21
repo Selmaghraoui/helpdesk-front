@@ -1,4 +1,4 @@
-<div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+<!-- <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
   <div class="sm:mx-auto sm:w-full sm:max-w-sm">
     <img
       class="mx-auto h-10 w-auto"
@@ -77,5 +77,133 @@
         >Start a 14 day free trial</a
       >
     </p>
+  </div>
+</div> -->
+
+<!-- 
+<div cdkDropListGroup>
+  <div class="example-container">
+    <h2>To do</h2>
+
+    <div
+      cdkDropList
+      [cdkDropListData]="todo"
+      class="example-list"
+      (cdkDropListDropped)="drop($event)"
+      *ngFor="let item of todo"
+    >
+      <div class="example-box" cdkDrag>{{ item }}</div>
+    </div>
+  </div>
+
+  <div class="example-container">
+    <h2>Done</h2>
+
+    <div
+      cdkDropList
+      [cdkDropListData]="done"
+      class="example-list"
+      (cdkDropListDropped)="drop($event)"
+      *ngFor="let item of done"
+    >
+      <div class="example-box" cdkDrag>{{ item }}</div>
+    </div>
+  </div>
+</div> -->
+
+<!-- <div class="bg-gray-100 p-8">
+  <div class="flex justify-center">
+    <div class="flex">
+      <div class="bg-white p-4 rounded shadow-lg mr-4">
+        <h2 class="text-lg font-semibold mb-4">To Do</h2>
+        <div class="kanban-card bg-gray-200 mb-2">Task 1</div>
+        <div class="kanban-card bg-gray-200 mb-2">Task 2</div>
+        <div class="kanban-card bg-gray-200 mb-2">Task 3</div>
+      </div>
+
+      <div class="bg-white p-4 rounded shadow-lg mr-4">
+        <h2 class="text-lg font-semibold mb-4">In Progress</h2>
+        <div class="kanban-card bg-gray-200 mb-2">Task 4</div>
+      </div>
+
+      <div class="bg-white p-4 rounded shadow-lg">
+        <h2 class="text-lg font-semibold mb-4">Done</h2>
+        <div class="kanban-card bg-gray-200 mb-2">Task 5</div>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<div class="body">
+  <div class="kanban-board grid min-w-full min-h-full grid-cols-1">
+    <div class="kanban-column grow basis-0 rounded-lg">
+      <h2>Open</h2>
+      <div
+        class="kanban-card"
+        *ngFor="let ticket of filterTicket(TaskStatus.open)"
+      >
+        {{ ticket.title }}
+      </div>
+    </div>
+
+    <div class="kanban-column grow basis-0 rounded-lg">
+      <h2>In Progress</h2>
+      <div
+        class="kanban-card"
+        *ngFor="let ticket of filterTicket(TaskStatus.inProgress)"
+      >
+        {{ ticket.title }}
+      </div>
+    </div>
+
+    <div class="kanban-column grow basis-0 rounded-lg">
+      <h2>Evaluating</h2>
+      <div
+        class="kanban-card"
+        *ngFor="let ticket of filterTicket(TaskStatus.evaluating)"
+      >
+        {{ ticket.title }}
+      </div>
+    </div>
+
+    <div class="kanban-column grow basis-0 rounded-lg">
+      <h2>Resolved</h2>
+      <div
+        class="kanban-card"
+        *ngFor="let ticket of filterTicket(TaskStatus.resolved)"
+      >
+        {{ ticket.title }}
+      </div>
+    </div>
+
+    <div class="kanban-column grow basis-0 rounded-lg">
+      <h2>Rejected</h2>
+      <div
+        class="kanban-card"
+        *ngFor="let ticket of filterTicket(TaskStatus.rejected)"
+      >
+        {{ ticket.title }}
+      </div>
+    </div>
+
+    <div class="kanban-column grow basis-0 rounded-lg">
+      <h2>Canceled</h2>
+      <div
+        class="kanban-card"
+        *ngFor="let ticket of filterTicket(TaskStatus.canceled)"
+      >
+        {{ ticket.title }}
+      </div>
+    </div>
+
+    <div class="kanban-column grow basis-0 rounded-lg">
+      <h2>Closed</h2>
+      <div
+        class="kanban-card"
+        *ngFor="let ticket of filterTicket(TaskStatus.closed)"
+      >
+        {{ ticket.title }}
+      </div>
+    </div>
   </div>
 </div>

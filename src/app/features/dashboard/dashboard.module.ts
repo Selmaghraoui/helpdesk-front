@@ -4,13 +4,13 @@ import { DashboardComponent } from './dashboard.component';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { HttpClientModule } from '@angular/common/http';
+// import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
   imports: [
     CommonModule,
     DashboardRoutingModule,
-    // SharedModule,
-    // HttpClientModule,
+    //  DragDropModule,
   ],
   declarations: [DashboardComponent],
 })
