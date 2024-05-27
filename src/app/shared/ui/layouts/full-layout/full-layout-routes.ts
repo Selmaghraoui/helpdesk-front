@@ -14,6 +14,13 @@ export const FULL_ROUTES: Routes = [
       ),
   },
   {
+    path: 'tickets-board',
+    loadChildren: () =>
+      import('../../../../features/tickets-board/tickets-board.module').then(
+        (m) => m.TicketBoardModule
+      ),
+  },
+  {
     path: 'tickets',
     loadChildren: () =>
       import(

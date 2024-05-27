@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { TypesTicket } from 'src/app/core/modeles/TypesTicket';
 
 @Component({
   selector: 'app-badge-type',
@@ -6,7 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./badge-type.component.scss'],
 })
 export class BadgeTypeComponent implements OnInit {
-  @Input() type?: string;
+  @Input() type?: TypesTicket;
   constructor() {}
 
   ngOnInit() {}

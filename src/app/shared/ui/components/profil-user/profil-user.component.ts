@@ -60,20 +60,19 @@ export class ProfilUserComponent implements OnInit {
       isActivate: true,
     },
     createdTime: '11-05-2024',
-    affectedTo: [
-      {
-        id: 2,
-        image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-        firstName: 'Ismail',
-        lastName: 'Meggouri',
-        email: 'ismail.meggouri@gmail.com',
-        status: true,
-        post: 'Back End Developer',
-        department: '',
-        phoneNumber: '',
-        isActivate: true,
-      },
-    ],
+    affectedTo: {
+      id: 2,
+      image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+      firstName: 'Ismail',
+      lastName: 'Meggouri',
+      email: 'ismail.meggouri@gmail.com',
+      status: true,
+      post: 'Back End Developer',
+      department: '',
+      phoneNumber: '',
+      isActivate: true,
+    },
+
     reference: '',
     sharedWith: [
       {

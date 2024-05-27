@@ -16,9 +16,9 @@ export class TicketsComponent implements OnInit {
   TaskStatus = TaskStatus;
   TaskPriority = TaskPriority;
   Role = Role;
-  // roleUser = 'helpDesk';
+  roleUser = 'helpDesk';
   // roleUser = 'user';
-  roleUser = 'admin';
+  // roleUser = 'admin';
 
   breadCrumb: IBreadcrumb[] = [
     {
@@ -53,34 +53,18 @@ export class TicketsComponent implements OnInit {
         isActivate: true,
       },
       createdTime: '11-05-2024',
-      affectedTo: [
-        // {
-        //   id: 2,
-        //   image:
-        //     'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-        //   firstName: 'Ismail',
-        //   lastName: 'Meggouri',
-        //   email: 'ismail.meggouri@gmail.com',
-        //   status: true,
-        //   post: 'Back End Developer',
-        //   department: '',
-        //   phoneNumber: '',
-        //   isActivate: true,
-        // },
-        {
-          id: 2,
-          image:
-            'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-          firstName: 'Mohamed',
-          lastName: 'El Maghraoui',
-          email: 'mohamed.elmaghraoui@gmail.com',
-          status: true,
-          post: 'Back End Developer',
-          department: '',
-          phoneNumber: '',
-          isActivate: true,
-        },
-      ],
+      affectedTo: {
+        id: 2,
+        image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+        firstName: 'Mohamed',
+        lastName: 'El Maghraoui',
+        email: 'mohamed.elmaghraoui@gmail.com',
+        status: true,
+        post: 'Back End Developer',
+        department: '',
+        phoneNumber: '',
+        isActivate: true,
+      },
       reference: '',
       description:
         'Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem ',
@@ -138,21 +122,19 @@ export class TicketsComponent implements OnInit {
         isActivate: true,
       },
       createdTime: '11-05-2024',
-      affectedTo: [
-        {
-          id: 2,
-          image:
-            'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-          firstName: 'Ismail',
-          lastName: 'Meggouri',
-          email: 'ismail.meggouri@gmail.com',
-          status: true,
-          post: 'Back End Developer',
-          department: '',
-          phoneNumber: '',
-          isActivate: true,
-        },
-      ],
+      affectedTo: {
+        id: 2,
+        image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+        firstName: 'Ismail',
+        lastName: 'Meggouri',
+        email: 'ismail.meggouri@gmail.com',
+        status: true,
+        post: 'Back End Developer',
+        department: '',
+        phoneNumber: '',
+        isActivate: true,
+      },
+
       reference: '',
       description:
         'Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem ',
@@ -209,21 +191,19 @@ export class TicketsComponent implements OnInit {
         isActivate: true,
       },
       createdTime: '11-05-2024',
-      affectedTo: [
-        {
-          id: 1,
-          image:
-            'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-          firstName: 'Soufiane',
-          lastName: 'El Maghraoui',
-          email: 'soufiane.elmaghraoui@gmail.com',
-          status: false,
-          post: 'Front End Developer',
-          department: '',
-          phoneNumber: '',
-          isActivate: true,
-        },
-      ],
+      affectedTo: {
+        id: 1,
+        image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+        firstName: 'Soufiane',
+        lastName: 'El Maghraoui',
+        email: 'soufiane.elmaghraoui@gmail.com',
+        status: false,
+        post: 'Front End Developer',
+        department: '',
+        phoneNumber: '',
+        isActivate: true,
+      },
+
       reference: '',
       description:
         'Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem ',
@@ -280,21 +260,19 @@ export class TicketsComponent implements OnInit {
         isActivate: true,
       },
       createdTime: '11-05-2024',
-      affectedTo: [
-        {
-          id: 1,
-          image:
-            'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-          firstName: 'Soufiane',
-          lastName: 'El Maghraoui',
-          email: 'soufiane.elmaghraoui@gmail.com',
-          status: false,
-          post: 'Front End Developer',
-          department: '',
-          phoneNumber: '',
-          isActivate: true,
-        },
-      ],
+      affectedTo: {
+        id: 1,
+        image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+        firstName: 'Soufiane',
+        lastName: 'El Maghraoui',
+        email: 'soufiane.elmaghraoui@gmail.com',
+        status: false,
+        post: 'Front End Developer',
+        department: '',
+        phoneNumber: '',
+        isActivate: true,
+      },
+
       reference: '',
       description:
         'Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem ',
@@ -351,21 +329,19 @@ export class TicketsComponent implements OnInit {
         isActivate: true,
       },
       createdTime: '11-05-2024',
-      affectedTo: [
-        {
-          id: 1,
-          image:
-            'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-          firstName: 'Soufiane',
-          lastName: 'El Maghraoui',
-          email: 'soufiane.elmaghraoui@gmail.com',
-          status: false,
-          post: 'Front End Developer',
-          department: '',
-          phoneNumber: '',
-          isActivate: true,
-        },
-      ],
+      affectedTo: {
+        id: 1,
+        image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+        firstName: 'Soufiane',
+        lastName: 'El Maghraoui',
+        email: 'soufiane.elmaghraoui@gmail.com',
+        status: false,
+        post: 'Front End Developer',
+        department: '',
+        phoneNumber: '',
+        isActivate: true,
+      },
+
       reference: '',
       description:
         'Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem ',
@@ -422,21 +398,19 @@ export class TicketsComponent implements OnInit {
         isActivate: true,
       },
       createdTime: '11-05-2024',
-      affectedTo: [
-        {
-          id: 1,
-          image:
-            'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-          firstName: 'Soufiane',
-          lastName: 'El Maghraoui',
-          email: 'soufiane.elmaghraoui@gmail.com',
-          status: false,
-          post: 'Front End Developer',
-          department: '',
-          phoneNumber: '',
-          isActivate: true,
-        },
-      ],
+      affectedTo: {
+        id: 1,
+        image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+        firstName: 'Soufiane',
+        lastName: 'El Maghraoui',
+        email: 'soufiane.elmaghraoui@gmail.com',
+        status: false,
+        post: 'Front End Developer',
+        department: '',
+        phoneNumber: '',
+        isActivate: true,
+      },
+
       reference: '',
       description:
         'Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem ',
@@ -479,7 +453,7 @@ export class TicketsComponent implements OnInit {
         description: '',
       },
       priority: 'Low',
-      status: TaskStatus.closed,
+      status: TaskStatus.testing,
       createdBy: {
         id: 2,
         image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
@@ -493,21 +467,19 @@ export class TicketsComponent implements OnInit {
         isActivate: true,
       },
       createdTime: '11-05-2024',
-      affectedTo: [
-        {
-          id: 1,
-          image:
-            'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-          firstName: 'Soufiane',
-          lastName: 'El Maghraoui',
-          email: 'soufiane.elmaghraoui@gmail.com',
-          status: false,
-          post: 'Front End Developer',
-          department: '',
-          phoneNumber: '',
-          isActivate: true,
-        },
-      ],
+      affectedTo: {
+        id: 1,
+        image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+        firstName: 'Soufiane',
+        lastName: 'El Maghraoui',
+        email: 'soufiane.elmaghraoui@gmail.com',
+        status: false,
+        post: 'Front End Developer',
+        department: '',
+        phoneNumber: '',
+        isActivate: true,
+      },
+
       reference: '',
       description:
         'Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem ',
