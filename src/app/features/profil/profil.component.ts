@@ -35,6 +35,8 @@ export class ProfilComponent implements OnInit {
     phoneNumber: '0635383046',
     userName: 's.elmaghraoui',
     isActivate: true,
+    location: 'Casablnca , Sidi Maarouf',
+    joinDate: '15-08-2023',
   };
   ticket: Ticket = {
     id: 1,

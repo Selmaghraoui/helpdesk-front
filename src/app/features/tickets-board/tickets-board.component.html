@@ -1,14 +1,21 @@
-<div class="container-board pb-1 overflowx">
+<div class="container-board overflowx min-h-full">
   <div class="flex gap-4">
     <!-- Open -->
     <div class="list">
-      <div
-        class="header font-semibold px-5 p-2 text-xl text-gray-400 border border-gray-400 rounded-xl mb-1 mt-3 bg-gray-50"
-      >
-        Open
-      </div>
-      <ng-container *ngIf="ticketListOpen.length > 0; else emptyticketListOpen">
-        <div class="p-1 rounded-xl border-2 border-gray-400">
+      <div class="px-2 flex flex-col gap-6">
+        <!-- Header -->
+        <div
+          class="relative h-12 rounded-xl background-common from-gray-100 bg-gradient-to-tr"
+        ></div>
+        <div
+          class="flex shadow-blur ml-3 blur-background p-4 min-w-full -mt-16 rounded-xl border-white justify-between"
+        >
+          <div class="flex items-center text-2xl font-semibold">Open</div>
+        </div>
+        <!--  -->
+        <ng-container
+          *ngIf="ticketListOpen.length > 0; else emptyticketListOpen"
+        >
           <div class="flex flex-col gap-4 p-2 rounded-lg overflowy">
             <div
               cdkDropList
@@ -42,7 +49,7 @@
                   *cdkDragPlaceholder
                 ></div>
                 <div
-                  class="min-w-[354.5px] max-w-[354.5px] p-5 mb-4 bg-white border border-gray-300 rounded-lg dark:bg-gray-700 dark:border-gray-600"
+                  class="min-w-[354.5px] max-w-[354.5px] p-5 mb-4 bg-white border border-gray-300 shadow-sm rounded-lg dark:bg-gray-700 dark:border-gray-600"
                 >
                   <div class="flex justify-between">
                     <div class="text-base dark:bg-neutral-500 font-medium mb-4">
@@ -78,18 +85,25 @@
               </div>
             </div>
           </div>
-        </div>
-      </ng-container>
+        </ng-container>
+      </div>
     </div>
 
     <!-- Canceled -->
     <div class="list">
-      <div
-        class="header font-semibold px-5 p-2 text-xl text-red-500 border border-red-500 rounded-xl mb-1 mt-3 bg-red-50"
-      >
-        Canceled
-      </div>
-      <div class="p-1 rounded-xl border-2 border-red-500">
+      <div class="px-2 flex flex-col gap-6">
+        <!-- Header -->
+        <div
+          class="relative h-12 rounded-xl background-common from-red-900 bg-gradient-to-tr"
+        ></div>
+        <div
+          class="flex shadow-blur ml-3 blur-background p-4 min-w-full -mt-16 rounded-xl border-white justify-between"
+        >
+          <div class="flex items-center text-red-500 text-2xl font-semibold">
+            Canceled
+          </div>
+        </div>
+        <!--  -->
         <div class="flex flex-col gap-4 p-2 rounded-lg overflowy">
           <div
             cdkDropList
@@ -118,7 +132,7 @@
                 *cdkDragPlaceholder
               ></div>
               <div
-                class="min-w-[354.5px] max-w-[354.5px] p-5 mb-4 bg-white border border-gray-300 rounded-lg dark:bg-gray-700 dark:border-gray-600"
+                class="min-w-[354.5px] max-w-[354.5px] p-5 mb-4 bg-white border border-gray-300 rounded-lg dark:bg-gray-700 dark:border-gray-600 shadow-sm"
               >
                 <div class="flex justify-between">
                   <div class="text-base dark:bg-neutral-500 font-medium mb-4">
@@ -159,12 +173,17 @@
 
     <!-- Evaluating -->
     <div class="list">
-      <div
-        class="header font-semibold px-5 p-2 text-xl text-gray-800 border border-gray-800 rounded-xl mb-1 mt-3 bg-gray-200"
-      >
-        Evaluating
-      </div>
-      <div class="p-1 rounded-xl border-2 border-gray-800">
+      <div class="px-2 flex flex-col gap-6">
+        <!-- Header -->
+        <div
+          class="relative h-12 rounded-xl background-common from-gray-900 bg-gradient-to-tr"
+        ></div>
+        <div
+          class="flex shadow-blur ml-3 blur-background p-4 min-w-full -mt-16 rounded-xl border-white justify-between"
+        >
+          <div class="flex items-center text-2xl font-semibold">Evaluating</div>
+        </div>
+        <!--  -->
         <div class="flex flex-col gap-4 p-2 rounded-lg overflowy">
           <div
             cdkDropList
@@ -198,7 +217,7 @@
                 *cdkDragPlaceholder
               ></div>
               <div
-                class="min-w-[354.5px] max-w-[354.5px] p-5 mb-4 bg-white border border-gray-300 rounded-lg dark:bg-gray-700 dark:border-gray-600"
+                class="min-w-[354.5px] max-w-[354.5px] p-5 mb-4 bg-white border border-gray-300 rounded-lg dark:bg-gray-700 dark:border-gray-600 shadow-sm"
               >
                 <div class="flex justify-between">
                   <div class="text-base dark:bg-neutral-500 font-medium mb-4">
@@ -239,12 +258,19 @@
 
     <!-- Rejected -->
     <div class="list">
-      <div
-        class="header font-semibold px-5 p-2 text-xl text-yellow-600 border border-yellow-500 rounded-xl mb-1 mt-3 bg-yellow-50"
-      >
-        Rejected
-      </div>
-      <div class="p-1 rounded-xl border-2 border-yellow-500">
+      <div class="px-2 flex flex-col gap-6">
+        <!-- Header -->
+        <div
+          class="relative h-12 rounded-xl background-common from-yellow-900 bg-gradient-to-tr"
+        ></div>
+        <div
+          class="flex shadow-blur ml-3 blur-background p-4 min-w-full -mt-16 rounded-xl border-white justify-between"
+        >
+          <div class="flex items-center text-yellow-500 text-2xl font-semibold">
+            Rejected
+          </div>
+        </div>
+        <!--  -->
         <div class="flex flex-col gap-4 p-2 rounded-lg overflowy">
           <div
             cdkDropList
@@ -267,7 +293,7 @@
                 *cdkDragPlaceholder
               ></div>
               <div
-                class="min-w-[354.5px] max-w-[354.5px] p-5 mb-4 bg-white border border-gray-300 rounded-lg dark:bg-gray-700 dark:border-gray-600"
+                class="min-w-[354.5px] max-w-[354.5px] p-5 mb-4 bg-white border border-gray-300 rounded-lg dark:bg-gray-700 dark:border-gray-600 shadow-sm"
               >
                 <div class="flex justify-between">
                   <div class="text-base dark:bg-neutral-500 font-medium mb-4">
@@ -308,12 +334,19 @@
 
     <!-- In Progress -->
     <div class="list">
-      <div
-        class="header font-semibold px-5 p-2 text-xl text-blue-600 border border-blue-600 rounded-xl mb-1 mt-3 bg-blue-50"
-      >
-        In progress
-      </div>
-      <div class="p-1 rounded-xl border-2 border-blue-600">
+      <div class="px-2 flex flex-col gap-6">
+        <!-- Header -->
+        <div
+          class="relative h-12 rounded-xl background-common from-blue-900 bg-gradient-to-tr"
+        ></div>
+        <div
+          class="flex shadow-blur ml-3 blur-background p-4 min-w-full -mt-16 rounded-xl border-white justify-between"
+        >
+          <div class="flex items-center text-blue-500 text-2xl font-semibold">
+            In Progress
+          </div>
+        </div>
+        <!--  -->
         <div class="flex flex-col gap-4 p-2 rounded-lg overflowy">
           <div
             cdkDropList
@@ -327,10 +360,6 @@
               cdkDrag
               class="example-box"
               *ngFor="let item of ticketListInProgress"
-              [cdkDragDisabled]="
-                (roleUser !== Role.helpDesk && roleUser !== Role.admin) ||
-                itemList_ids.includes('cdk-drop-list-6')
-              "
               [ngClass]="
                 roleUser === Role.helpDesk || roleUser === Role.admin
                   ? 'cursor-move'
@@ -342,7 +371,7 @@
                 *cdkDragPlaceholder
               ></div>
               <div
-                class="min-w-[354.5px] max-w-[354.5px] p-5 mb-4 bg-white border border-gray-300 rounded-lg dark:bg-gray-700 dark:border-gray-600"
+                class="min-w-[354.5px] max-w-[354.5px] p-5 mb-4 bg-white border border-gray-300 rounded-lg dark:bg-gray-700 dark:border-gray-600 shadow-sm"
               >
                 <div class="flex justify-between">
                   <div class="text-base dark:bg-neutral-500 font-medium mb-4">
@@ -383,12 +412,19 @@
 
     <!-- Testing -->
     <div class="list">
-      <div
-        class="header font-semibold px-5 p-2 text-xl text-purple-500 border border-purple-500 rounded-xl mb-1 mt-3 bg-purple-50"
-      >
-        Testing
-      </div>
-      <div class="p-1 rounded-xl border-2 border-purple-500">
+      <div class="px-2 flex flex-col gap-6">
+        <!-- Header -->
+        <div
+          class="relative h-12 rounded-xl background-common from-purple-900 bg-gradient-to-tr"
+        ></div>
+        <div
+          class="flex shadow-blur ml-3 blur-background p-4 min-w-full -mt-16 rounded-xl border-white justify-between"
+        >
+          <div class="flex items-center text-purple-500 text-2xl font-semibold">
+            Testing
+          </div>
+        </div>
+        <!--  -->
         <div class="flex flex-col gap-4 p-2 rounded-lg overflowy">
           <div
             cdkDropList
@@ -398,25 +434,26 @@
             (cdkDropListDropped)="drop($event)"
             [cdkDropListConnectedTo]="itemList_ids"
           >
+            <!-- (cdkDragMoved)="cdkDragMoved(item)" -->
             <div
               cdkDrag
               class="example-box"
               *ngFor="let item of ticketListTesting"
-              [cdkDragDisabled]="item.isResolved === undefined"
-              (cdkDragMoved)="cdkDragMoved(item)"
+              (cdkDragMoved)="mouseEnter(item)"
               (mouseenter)="mouseEnter(item)"
               [ngClass]="
                 roleUser === Role.helpDesk || roleUser === Role.admin
                   ? 'cursor-move'
                   : ''
               "
+              [cdkDragDisabled]="item.isResolved === undefined"
             >
               <div
-                class="border border-gray-300 bg-gray-200 example-custom-placeholder rounded-lg mb-4"
+                class="border border-purple-600 bg-purple-50 example-custom-placeholder rounded-lg mb-4"
                 *cdkDragPlaceholder
               ></div>
               <div
-                class="min-w-[354.5px] max-w-[354.5px] p-5 mb-4 bg-white border border-gray-300 rounded-lg dark:bg-gray-700 dark:border-gray-600"
+                class="min-w-[354.5px] max-w-[354.5px] p-5 mb-4 bg-white border border-gray-300 rounded-lg dark:bg-gray-700 dark:border-gray-600 shadow-sm"
               >
                 <div class="flex justify-between">
                   <div class="text-base dark:bg-neutral-500 font-medium mb-4">
@@ -471,8 +508,9 @@
                 <div
                   class="flex justify-end pt-5"
                   *ngIf="
-                    roleUser === Role.helpDesk ||
-                    (roleUser === Role.admin && item.isResolved !== undefined)
+                    (item.isResolved != undefined &&
+                      roleUser === Role.helpDesk) ||
+                    roleUser === Role.admin
                   "
                 >
                   <span
@@ -483,7 +521,13 @@
                         : 'text-red-500 border-red-500'
                     "
                   >
-                    {{ item.isResolved ? "Resolved" : "Unresolved" }}
+                    {{
+                      item.isResolved === true
+                        ? "Resolved"
+                        : item.isResolved === false
+                        ? "Unresolved"
+                        : ""
+                    }}
                   </span>
                 </div>
               </div>
@@ -495,12 +539,19 @@
 
     <!-- Resolved -->
     <div class="list">
-      <div
-        class="header font-semibold px-5 p-2 text-xl text-teal-500 border border-teal-500 rounded-xl mb-1 mt-3 bg-teal-50"
-      >
-        Resolved
-      </div>
-      <div class="p-1 rounded-xl border-2 border-teal-500">
+      <div class="px-2 flex flex-col gap-6">
+        <!-- Header -->
+        <div
+          class="relative h-12 rounded-xl background-common from-green-900 bg-gradient-to-tr"
+        ></div>
+        <div
+          class="flex shadow-blur ml-3 blur-background p-4 min-w-full -mt-16 rounded-xl border-white justify-between"
+        >
+          <div class="flex items-center text-green-500 text-2xl font-semibold">
+            Resolved
+          </div>
+        </div>
+        <!--  -->
         <div class="flex flex-col gap-4 p-2 rounded-lg overflowy">
           <div
             cdkDropList
@@ -519,11 +570,11 @@
               [ngClass]="roleUser === Role.admin ? 'cursor-move' : ''"
             >
               <div
-                class="border border-gray-300 bg-gray-200 example-custom-placeholder rounded-lg mb-4"
+                class="border border-green-600 bg-green-50 example-custom-placeholder rounded-lg mb-4"
                 *cdkDragPlaceholder
               ></div>
               <div
-                class="min-w-[354.5px] max-w-[354.5px] p-5 mb-4 bg-white border border-gray-300 rounded-lg dark:bg-gray-700 dark:border-gray-600"
+                class="min-w-[354.5px] max-w-[354.5px] p-5 mb-4 bg-white border border-gray-300 rounded-lg dark:bg-gray-700 dark:border-gray-600 shadow-sm"
               >
                 <div class="flex justify-between">
                   <div class="text-base dark:bg-neutral-500 font-medium mb-4">

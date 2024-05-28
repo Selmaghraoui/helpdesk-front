@@ -1,65 +1,25 @@
-// .wrapper {
-//   width: 620px;
-//   background: url(../../../assets/images/timeline.jpg);
-//   color: #fff;
-//   border-radius: 10px;
-//   height: 80px;
-// }
-
-// .content {
-//   padding: 10px;
-//   width: 100%;
-//   height: 100%;
-//   background: transparent;
-//   backdrop-filter: blur(20px) !important;
-// }
-
-// .wrapper {
-//   width: 400px;
-//   height: 400px;
-// }
-
-// .content {
-//   width: 100%;
-//   height: 100%;
-//   //   position: relative;
-//   //   box-sizing: border-box;
-//   //   margin: 0;
-//   //   padding: 0;
-// }
-
-// .content::before {
-//   content: "";
-//   //   position: absolute;
-//   //   top: 0;
-//   //   right: 0;
-//   //   bottom: 0;
-//   //   left: 0;
-//   background: linear-gradient(100deg, #3b53d6, #3b53d6);
-//   filter: blur(1px);
-// }
-
-.isCanceled {
-  padding: 0;
-  margin: 0;
-  position: relative;
-  //   box-sizing: border-box;
-  min-height: 100vh;
-  //   border: 1px solid rgb(254 226 226);
-  z-index: 100;
+.shadow-gray-900\/20 {
+  --tw-shadow-color: rgb(33 33 33 / 0.2);
+  --tw-shadow: var(--tw-shadow-colored);
 }
-
-.isCanceled::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  //   background: linear-gradient(100deg, #3b53d6, #4afafa);
-  background: linear-gradient(100deg, #3b53d6, #4afafa);
-  //   --tw-border-opacity: 1 !important;
-  //   background: rgb(254 226 226);
-  filter: blur(1px);
-  z-index: -1;
+.text-white {
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+.bg-clip-border {
+  background-clip: border-box;
+}
+.to-gray-800 {
+  --tw-gradient-to: #424242 var(--tw-gradient-to-position);
+}
+.from-gray-900 {
+  --tw-gradient-from: #212121 var(--tw-gradient-from-position);
+  --tw-gradient-to: rgb(33 33 33 / 0.6) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+.bg-gradient-to-tr {
+  background-image: linear-gradient(to top right, var(--tw-gradient-stops));
+}
+.rounded-xl {
+  border-radius: 0.75rem;
 }

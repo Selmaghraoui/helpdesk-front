@@ -11,4 +11,7 @@ export interface IUser {
   phoneNumber: string;
   userName?: string;
   isActivate: boolean;
+  location?: string;
+  birthday?: string;
+  joinDate?: string;
 }

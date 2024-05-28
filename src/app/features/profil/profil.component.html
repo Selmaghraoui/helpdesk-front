@@ -1,1 +1,116 @@
-<app-profil-user></app-profil-user>
+<div
+  class="relative h-52 rounded-xl to-gray-800 from-gray-900 bg-gradient-to-tr"
+></div>
+
+<div class="px-6 flex flex-col gap-6">
+  <!-- Header -->
+  <div
+    class="flex shadow-blur blur-background p-4 min-w-full -mt-16 rounded-xl border-white justify-between"
+  >
+    <div class="flex gap-4">
+      <div class="avatar-xl avatar">
+        <img
+          class="shadow-sm inline-block rounded-lg ring-2 ring-white dark:ring-neutral-900"
+          src="{{ user.image }}"
+          alt="Image Description"
+        />
+      </div>
+      <div class="flex items-center text-2xl font-semibold">
+        {{ user.firstName }}
+        {{ user.lastName }}
+      </div>
+    </div>
+
+    <div class="flex items-center">
+      <button
+        [routerLink]="['detail', ticket.id]"
+        type="button"
+        class="h-[fit-content] ring-2 ring-white py-3 px-5 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-400 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-neutral-800 text-gray-900"
+      >
+        Edit
+      </button>
+    </div>
+  </div>
+
+  <!-- Informations -->
+  <div class="flex gap-4">
+    <!--  -->
+    <div class="shadow grow basis-0 p-5 bg-white border rounded-xl">
+      <div class="flex flex-col gap-2">
+        <div class="text-xl font-medium">About me</div>
+        <div class="about text-base text-gray-500">
+          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Facere nemo
+          odit ratione molestias! Dignissimos, placeat, distinctio ab dolores
+          autem tenetur minima reiciendis fugiat tempora necessitatibus adipisci
+          impedit, nostrum illum ipsum!
+        </div>
+      </div>
+    </div>
+    <!--  -->
+    <div
+      class="shadow grow basis-0 p-5 bg-white border rounded-xl flex flex-col gap-4"
+    >
+      <!-- referenceUser -->
+      <div class="flex flex-row gap-10">
+        <div class="font-medium text-lg">Reference User</div>
+        <div class="text-gray-500 text-base flex items-center">
+          {{ user.referenceUser }}
+        </div>
+      </div>
+      <!-- Email -->
+      <div class="flex flex-row gap-10">
+        <div class="font-medium text-lg">Email</div>
+        <div class="text-gray-500 text-base flex items-center">
+          {{ user.email }}
+        </div>
+      </div>
+      <!-- userName -->
+      <div class="flex flex-row gap-10">
+        <div class="font-medium text-lg">User Name</div>
+        <div class="text-gray-500 text-base flex items-center">
+          {{ user.userName }}
+        </div>
+      </div>
+    </div>
+    <!--  -->
+    <div
+      class="shadow grow basis-0 p-5 bg-white border rounded-xl flex flex-col gap-4"
+    >
+      <!-- Phone Number -->
+      <div class="flex flex-row gap-10">
+        <div class="font-medium text-lg">Phone Number</div>
+        <div class="text-gray-500 text-base flex items-center">
+          {{ user.phoneNumber }}
+        </div>
+      </div>
+      <!-- Department -->
+      <div class="flex flex-row gap-10">
+        <div class="font-medium text-lg">Department</div>
+        <div class="text-gray-500 text-base flex items-center">
+          {{ user.department }}
+        </div>
+      </div>
+      <!-- Post -->
+      <div class="flex flex-row gap-10">
+        <div class="font-medium text-lg">Post</div>
+        <div class="text-gray-500 text-base flex items-center">
+          {{ user.post }}
+        </div>
+      </div>
+      <!-- Location -->
+      <div class="flex flex-row gap-10">
+        <div class="font-medium text-lg">Location</div>
+        <div class="text-gray-500 text-base flex items-center">
+          {{ user.location }}
+        </div>
+      </div>
+      <!-- Join Date -->
+      <div class="flex flex-row gap-10">
+        <div class="font-medium text-lg">Join Date</div>
+        <div class="text-gray-500 text-base flex items-center">
+          {{ user.joinDate }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

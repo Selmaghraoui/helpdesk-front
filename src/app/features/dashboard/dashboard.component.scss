@@ -1,15 +1,26 @@
-.test {
-  min-width: 100vw;
-  min-height: 100vh;
-  //   background: rgb(255, 255, 255);
-  //   background: linear-gradient(
-  //     180deg,
-  //     rgba(255, 255, 255, 1) 0%,
-  //     rgba(119, 119, 119, 1) 100%
-  //   );
+.shadow-gray-900\/20 {
+  --tw-shadow-color: rgb(33 33 33 / 0.2);
+  --tw-shadow: var(--tw-shadow-colored);
 }
-
-.text {
-  margin: 100px;
-  background: hsla(0, 0%, 100%, 0.12941176470588237);
+.text-white {
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+.bg-clip-border {
+  background-clip: border-box;
+}
+.to-gray-800 {
+  --tw-gradient-to: #424242 var(--tw-gradient-to-position);
+}
+.from-gray-900 {
+  --tw-gradient-from: #212121 var(--tw-gradient-from-position);
+  --tw-gradient-to: rgb(33 33 33 / 0.6) var(--tw-gradient-to-position);
+  // --tw-gradient-to: rgb(25 25 255/ 0.6) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+.bg-gradient-to-tr {
+  background-image: linear-gradient(to top right, var(--tw-gradient-stops));
+}
+.rounded-xl {
+  border-radius: 0.75rem;
 }
