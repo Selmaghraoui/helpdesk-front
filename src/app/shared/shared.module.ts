@@ -16,6 +16,7 @@ import { BadgeStatusComponent } from './ui/components/badge-status/badge-status.
 import { BadgeUserComponent } from './ui/components/badge-user/badge-user.component';
 import { BadgeTypeComponent } from './ui/components/badge-type/badge-type.component';
 import { BadgeDepartmentComponent } from './ui/components/badge-department/badge-department.component';
+import { ChartComponent } from './ui/components/chart/chart.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { BadgeDepartmentComponent } from './ui/components/badge-department/badge
     ChipsComponent,
     SelfDropdownComponent,
     ProfilUserComponent,
+    ChartComponent,
 
     BadgePriorityComponent,
     BadgeStatusComponent,
@@ -50,6 +52,8 @@ import { BadgeDepartmentComponent } from './ui/components/badge-department/badge
     ChipsComponent,
     SelfDropdownComponent,
     ProfilUserComponent,
+    ChartComponent,
+
     BadgePriorityComponent,
     BadgeStatusComponent,
     BadgeUserComponent,

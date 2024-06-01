@@ -58,6 +58,7 @@ export class ProfilUserComponent implements OnInit {
       department: '',
       phoneNumber: '',
       isActivate: true,
+      userName: 's.elmaghraoui',
     },
     createdTime: '11-05-2024',
     affectedTo: {
@@ -71,9 +72,10 @@ export class ProfilUserComponent implements OnInit {
       department: '',
       phoneNumber: '',
       isActivate: true,
+      userName: 's.elmaghraoui',
     },
 
-    reference: '',
+    referenceTicket: '',
     sharedWith: [
       {
         id: 1,
@@ -86,6 +88,7 @@ export class ProfilUserComponent implements OnInit {
         department: '',
         phoneNumber: '',
         isActivate: true,
+        userName: 's.elmaghraoui',
       },
       {
         id: 2,
@@ -98,6 +101,7 @@ export class ProfilUserComponent implements OnInit {
         department: '',
         phoneNumber: '',
         isActivate: true,
+        userName: 'i.meggouri',
       },
     ],
   };

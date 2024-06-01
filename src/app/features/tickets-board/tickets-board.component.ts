@@ -40,6 +40,7 @@ export class TicketsBoardComponent implements OnInit {
         department: '',
         phoneNumber: '',
         isActivate: true,
+        userName: 's.elmaghraoui',
       },
       createdTime: '11-05-2024',
       affectedTo: {
@@ -53,8 +54,9 @@ export class TicketsBoardComponent implements OnInit {
         department: '',
         phoneNumber: '',
         isActivate: true,
+        userName: 's.elmaghraoui',
       },
-      reference: '',
+      referenceTicket: '',
       description:
         'Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem ',
       sharedWith: [
@@ -70,6 +72,7 @@ export class TicketsBoardComponent implements OnInit {
           department: '',
           phoneNumber: '',
           isActivate: true,
+          userName: 's.elmaghraoui',
         },
         {
           id: 2,
@@ -83,6 +86,7 @@ export class TicketsBoardComponent implements OnInit {
           department: '',
           phoneNumber: '',
           isActivate: true,
+          userName: 's.elmaghraoui',
         },
       ],
     },
@@ -108,6 +112,7 @@ export class TicketsBoardComponent implements OnInit {
         department: '',
         phoneNumber: '',
         isActivate: true,
+        userName: 's.elmaghraoui',
       },
       createdTime: '11-05-2024',
       affectedTo: {
@@ -121,8 +126,9 @@ export class TicketsBoardComponent implements OnInit {
         department: '',
         phoneNumber: '',
         isActivate: true,
+        userName: 's.elmaghraoui',
       },
-      reference: '',
+      referenceTicket: '',
       description:
         'Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem ',
       sharedWith: [
@@ -138,6 +144,7 @@ export class TicketsBoardComponent implements OnInit {
           department: '',
           phoneNumber: '',
           isActivate: true,
+          userName: 's.elmaghraoui',
         },
         {
           id: 2,
@@ -151,6 +158,7 @@ export class TicketsBoardComponent implements OnInit {
           department: '',
           phoneNumber: '',
           isActivate: true,
+          userName: 's.elmaghraoui',
         },
       ],
     },
@@ -176,6 +184,7 @@ export class TicketsBoardComponent implements OnInit {
         department: '',
         phoneNumber: '',
         isActivate: true,
+        userName: 's.elmaghraoui',
       },
       createdTime: '11-05-2024',
       affectedTo:
@@ -204,8 +213,9 @@ export class TicketsBoardComponent implements OnInit {
           department: '',
           phoneNumber: '',
           isActivate: true,
+          userName: 's.elmaghraoui',
         },
-      reference: '',
+      referenceTicket: '',
       description:
         'Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem ',
       sharedWith: [
@@ -221,6 +231,7 @@ export class TicketsBoardComponent implements OnInit {
           department: '',
           phoneNumber: '',
           isActivate: true,
+          userName: 's.elmaghraoui',
         },
         {
           id: 2,
@@ -234,6 +245,7 @@ export class TicketsBoardComponent implements OnInit {
           department: '',
           phoneNumber: '',
           isActivate: true,
+          userName: 's.elmaghraoui',
         },
       ],
     },
@@ -266,9 +278,10 @@ export class TicketsBoardComponent implements OnInit {
         department: '',
         phoneNumber: '',
         isActivate: true,
+        userName: 's.elmaghraoui',
       },
       createdTime: '11-05-2024',
-      reference: '',
+      referenceTicket: '',
       description:
         'Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem ',
       sharedWith: [
@@ -284,6 +297,7 @@ export class TicketsBoardComponent implements OnInit {
           department: '',
           phoneNumber: '',
           isActivate: true,
+          userName: 's.elmaghraoui',
         },
         {
           id: 2,
@@ -297,6 +311,7 @@ export class TicketsBoardComponent implements OnInit {
           department: '',
           phoneNumber: '',
           isActivate: true,
+          userName: 's.elmaghraoui',
         },
       ],
       affectedTo: {
@@ -310,6 +325,7 @@ export class TicketsBoardComponent implements OnInit {
         department: '',
         phoneNumber: '',
         isActivate: true,
+        userName: 's.elmaghraoui',
       },
     },
     {
@@ -335,9 +351,10 @@ export class TicketsBoardComponent implements OnInit {
         department: '',
         phoneNumber: '',
         isActivate: true,
+        userName: 's.elmaghraoui',
       },
       createdTime: '11-05-2024',
-      reference: '',
+      referenceTicket: '',
       description:
         'Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem ',
       sharedWith: [
@@ -353,6 +370,7 @@ export class TicketsBoardComponent implements OnInit {
           department: '',
           phoneNumber: '',
           isActivate: true,
+          userName: 's.elmaghraoui',
         },
         {
           id: 2,
@@ -366,6 +384,7 @@ export class TicketsBoardComponent implements OnInit {
           department: '',
           phoneNumber: '',
           isActivate: true,
+          userName: 's.elmaghraoui',
         },
       ],
       affectedTo: {
@@ -379,6 +398,7 @@ export class TicketsBoardComponent implements OnInit {
         department: '',
         phoneNumber: '',
         isActivate: true,
+        userName: 's.elmaghraoui',
       },
     },
     {
@@ -403,6 +423,7 @@ export class TicketsBoardComponent implements OnInit {
         department: '',
         phoneNumber: '',
         isActivate: true,
+        userName: 's.elmaghraoui',
       },
       createdTime: '11-05-2024',
       affectedTo: {
@@ -416,8 +437,9 @@ export class TicketsBoardComponent implements OnInit {
         department: '',
         phoneNumber: '',
         isActivate: true,
+        userName: 's.elmaghraoui',
       },
-      reference: '',
+      referenceTicket: '',
       description:
         'Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem ',
       sharedWith: [
@@ -433,6 +455,7 @@ export class TicketsBoardComponent implements OnInit {
           department: '',
           phoneNumber: '',
           isActivate: true,
+          userName: 's.elmaghraoui',
         },
         {
           id: 2,
@@ -446,6 +469,7 @@ export class TicketsBoardComponent implements OnInit {
           department: '',
           phoneNumber: '',
           isActivate: true,
+          userName: 's.elmaghraoui',
         },
       ],
     },
@@ -471,6 +495,7 @@ export class TicketsBoardComponent implements OnInit {
         department: '',
         phoneNumber: '',
         isActivate: true,
+        userName: 's.elmaghraoui',
       },
       createdTime: '11-05-2024',
       affectedTo: {
@@ -484,8 +509,9 @@ export class TicketsBoardComponent implements OnInit {
         department: '',
         phoneNumber: '',
         isActivate: true,
+        userName: 's.elmaghraoui',
       },
-      reference: '',
+      referenceTicket: '',
       description:
         'Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem ',
       sharedWith: [
@@ -501,6 +527,7 @@ export class TicketsBoardComponent implements OnInit {
           department: '',
           phoneNumber: '',
           isActivate: true,
+          userName: 's.elmaghraoui',
         },
         {
           id: 2,
@@ -514,6 +541,7 @@ export class TicketsBoardComponent implements OnInit {
           department: '',
           phoneNumber: '',
           isActivate: true,
+          userName: 's.elmaghraoui',
         },
       ],
     },
@@ -539,6 +567,7 @@ export class TicketsBoardComponent implements OnInit {
         department: '',
         phoneNumber: '',
         isActivate: true,
+        userName: 's.elmaghraoui',
       },
       createdTime: '11-05-2024',
       affectedTo: {
@@ -552,8 +581,9 @@ export class TicketsBoardComponent implements OnInit {
         department: '',
         phoneNumber: '',
         isActivate: true,
+        userName: 's.elmaghraoui',
       },
-      reference: '',
+      referenceTicket: '',
       description:
         'Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem ',
       sharedWith: [
@@ -569,6 +599,7 @@ export class TicketsBoardComponent implements OnInit {
           department: '',
           phoneNumber: '',
           isActivate: true,
+          userName: 's.elmaghraoui',
         },
         {
           id: 2,
@@ -582,6 +613,7 @@ export class TicketsBoardComponent implements OnInit {
           department: '',
           phoneNumber: '',
           isActivate: true,
+          userName: 's.elmaghraoui',
         },
       ],
     },
@@ -607,9 +639,10 @@ export class TicketsBoardComponent implements OnInit {
         department: '',
         phoneNumber: '',
         isActivate: true,
+        userName: 's.elmaghraoui',
       },
       createdTime: '11-05-2024',
-      reference: '',
+      referenceTicket: '',
       description:
         'Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem ',
       sharedWith: [],
@@ -636,6 +669,7 @@ export class TicketsBoardComponent implements OnInit {
         department: '',
         phoneNumber: '',
         isActivate: true,
+        userName: 's.elmaghraoui',
       },
       createdTime: '11-05-2024',
       affectedTo: {
@@ -649,8 +683,9 @@ export class TicketsBoardComponent implements OnInit {
         department: '',
         phoneNumber: '',
         isActivate: true,
+        userName: 's.elmaghraoui',
       },
-      reference: '',
+      referenceTicket: '',
       description:
         'Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem ',
       sharedWith: [
@@ -666,6 +701,7 @@ export class TicketsBoardComponent implements OnInit {
           department: '',
           phoneNumber: '',
           isActivate: true,
+          userName: 's.elmaghraoui',
         },
         {
           id: 2,
@@ -679,6 +715,7 @@ export class TicketsBoardComponent implements OnInit {
           department: '',
           phoneNumber: '',
           isActivate: true,
+          userName: 's.elmaghraoui',
         },
       ],
     },
@@ -704,6 +741,7 @@ export class TicketsBoardComponent implements OnInit {
         department: '',
         phoneNumber: '',
         isActivate: true,
+        userName: 's.elmaghraoui',
       },
       createdTime: '11-05-2024',
       affectedTo: {
@@ -717,8 +755,9 @@ export class TicketsBoardComponent implements OnInit {
         department: '',
         phoneNumber: '',
         isActivate: true,
+        userName: 's.elmaghraoui',
       },
-      reference: '',
+      referenceTicket: '',
       description:
         'Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem ',
       sharedWith: [],
@@ -745,9 +784,10 @@ export class TicketsBoardComponent implements OnInit {
         department: '',
         phoneNumber: '',
         isActivate: true,
+        userName: 's.elmaghraoui',
       },
       createdTime: '11-05-2024',
-      reference: '',
+      referenceTicket: '',
       description:
         'Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem ',
       sharedWith: [],
@@ -775,6 +815,7 @@ export class TicketsBoardComponent implements OnInit {
         department: '',
         phoneNumber: '',
         isActivate: true,
+        userName: 's.elmaghraoui',
       },
       createdTime: '11-05-2024',
       affectedTo: {
@@ -788,8 +829,9 @@ export class TicketsBoardComponent implements OnInit {
         department: '',
         phoneNumber: '',
         isActivate: true,
+        userName: 's.elmaghraoui',
       },
-      reference: '',
+      referenceTicket: '',
       description:
         'Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem ',
       sharedWith: [
@@ -805,6 +847,7 @@ export class TicketsBoardComponent implements OnInit {
           department: '',
           phoneNumber: '',
           isActivate: true,
+          userName: 's.elmaghraoui',
         },
         {
           id: 2,
@@ -818,6 +861,7 @@ export class TicketsBoardComponent implements OnInit {
           department: '',
           phoneNumber: '',
           isActivate: true,
+          userName: 's.elmaghraoui',
         },
       ],
       isResolved: false,
@@ -831,9 +875,9 @@ export class TicketsBoardComponent implements OnInit {
     },
   ];
   Role = Role;
-  // roleUser = 'helpDesk';
+  roleUser = 'helpDesk';
   // roleUser = 'user';
-  roleUser = 'admin';
+  // roleUser = 'admin';
   itemDragged?: Ticket;
   itemList_ids: string[] = ['cdk-drop-list-5'];
   constructor(private router: Router) {}

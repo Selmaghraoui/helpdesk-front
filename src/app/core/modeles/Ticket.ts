@@ -4,7 +4,7 @@ import { TypesTicket } from './TypesTicket';
 
 export interface Ticket {
   id?: number;
-  reference?: string;
+  referenceTicket?: string;
   title?: string;
   description?: string;
   type?: TypesTicket;
@@ -15,4 +15,5 @@ export interface Ticket {
   affectedTo?: IUser;
   sharedWith?: IUser[];
   isResolved?: boolean | undefined;
+  isFavorit?: boolean;
 }

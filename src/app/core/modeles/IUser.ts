@@ -9,7 +9,7 @@ export interface IUser {
   post: string;
   department: string;
   phoneNumber: string;
-  userName?: string;
+  userName: string;
   isActivate: boolean;
   location?: string;
   birthday?: string;

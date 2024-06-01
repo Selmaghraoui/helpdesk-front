@@ -258,6 +258,7 @@ export class CreateEditTicketComponent implements OnInit {
       department: '',
       phoneNumber: '',
       isActivate: true,
+      userName: 's.elmaghraoui',
     },
     createdTime: '11-05-2024',
     affectedTo: {
@@ -271,9 +272,10 @@ export class CreateEditTicketComponent implements OnInit {
       department: '',
       phoneNumber: '',
       isActivate: true,
+      userName: 's.elmaghraoui',
     },
 
-    reference: '',
+    referenceTicket: '',
     sharedWith: [
       {
         id: 1,
@@ -286,6 +288,7 @@ export class CreateEditTicketComponent implements OnInit {
         department: '',
         phoneNumber: '',
         isActivate: true,
+        userName: 's.elmaghraoui',
       },
       {
         id: 2,
@@ -298,6 +301,7 @@ export class CreateEditTicketComponent implements OnInit {
         department: '',
         phoneNumber: '',
         isActivate: true,
+        userName: 's.elmaghraoui',
       },
     ],
   };

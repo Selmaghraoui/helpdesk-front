@@ -50,6 +50,7 @@ export class UserDetailsComponent implements OnInit {
     department: 'Developpment',
     phoneNumber: '0635383046',
     isActivate: true,
+    userName: 's.elmaghraoui',
   };
   tickets = [
     {

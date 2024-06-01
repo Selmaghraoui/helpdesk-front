@@ -39,6 +39,7 @@ export class UsersComponent implements OnInit {
       department: 'Developpment',
       phoneNumber: '0635383046',
       isActivate: true,
+      userName: 's.elmaghraoui',
     },
     {
       id: 2,
@@ -51,6 +52,7 @@ export class UsersComponent implements OnInit {
       department: 'Developpment',
       phoneNumber: '0635383046',
       isActivate: true,
+      userName: 's.elmaghraoui',
     },
     {
       id: 3,
@@ -63,6 +65,7 @@ export class UsersComponent implements OnInit {
       department: 'Ressource Humain',
       phoneNumber: '0635383046',
       isActivate: false,
+      userName: 'i.megouri',
     },
     {
       id: 4,
@@ -75,6 +78,7 @@ export class UsersComponent implements OnInit {
       department: 'Ressource Humain',
       phoneNumber: '0635383046',
       isActivate: true,
+      userName: 'm.elmaghraoui',
     },
   ];
   users: User[] = [
