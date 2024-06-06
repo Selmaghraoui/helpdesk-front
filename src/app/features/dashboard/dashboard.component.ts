@@ -5,6 +5,7 @@ import { TaskPriority } from 'src/app/core/modeles/TaskPriority';
 import { TaskStatus } from 'src/app/core/modeles/TaskStatus';
 import { Ticket } from 'src/app/core/modeles/Ticket';
 import { IBadgeUser } from 'src/app/shared/ui/components/badge-user/badge-user.component';
+import { Department } from '../profil/profil.component';
 
 export interface RecentActivity {
   id: number;
@@ -787,6 +788,23 @@ export class DashboardComponent implements OnInit {
         joinDate: '15-08-2023',
       },
       time: '12:05PM',
+    },
+  ];
+  departments: Department[] = [
+    {
+      id: 1,
+      label: 'Developpment',
+      totalUsers: 28,
+    },
+    {
+      id: 2,
+      label: 'RH',
+      totalUsers: 28,
+    },
+    {
+      id: 3,
+      label: 'Help Desk',
+      totalUsers: 28,
     },
   ];
 

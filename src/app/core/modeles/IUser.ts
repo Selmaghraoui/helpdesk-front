@@ -14,4 +14,5 @@ export interface IUser {
   location?: string;
   birthday?: string;
   joinDate?: string;
+  aboutMe?: string;
 }

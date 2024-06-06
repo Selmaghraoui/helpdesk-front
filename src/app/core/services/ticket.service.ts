@@ -7,14 +7,19 @@ import { Ticket } from '../modeles/Ticket';
   providedIn: 'root',
 })
 export class TicketService {
-  url = '';
+  url = 'http://localhost:8082/api';
+
   constructor(private http: HttpClient) {}
 
-  getTickets(): Observable<Array<Ticket>> {
-    return this.http.get<Array<Ticket>>(this.url);
+  getAllTickets(): Observable<Array<any>> {
+    return this.http.get<Array<any>>(this.url + '/tickets');
   }
 
   getTicketById(idTicket: number): Observable<Ticket> {
     return this.http.get<Ticket>(this.url + '/' + idTicket);
+  }
+
+  createTicket(ticket: any) {
+    return this.http.post<any>(this.url + '/tickets/new', ticket);
   }
 }

@@ -30,7 +30,7 @@
       <button
         [routerLink]="['detail', ticket.id]"
         type="button"
-        class="h-[fit-content] ring-2 ring-white py-2 px-5 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-400 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-neutral-800 text-gray-900"
+        class="h-[fit-content] ring-2 ring-white py-2 px-5 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-300 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-neutral-800 text-gray-900"
       >
         <svg
           class="w-6 h-6 text-gray-800 dark:text-white"
@@ -55,90 +55,340 @@
     </div>
   </div>
 
-  <!-- Informations -->
-  <div class="flex gap-4">
-    <!--  -->
-    <div class="shadow grow basis-0 p-5 bg-white border rounded-xl">
-      <div class="flex flex-col gap-2">
-        <div class="text-xl font-medium">About me</div>
-        <div class="about text-base text-gray-500">
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Facere nemo
-          odit ratione molestias! Dignissimos, placeat, distinctio ab dolores
-          autem tenetur minima reiciendis fugiat tempora necessitatibus adipisci
-          impedit, nostrum illum ipsum!
+  <div class="flex gap-2">
+    <!-- Global informations -->
+    <div
+      class="shadow grow basis-0 p-5 bg-white border rounded-xl w-3/5 flex gap-8 flex-col"
+    >
+      <h5
+        class="leading-none text-2xl font-bold text-gray-900 dark:text-white pb-2"
+      >
+        Global Informations
+      </h5>
+      <div class="overflow-hidden dark:bg-neutral-800 dark:border-neutral-700">
+        <div class="grid space-y-3 gap-7">
+          <!-- user name -->
+          <dl class="grid sm:flex gap-x-10 text-base font-medium">
+            <dt class="min-w-36 max-w-[200px] flex gap-2 items-start">
+              <svg
+                class="flex-shrink-0 size-5 text-gray-500 dark:text-neutral-500"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+              <div class="text-gray-500">Username</div>
+            </dt>
+            <dd class="relative text-gray-800 dark:text-neutral-200">
+              {{ user.userName }}
+            </dd>
+          </dl>
+
+          <!-- Email -->
+          <dl class="grid sm:flex gap-x-10 text-base font-medium">
+            <dt class="min-w-36 max-w-[200px] flex gap-2 items-start">
+              <svg
+                class="flex-shrink-0 size-5 text-gray-500 dark:text-neutral-500"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"
+                />
+              </svg>
+              <div class="text-gray-500">Email</div>
+            </dt>
+            <dd class="relative text-gray-800 dark:text-neutral-200">
+              {{ user.email }}
+            </dd>
+          </dl>
+
+          <!-- Phone Number -->
+          <dl class="grid sm:flex gap-x-10 text-base font-medium">
+            <dt class="min-w-36 max-w-[200px] flex gap-2 items-start">
+              <svg
+                class="flex-shrink-0 size-5 text-gray-500 dark:text-neutral-500"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M10.5 1.5H8.25A2.25 2.25 0 0 0 6 3.75v16.5a2.25 2.25 0 0 0 2.25 2.25h7.5A2.25 2.25 0 0 0 18 20.25V3.75a2.25 2.25 0 0 0-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3"
+                />
+              </svg>
+              <div class="text-gray-500">Phone number</div>
+            </dt>
+            <dd class="relative text-gray-800 dark:text-neutral-200">
+              {{ user.phoneNumber }}
+            </dd>
+          </dl>
+
+          <!-- Department -->
+          <dl class="grid sm:flex gap-x-10 text-base font-medium">
+            <dt
+              class="min-w-36 max-w-[200px] flex gap-2 items-center text-gray-500"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21"
+                />
+              </svg>
+
+              <div class="text-gray-500">Department</div>
+            </dt>
+            <dd class="relative text-gray-800 dark:text-neutral-200">
+              {{ user.department }}
+            </dd>
+          </dl>
+
+          <!-- Post -->
+          <dl class="grid sm:flex gap-x-10 text-base font-medium">
+            <dt class="min-w-36 max-w-[200px] flex gap-2 items-start">
+              <svg
+                class="flex-shrink-0 size-5 text-gray-500 dark:text-neutral-500"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"
+                />
+              </svg>
+              <div class="text-gray-500">Post</div>
+            </dt>
+            <dd class="relative text-gray-800 dark:text-neutral-200">
+              {{ user.post }}
+            </dd>
+          </dl>
+
+          <!-- Join Date -->
+          <dl class="grid sm:flex gap-x-10 text-base font-medium">
+            <dt class="min-w-36 max-w-[200px] flex gap-2 items-start">
+              <svg
+                class="flex-shrink-0 size-5 text-gray-500 dark:text-neutral-500"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"
+                />
+              </svg>
+              <div class="text-gray-500">Join Date</div>
+            </dt>
+            <dd class="relative text-gray-800 dark:text-neutral-200">
+              {{ user.joinDate }}
+            </dd>
+          </dl>
+
+          <!-- Location -->
+          <dl class="grid sm:flex gap-x-10 text-base font-medium">
+            <dt class="min-w-36 max-w-[200px] flex gap-2 items-start">
+              <svg
+                class="flex-shrink-0 size-5 text-gray-500 dark:text-neutral-500"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"
+                />
+              </svg>
+              <div class="text-gray-500">Location</div>
+            </dt>
+            <dd class="relative text-gray-800 dark:text-neutral-200">
+              {{ user.location }}
+            </dd>
+          </dl>
+
+          <!-- About me -->
+          <dl class="grid sm:flex gap-x-10 text-base font-medium">
+            <dt class="min-w-36 max-w-[200px] flex gap-2 items-start">
+              <div class="text-white">
+                <svg
+                  class="flex-shrink-0 size-5 text-gray-500 dark:text-neutral-500"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"
+                  />
+                </svg>
+              </div>
+              <div class="text-gray-500">About me</div>
+            </dt>
+            <dd class="relative text-gray-800 dark:text-neutral-200">
+              {{ user.aboutMe }}
+            </dd>
+          </dl>
         </div>
       </div>
     </div>
-    <!--  -->
+
+    <!-- Activity -->
     <div
-      class="shadow grow basis-0 p-5 bg-white border rounded-xl flex flex-col gap-4"
+      class="max-h-max flex gap-8 flex-col w-2/5 p-4 bg-white border border-gray-200 rounded-xl shadow ml-2"
     >
-      <!-- referenceUser -->
-      <div class="flex flex-row gap-10">
-        <div class="font-medium text-lg">Reference User</div>
-        <div class="text-gray-500 text-base flex items-center">
-          {{ user.referenceUser }}
+      <h5
+        class="leading-none text-2xl font-bold text-gray-900 dark:text-white pb-2"
+      >
+        Recent Activity
+      </h5>
+      <div class="flex flex-col max-h-[396px]">
+        <!-- Timeline -->
+        <div class="overflow-y-scroll">
+          <div
+            *ngFor="let activity of recentActivities; let last = last"
+            class="flex gap-x-3"
+          >
+            <!-- Left Content -->
+            <div class="w-16 text-end">
+              <span class="text-xs text-gray-500 dark:text-neutral-400">{{
+                activity.time
+              }}</span>
+            </div>
+
+            <!-- Icon -->
+            <div
+              class="relative last:after:hidden after:absolute after:top-7 after:bottom-0 after:start-3.5 after:w-px after:-translate-x-[0.5px] dark:after:bg-neutral-700"
+              [ngClass]="last ? '' : 'after:bg-gray-200'"
+            >
+              <div
+                class="relative z-10 size-7 flex justify-center items-center"
+              >
+                <div
+                  class="size-2 rounded-full bg-gray-400 dark:bg-neutral-600"
+                ></div>
+              </div>
+            </div>
+
+            <!-- Right Content -->
+            <div class="grow pt-0.5" [ngClass]="last ? 'pb-2' : 'pb-8'">
+              <div class="flex justify-between items-start">
+                <div class="flex flex-col gap-1">
+                  <div class="flex gap-x-3">
+                    <h3
+                      class="flex gap-x-1.5 font-semibold text-gray-800 dark:text-white"
+                    >
+                      {{ activity.ativity }}
+                    </h3>
+                    <h4
+                      class="flex gap-x-1.5 font-medium text-xs items-center text-gray-500 dark:text-white"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="size-5"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 0 1 0 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 0 1 0-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375Z"
+                        />
+                      </svg>
+                      {{ activity.referenceTicket }}
+                    </h4>
+                  </div>
+                  <app-badge-user
+                    *ngIf="roleUser === Role.admin"
+                    [badgeUser]="activity.author"
+                    [isDeleted]="false"
+                  ></app-badge-user>
+                </div>
+                <button
+                  type="button"
+                  class="ring-2 ring-white py-2 px-3 inline-flex items-start gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-neutral-800 text-gray-900"
+                >
+                  View
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-      <!-- Email -->
-      <div class="flex flex-row gap-10">
-        <div class="font-medium text-lg">Email</div>
-        <div class="text-gray-500 text-base flex items-center">
-          {{ user.email }}
-        </div>
-      </div>
-      <!-- userName -->
-      <div class="flex flex-row gap-10">
-        <div class="font-medium text-lg">User Name</div>
-        <div class="text-gray-500 text-base flex items-center">
-          {{ user.userName }}
-        </div>
-      </div>
-    </div>
-    <!--  -->
-    <div
-      class="shadow grow basis-0 p-5 bg-white border rounded-xl flex flex-col gap-4"
-    >
-      <!-- Phone Number -->
-      <div class="flex flex-row gap-10">
-        <div class="font-medium text-lg">Phone Number</div>
-        <div class="text-gray-500 text-base flex items-center">
-          {{ user.phoneNumber }}
-        </div>
-      </div>
-      <!-- Department -->
-      <div class="flex flex-row gap-10">
-        <div class="font-medium text-lg">Department</div>
-        <div class="text-gray-500 text-base flex items-center">
-          {{ user.department }}
-        </div>
-      </div>
-      <!-- Post -->
-      <div class="flex flex-row gap-10">
-        <div class="font-medium text-lg">Post</div>
-        <div class="text-gray-500 text-base flex items-center">
-          {{ user.post }}
-        </div>
-      </div>
-      <!-- Location -->
-      <div class="flex flex-row gap-10">
-        <div class="font-medium text-lg">Location</div>
-        <div class="text-gray-500 text-base flex items-center">
-          {{ user.location }}
-        </div>
-      </div>
-      <!-- Join Date -->
-      <div class="flex flex-row gap-10">
-        <div class="font-medium text-lg">Join Date</div>
-        <div class="text-gray-500 text-base flex items-center">
-          {{ user.joinDate }}
-        </div>
+        <!-- End Timeline -->
       </div>
     </div>
   </div>
 
-  <div class="shadow grow basis-0 p-5 bg-white border rounded-xl">
-    <!-- Strong Password -->
+  <!-- <div class="shadow grow basis-0 p-5 bg-white border rounded-xl">
+    
     <div class="max-w-sm">
       <div class="flex mb-2">
         <div class="flex-1">
@@ -374,6 +624,5 @@
         </ul>
       </div>
     </div>
-    <!-- End Strong Password -->
-  </div>
+  </div> -->
 </div>

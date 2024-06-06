@@ -28,14 +28,17 @@ export class UserDetailsComponent implements OnInit {
     {
       id: 1,
       label: 'Developpment',
+      totalUsers: 28,
     },
     {
       id: 2,
       label: 'RH',
+      totalUsers: 28,
     },
     {
       id: 3,
       label: 'Help Desk',
+      totalUsers: 28,
     },
   ];
   user: IUser = {
