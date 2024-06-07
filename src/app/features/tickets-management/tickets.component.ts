@@ -38,7 +38,7 @@ export class TicketsComponent implements OnInit {
         console.log('value', value);
       },
       error: (error: HttpErrorResponse) => {
-        error.message;
+        console.log(error.message);
       },
     });
   }

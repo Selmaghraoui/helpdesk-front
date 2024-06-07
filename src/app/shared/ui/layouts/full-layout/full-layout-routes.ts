@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { AuthGuard } from 'src/app/core/guards/auth.guard';
 
 export const FULL_ROUTES: Routes = [
   {
@@ -12,6 +13,8 @@ export const FULL_ROUTES: Routes = [
       import('../../../../features/dashboard/dashboard.module').then(
         (m) => m.DashboardModule
       ),
+    // canActivate: [AuthGuard],
+    // data: { roles: ['ADMIN'] },
   },
   {
     path: 'tickets-board',
