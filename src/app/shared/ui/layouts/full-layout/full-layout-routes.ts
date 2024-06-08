@@ -13,7 +13,7 @@ export const FULL_ROUTES: Routes = [
       import('../../../../features/dashboard/dashboard.module').then(
         (m) => m.DashboardModule
       ),
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     // data: { roles: ['ADMIN'] },
   },
   {
@@ -22,6 +22,7 @@ export const FULL_ROUTES: Routes = [
       import('../../../../features/tickets-board/tickets-board.module').then(
         (m) => m.TicketBoardModule
       ),
+    canActivate: [AuthGuard],
   },
   {
     path: 'tickets',
@@ -29,6 +30,7 @@ export const FULL_ROUTES: Routes = [
       import(
         '../../../../features/tickets-management/tickets-management.module'
       ).then((m) => m.TicketsManagementModule),
+    canActivate: [AuthGuard],
   },
   {
     path: 'users',
@@ -36,6 +38,7 @@ export const FULL_ROUTES: Routes = [
       import('../../../../features/users/users.module').then(
         (m) => m.UsersModule
       ),
+    canActivate: [AuthGuard],
   },
   {
     path: 'profil',
@@ -43,5 +46,6 @@ export const FULL_ROUTES: Routes = [
       import('../../../../features/profil/profil.module').then(
         (m) => m.ProfilModule
       ),
+    canActivate: [AuthGuard],
   },
 ];

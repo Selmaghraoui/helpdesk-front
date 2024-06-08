@@ -15,6 +15,10 @@ export class UsersService {
     return this.http.get<Array<any>>(this.url + 'users/me/' + username);
   }
 
+  createUser(user: any) {
+    return this.http.post(this.url + 'users/register', user);
+  }
+
   // getTicketById(idTicket: number): Observable<Ticket> {
   //   return this.http.get<Ticket>(this.url + '/' + idTicket);
   // }
