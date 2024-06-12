@@ -6,7 +6,7 @@
   >
     <div class="flex flex-col">
       <span class="text-gray-500">Total Tickets </span>
-      <span class="text-3xl font-medium">28</span>
+      <span class="text-3xl font-medium">{{ ticketList.length }}</span>
     </div>
     <div
       class="grow basis-0 p-4 shadow-gray-900\/20 text-white bg-clip-border to-gray-800 from-gray-900 bg-gradient-to-tr rounded-xl max-w-[fit-content]"
@@ -329,8 +329,11 @@
 
                 <!-- created by -->
                 <ng-container
-                  *ngIf="roleUser == Role.helpDesk || roleUser == Role.admin"
+                  *ngIf="
+                    roles.includes(Role.helpDesk) || roles.includes(Role.admin)
+                  "
                 >
+                  <!-- *ngIf="roleUser == Role.helpDesk || roleUser == Role.admin" -->
                   <th scope="col" class="py-3 px-1.5 text-start">
                     <a class="group inline-flex items-center gap-x-2">
                       <span
@@ -366,7 +369,9 @@
 
                 <!-- affected to -->
                 <ng-container
-                  *ngIf="roleUser == Role.helpDesk || roleUser == Role.admin"
+                  *ngIf="
+                    roles.includes(Role.helpDesk) || roles.includes(Role.admin)
+                  "
                 >
                   <th scope="col" class="py-3 px-1.5 text-start">
                     <a class="group inline-flex items-center gap-x-2">
@@ -398,7 +403,7 @@
                 <td class="min-w-[440px]">
                   <a class="block relative z-10">
                     <div
-                      class="text-sm font-semibold py-3 px-1.5 whitespace-nowrap dark:text-white"
+                      class="text-base font-semibold text-black py-3 px-1.5 whitespace-nowrap dark:text-white"
                     >
                       {{ ticket.title }}
                     </div>
@@ -424,13 +429,16 @@
                 </td>
                 <!-- created by -->
                 <ng-container
-                  *ngIf="roleUser == Role.helpDesk || roleUser == Role.admin"
+                  *ngIf="
+                    roles.includes(Role.helpDesk) || roles.includes(Role.admin)
+                  "
                 >
+                  <!-- *ngIf="roleUser == Role.helpDesk || roleUser == Role.admin" -->
                   <td class="">
                     <a class="block relative z-10">
                       <div class="py-3 px-1.5 flex -space-x-2">
                         <app-badge-user
-                          [badgeUser]="ticket.createdBy"
+                          [badgeUser]="ticket.owner"
                           [isDeleted]="false"
                         ></app-badge-user>
                       </div>
@@ -440,7 +448,7 @@
                 <!-- created time -->
                 <td class="">
                   <div class="py-3 px-1.5 text-sm font-normal">
-                    {{ ticket.createdTime }}
+                    {{ ticket.createdTime | date : "dd-MM-yyyy  hh:mm" }}
                   </div>
                 </td>
                 <!-- status -->
@@ -455,19 +463,17 @@
                 </td>
                 <!-- affected to -->
                 <ng-container
-                  *ngIf="roleUser == Role.helpDesk || roleUser == Role.admin"
+                  *ngIf="
+                    roles.includes(Role.helpDesk) || roles.includes(Role.admin)
+                  "
                 >
                   <td class="">
                     <a class="block relative z-10">
                       <div class="flex py-3 px-1.5 flex-col gap-1">
-                        <!-- <ng-container
-                          *ngFor="let userAffected of ticket.affectedTo"
-                        > -->
                         <app-badge-user
-                          [badgeUser]="ticket.affectedTo"
-                          [isDeleted]="roleUser == Role.admin"
+                          [badgeUser]="ticket.assignedTo"
+                          [isDeleted]="false"
                         ></app-badge-user>
-                        <!-- </ng-container> -->
                       </div>
                     </a>
                   </td>
@@ -482,7 +488,13 @@
                     >
                       View
                     </button>
-                    <ng-container *ngIf="roleUser == Role.user">
+                    <!-- *ngIf="roleUser == Role.user" -->
+                    <ng-container
+                      *ngIf="
+                        !roles.includes(Role.helpDesk) &&
+                        !roles.includes(Role.admin)
+                      "
+                    >
                       <button
                         [disabled]="ticket.status == TaskStatus.canceled"
                         type="button"
@@ -495,14 +507,6 @@
                         }}
                       </button>
                     </ng-container>
-                    <!-- <ng-container *ngIf="roleUser == Role.helpDesk">
-                      <button
-                        type="button"
-                        class="ring-2 ring-white py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-blue-500 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-neutral-800"
-                      >
-                        Prendre ticket
-                      </button>
-                    </ng-container> -->
                   </div>
                 </td>
               </tr>

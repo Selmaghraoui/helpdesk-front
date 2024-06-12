@@ -1,29 +1,111 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Ticket } from '../modeles/Ticket';
+import { IUser } from '../modeles/IUser';
+
+export interface DepartmentDto {
+  name: string;
+}
+export interface UserReqPassword {
+  password: string;
+}
+export interface ICreateUser {
+  username: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  password: string;
+  departmentDto: DepartmentDto;
+}
+export interface IUpdateUser {
+  firstName: String;
+  lastName: String;
+  post: String;
+  phoneNumber: String;
+  location: String;
+  aboutMe: String;
+  departmentDto: DepartmentDto;
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class UsersService {
-  url = 'http://localhost:8082/';
-
+  url = 'http://localhost:8082/users';
+  private user: any;
+  private roles = [];
   constructor(private http: HttpClient) {}
 
-  getMe(username: string): Observable<Array<any>> {
-    return this.http.get<Array<any>>(this.url + 'users/me/' + username);
+  /*
+   * Logged In
+   */
+  getMe(): Observable<IUser> {
+    return this.http.get<IUser>(this.url + '/loggedIn');
   }
 
-  createUser(user: any) {
-    return this.http.post(this.url + 'users/register', user);
+  getUser() {
+    return this.user;
   }
 
-  // getTicketById(idTicket: number): Observable<Ticket> {
-  //   return this.http.get<Ticket>(this.url + '/' + idTicket);
-  // }
+  setUser(value: any) {
+    this.user = value;
+  }
 
-  // createTicket(ticket: any) {
-  //   return this.http.post<any>(this.url + '/tickets/new', ticket);
-  // }
+  /*
+   * Auth to get Roles
+   */
+  getRole() {
+    return this.http.get(this.url + '/auth');
+  }
+
+  getRoles() {
+    return this.roles;
+  }
+
+  setRoles(value: any) {
+    this.roles = value;
+  }
+
+  /*
+   * Create User
+   * Register
+   */
+  createUser(createUser: ICreateUser): Observable<any> {
+    return this.http.post(this.url + '/register', createUser);
+  }
+
+  /*
+   * Get All Users
+   */
+  getAllUsers(): Observable<Array<IUser>> {
+    return this.http.get<Array<IUser>>(this.url);
+  }
+
+  /*
+   * Get User By Id
+   */
+  getUserById(idUser: number): Observable<IUser> {
+    return this.http.get<IUser>(this.url + '/' + idUser);
+  }
+
+  /*
+   * Desactivate User
+   */
+  desactivateUser(idUser: number): Observable<any> {
+    return this.http.put<any>(this.url + '/desactivate/' + idUser, {});
+  }
+
+  /*
+   * Update User
+   */
+  updateUser(idUser: number, updateUser: IUpdateUser): Observable<IUser> {
+    return this.http.put<IUser>(this.url + '/' + idUser, updateUser);
+  }
+
+  /*
+   * Update Password User
+   */
+  updatePasswordUser(userReqPassword: UserReqPassword): Observable<any> {
+    return this.http.put<any>(this.url + '/update-password', userReqPassword);
+  }
 }

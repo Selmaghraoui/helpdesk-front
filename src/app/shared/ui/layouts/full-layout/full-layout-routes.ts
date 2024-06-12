@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from 'src/app/core/guards/auth.guard';
+import { UsersResolverService } from 'src/app/core/resolvers/users-resolver.service';
 
 export const FULL_ROUTES: Routes = [
   {
@@ -47,5 +48,6 @@ export const FULL_ROUTES: Routes = [
         (m) => m.ProfilModule
       ),
     canActivate: [AuthGuard],
+    resolve: { usersResolver: UsersResolverService },
   },
 ];

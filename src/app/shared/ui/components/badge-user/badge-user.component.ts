@@ -1,11 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
-
-export interface IBadgeUser {
-  image: string;
-  firstName: string;
-  lastName: string;
-  userName?: string;
-}
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { IUser } from 'src/app/core/modeles/IUser';
 
 @Component({
   selector: 'app-badge-user',
@@ -14,8 +8,15 @@ export interface IBadgeUser {
 })
 export class BadgeUserComponent implements OnInit {
   @Input() isDeleted?: boolean = false;
-  @Input() badgeUser?: IBadgeUser;
+  @Input() searchable?: boolean = true;
+  @Input() badgeUser?: IUser;
+  @Output() userDeleted = new EventEmitter<IUser>();
+
   constructor() {}
 
   ngOnInit() {}
+
+  deleteUser() {
+    this.userDeleted.emit(this.badgeUser);
+  }
 }

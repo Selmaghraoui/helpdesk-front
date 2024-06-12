@@ -1,6 +1,4 @@
 import { APP_INITIALIZER, NgModule } from '@angular/core';
-// import { BrowserModule } from '@angular/platform-browser';
-// import { EditorModule, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -11,23 +9,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 import { BrowserModule } from '@angular/platform-browser';
 
-// function initializeKeycloak(keycloak: KeycloakService) {
-//   return () =>
-//     keycloak.init({
-//       config: {
-//         url: 'http://localhost:8085',
-//         realm: 'helpdesk-realm',
-//         clientId: 'helpdesk',
-//       },
-//       // enableBearerInterceptor: true,
-//       // bearerPrefix: 'Bearer',
-//       // bearerExcludedUrls: ['/assets'],
-//       initOptions: {
-//         onLoad: 'login-required',
-//         flow: 'standard',
-//       },
-//     });
-// }
 function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
     keycloak.init({

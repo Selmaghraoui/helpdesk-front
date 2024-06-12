@@ -1,12 +1,9 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { IBreadcrumb } from 'src/app/core/modeles/IBreadcrumb';
 import { IUser } from 'src/app/core/modeles/IUser';
 import { Role } from 'src/app/core/modeles/Role';
-interface User {
-  id: number;
-  name: string;
-  deactivated: boolean;
-}
+import { UsersService } from 'src/app/core/services/users.service';
 
 @Component({
   selector: 'app-users',
@@ -22,74 +19,35 @@ export class UsersComponent implements OnInit {
     },
   ];
   Role = Role;
-  // roleUser = 'helpDesk';
-  // roleUser = 'user';
-  roleUser = 'admin';
+  roles: string[] = [];
 
-  // Mock Data :
-  listUsers: IUser[] = [
-    {
-      id: 1,
-      image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-      firstName: 'Soufiane',
-      lastName: 'El Maghraoui',
-      email: 'soufiane.elmaghraoui@gmail.com',
-      status: false,
-      post: 'Front End Developer',
-      department: 'Developpment',
-      phoneNumber: '0635383046',
-      isActivate: true,
-      userName: 's.elmaghraoui',
-    },
-    {
-      id: 2,
-      image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-      firstName: 'Ismail',
-      lastName: 'Meggouri',
-      email: 'ismail.meggouri@gmail.com',
-      status: true,
-      post: 'Back End Developer',
-      department: 'Developpment',
-      phoneNumber: '0635383046',
-      isActivate: true,
-      userName: 's.elmaghraoui',
-    },
-    {
-      id: 3,
-      image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-      firstName: 'Hala',
-      lastName: 'El Gallouli',
-      email: 'hala.algallouli@gmail.com',
-      status: true,
-      post: 'RH',
-      department: 'Ressource Humain',
-      phoneNumber: '0635383046',
-      isActivate: false,
-      userName: 'i.megouri',
-    },
-    {
-      id: 4,
-      image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-      firstName: 'Edouard Kamavinga ',
-      lastName: 'El Gallouli',
-      email: 'hala.algallouli@gmail.com',
-      status: true,
-      post: 'RH',
-      department: 'Ressource Humain',
-      phoneNumber: '0635383046',
-      isActivate: true,
-      userName: 'm.elmaghraoui',
-    },
-  ];
-  users: User[] = [
-    { id: 1, name: 'John Doe', deactivated: false },
-    { id: 2, name: 'Jane Smith', deactivated: true },
-    // ... other users
-  ];
+  listUsers: IUser[] = [];
+  totalUsers: number = 0;
+  totalUsersEnabled: number = 0;
+  totalUsersHelpDesk: number = 0;
 
-  constructor() {}
+  constructor(private usersService: UsersService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.getAllUsers();
 
-  editUser(idUser: number) {}
+    this.roles = this.usersService.getRoles();
+  }
+
+  getAllUsers() {
+    this.usersService.getAllUsers().subscribe({
+      next: (users: IUser[]) => {
+        this.listUsers = users;
+        this.totalUsers = this.listUsers.length;
+        this.listUsers.forEach((user) => {
+          if (user?.enabled == true) this.totalUsersEnabled++;
+          // change status to know how much helpesk users exist
+          if (user?.status == true) this.totalUsersHelpDesk++;
+        });
+      },
+      error: (error: HttpErrorResponse) => {
+        console.log(error.message);
+      },
+    });
+  }
 }

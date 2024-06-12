@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Department } from 'src/app/core/modeles/Department';
 
 @Component({
   selector: 'app-badge-department',
@@ -6,7 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./badge-department.component.scss'],
 })
 export class BadgeDepartmentComponent implements OnInit {
-  @Input() department?: string;
+  @Input() department?: Department;
 
   constructor() {}
 

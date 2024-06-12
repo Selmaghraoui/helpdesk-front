@@ -11,14 +11,14 @@
   class="hidden"
 >
   <option value="" selected=""></option>
+  <!-- *ngFor="let helpDesk of helpDeskList; let index = index" -->
+  <!-- [value]="index" -->
   <option
-    *ngFor="let helpDesk of helpDeskList; let index = index"
-    [value]="index"
     data-hs-select-option='{
     "icon": "<img class=\"me-1.5 inline-flex size-6 rounded-full\"  src=\"\{\{helpDesk?.image}}\" />"}'
   >
-    {{ helpDesk.firstName }}
-    {{ helpDesk.lastName }}
+    {{ helpDesk?.username }}
+    <!-- {{ helpDesk?.lastName }} -->
   </option>
 </select>
 <!-- End Select -->

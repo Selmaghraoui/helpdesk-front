@@ -17,6 +17,10 @@ import { BadgeUserComponent } from './ui/components/badge-user/badge-user.compon
 import { BadgeTypeComponent } from './ui/components/badge-type/badge-type.component';
 import { BadgeDepartmentComponent } from './ui/components/badge-department/badge-department.component';
 import { ChartComponent } from './ui/components/chart/chart.component';
+import { DepartmentComponent } from './ui/components/department/department.component';
+import { EditProfilUserPopupComponent } from './ui/components/edit-profil-user-popup/edit-profil-user-popup.component';
+import { ActivityComponent } from './ui/components/activity/activity.component';
+import { AffectedSharedComponent } from './ui/components/affected-shared/affected-shared.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +32,10 @@ import { ChartComponent } from './ui/components/chart/chart.component';
     SelfDropdownComponent,
     ProfilUserComponent,
     ChartComponent,
+    DepartmentComponent,
+    EditProfilUserPopupComponent,
+    ActivityComponent,
+    AffectedSharedComponent,
 
     BadgePriorityComponent,
     BadgeStatusComponent,
@@ -53,6 +61,10 @@ import { ChartComponent } from './ui/components/chart/chart.component';
     SelfDropdownComponent,
     ProfilUserComponent,
     ChartComponent,
+    DepartmentComponent,
+    EditProfilUserPopupComponent,
+    ActivityComponent,
+    AffectedSharedComponent,
 
     BadgePriorityComponent,
     BadgeStatusComponent,

@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { FullLayoutComponent } from './shared';
 import { FULL_ROUTES } from './shared/ui/layouts/full-layout/full-layout-routes';
 import { AuthGuard } from './core/guards/auth.guard';
+import { UsersResolverService } from './core/resolvers/users-resolver.service';
 
 const routes: Routes = [
   {

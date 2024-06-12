@@ -1,9 +1,10 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Validators } from '@angular/forms';
 import { FormControl, FormControlName, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { IBreadcrumb } from 'src/app/core/modeles/IBreadcrumb';
-import { Role } from 'src/app/core/modeles/Role';
-import { UsersService } from 'src/app/core/services/users.service';
+import { ICreateUser, UsersService } from 'src/app/core/services/users.service';
 
 @Component({
   selector: 'app-create-user',
@@ -22,42 +23,55 @@ export class CreateUserComponent implements OnInit {
       isLien: false,
     },
   ];
+
   userFormGroup!: FormGroup;
 
-  constructor(private usersService: UsersService) {
+  constructor(private usersService: UsersService, private router: Router) {
     this.userFormGroup = new FormGroup({
-      // id: number;
-      // referenceUser?: string;
-      // image: string;
-      firstName: new FormControl(null),
-      lastName: new FormControl(null),
-      email: new FormControl(null),
-      // status: boolean;
-      // post: string;
-      // department: string;
-      // phoneNumber: string;
-      username: new FormControl(null),
-      // isActivate: boolean;
-      // location?: string;
-      // birthday?: string;
-      // joinDate?: string;
-      // aboutMe?: string;
-      password: new FormControl(null),
-      roles: new FormControl([]),
+      username: new FormControl('', Validators.required),
+      email: new FormControl('', Validators.required),
+      firstName: new FormControl('', Validators.required),
+      lastName: new FormControl('', Validators.required),
+      password: new FormControl('', Validators.required),
+      departmentDto: new FormControl('', Validators.required),
     });
   }
 
   ngOnInit() {}
 
-  createUser(userCreated: any) {
-    this.usersService.createUser(userCreated).subscribe({
-      next: (value) => {
-        console.log(value);
+  createUser(userCreated: ICreateUser) {
+    const createdUser: ICreateUser = {
+      ...userCreated,
+      departmentDto: {
+        name: this.userFormGroup?.get('departmentDto')?.value,
+      },
+    };
+
+    this.usersService.createUser(createdUser).subscribe({
+      next: (value: any) => {
+        this.router.navigateByUrl('/users');
       },
       error: (error: HttpErrorResponse) => {
         error.message;
       },
     });
-    console.log('userCreated', userCreated);
+  }
+
+  current = 0;
+  index = 'First-content';
+
+  pre(): void {
+    this.current -= 1;
+  }
+
+  next(): void {
+    this.current += 1;
+  }
+
+  checkValidators(formControlName: string): boolean {
+    return (
+      this.userFormGroup.controls?.[formControlName]?.invalid &&
+      this.userFormGroup.controls?.[formControlName]?.touched
+    );
   }
 }

@@ -1,16 +1,20 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IBreadcrumb } from 'src/app/core/modeles/IBreadcrumb';
+import { IUser } from 'src/app/core/modeles/IUser';
 import { Role } from 'src/app/core/modeles/Role';
 import { TaskPriority } from 'src/app/core/modeles/TaskPriority';
-import { TaskStatus } from 'src/app/core/modeles/TaskStatus';
 import { Ticket } from 'src/app/core/modeles/Ticket';
-import { TicketService } from 'src/app/core/services/ticket.service';
-import { IBadgeUser } from 'src/app/shared/ui/components/badge-user/badge-user.component';
+import {
+  TicketService,
+  UpdateSharedWithDto,
+} from 'src/app/core/services/ticket.service';
+import { UsersService } from 'src/app/core/services/users.service';
+import { UpdateAssignedToDto } from 'src/app/shared/ui/components/affected-shared/affected-shared.component';
 
-export interface Icomment {
+export interface IComment {
   id: number;
   user: {
     image: string;
@@ -30,411 +34,126 @@ export interface Icomment {
 })
 export class CreateEditTicketComponent implements OnInit {
   isNewTicket: boolean = true;
+  idTicket?: number;
   ticketFormGroup!: FormGroup;
-  commentFormGroup!: FormGroup;
-  breadCrumb: IBreadcrumb[] = [
-    {
-      title: 'Tickets',
-      isLien: true,
-      lien: '/tickets',
-    },
-    {
-      title: this.isNewTicket
-        ? 'Create ticket'
-        : this.ticketFormGroup?.getRawValue().title,
-      isLien: this.isNewTicket ? true : false,
-      lien: '/tickets/create-ticket',
-    },
-    {
-      title: this.isNewTicket ? '' : '',
-      isLien: false,
-    },
-  ];
+  breadCrumb: IBreadcrumb[] = [];
+
   selectedFiles: FileList | null = null;
   previewImages: string[] = [];
-  listComments: Icomment[] = [];
-  //  [
-  //   {
-  //     id: 1,
-  //     user: {
-  //       image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //       firstName: 'Soufiane',
-  //       lastName: 'El Maghraoui',
-  //     },
-  //     comment: {
-  //       text: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio minima vero quia molestiae quidem veritatis amet fugiat iusto possimus! Eos a est molestias odio deserunt perspiciatis et repellendus illo quia!',
-  //       images: [
-  //         {
-  //           imageAlt:
-  //             'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //         },
-  //         {
-  //           imageAlt:
-  //             'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //         },
-  //       ],
-  //     },
-  //   },
-  //   {
-  //     id: 1,
-  //     user: {
-  //       image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //       firstName: 'Ismail',
-  //       lastName: 'Meggouri',
-  //     },
-  //     comment: {
-  //       text: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio minima vero quia molestiae quidem veritatis amet fugiat iusto possimus! Eos a est molestias odio deserunt perspiciatis et repellendus illo quia!',
-  //       images: [
-  //         // {
-  //         //   imageAlt:
-  //         //     'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //         // },
-  //       ],
-  //     },
-  //   },
-  //   {
-  //     id: 1,
-  //     user: {
-  //       image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //       firstName: 'Soufiane',
-  //       lastName: 'El Maghraoui',
-  //     },
-  //     comment: {
-  //       text: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio minima vero quia molestiae quidem veritatis amet fugiat iusto possimus! Eos a est molestias odio deserunt perspiciatis et repellendus illo quia!',
-  //       images: [
-  //         {
-  //           imageAlt:
-  //             'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //         },
-  //       ],
-  //     },
-  //   },
-  //   {
-  //     id: 1,
-  //     user: {
-  //       image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //       firstName: 'Soufiane',
-  //       lastName: 'El Maghraoui',
-  //     },
-  //     comment: {
-  //       text: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio minima vero quia molestiae quidem veritatis amet fugiat iusto possimus! Eos a est molestias odio deserunt perspiciatis et repellendus illo quia!',
-  //       images: [
-  //         // {
-  //         //   imageAlt:
-  //         //     'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //         // },
-  //       ],
-  //     },
-  //   },
-  //   {
-  //     id: 1,
-  //     user: {
-  //       image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //       firstName: 'Soufiane',
-  //       lastName: 'El Maghraoui',
-  //     },
-  //     comment: {
-  //       text: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio minima vero quia molestiae quidem veritatis amet fugiat iusto possimus! Eos a est molestias odio deserunt perspiciatis et repellendus illo quia!',
-  //       images: [
-  //         {
-  //           imageAlt:
-  //             'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //         },
-  //       ],
-  //     },
-  //   },
-  //   {
-  //     id: 1,
-  //     user: {
-  //       image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //       firstName: 'Soufiane',
-  //       lastName: 'El Maghraoui',
-  //     },
-  //     comment: {
-  //       text: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio minima vero quia molestiae quidem veritatis amet fugiat iusto possimus! Eos a est molestias odio deserunt perspiciatis et repellendus illo quia!',
-  //       images: [
-  //         {
-  //           imageAlt:
-  //             'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //         },
-  //       ],
-  //     },
-  //   },
-  //   {
-  //     id: 1,
-  //     user: {
-  //       image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //       firstName: 'Soufiane',
-  //       lastName: 'El Maghraoui',
-  //     },
-  //     comment: {
-  //       text: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio minima vero quia molestiae quidem veritatis amet fugiat iusto possimus! Eos a est molestias odio deserunt perspiciatis et repellendus illo quia!',
-  //       images: [
-  //         {
-  //           imageAlt:
-  //             'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //         },
-  //       ],
-  //     },
-  //   },
-  //   {
-  //     id: 1,
-  //     user: {
-  //       image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //       firstName: 'Soufiane',
-  //       lastName: 'El Maghraoui',
-  //     },
-  //     comment: {
-  //       text: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio minima vero quia molestiae quidem veritatis amet fugiat iusto possimus! Eos a est molestias odio deserunt perspiciatis et repellendus illo quia!',
-  //       images: [
-  //         {
-  //           imageAlt:
-  //             'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //         },
-  //       ],
-  //     },
-  //   },
-  //   {
-  //     id: 1,
-  //     user: {
-  //       image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //       firstName: 'Soufiane',
-  //       lastName: 'El Maghraoui',
-  //     },
-  //     comment: {
-  //       text: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio minima vero quia molestiae quidem veritatis amet fugiat iusto possimus! Eos a est molestias odio deserunt perspiciatis et repellendus illo quia!',
-  //       images: [
-  //         {
-  //           imageAlt:
-  //             'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //         },
-  //       ],
-  //     },
-  //   },
-  //   {
-  //     id: 1,
-  //     user: {
-  //       image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //       firstName: 'Soufiane',
-  //       lastName: 'El Maghraoui',
-  //     },
-  //     comment: {
-  //       text: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio minima vero quia molestiae quidem veritatis amet fugiat iusto possimus! Eos a est molestias odio deserunt perspiciatis et repellendus illo quia!',
-  //       images: [
-  //         {
-  //           imageAlt:
-  //             'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //         },
-  //       ],
-  //     },
-  //   },
-  // ];
-  TaskStatus = TaskStatus;
+
   TaskPriority = TaskPriority;
   Role = Role;
-  // roleUser = 'helpDesk';
-  // roleUser = 'user';
-  roleUser = 'admin';
-  ticket?: Ticket = {
-    id: 1,
-    title: 'Ticket 1 ',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    type: {
-      id: 1,
-      label: 'Application',
-      lien: '',
-      description: '',
-    },
-    priority: 'Hight',
-    status: TaskStatus.rejected,
-    createdBy: {
-      id: 1,
-      image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-      firstName: 'Soufiane',
-      lastName: 'El Maghraoui',
-      email: 'soufiane.elmaghraoui@gmail.com',
-      status: false,
-      post: 'Front End Developer',
-      department: '',
-      phoneNumber: '',
-      isActivate: true,
-      userName: 's.elmaghraoui',
-    },
-    createdTime: '11-05-2024',
-    affectedTo: {
-      id: 2,
-      image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-      firstName: 'Ismail',
-      lastName: 'Meggouri',
-      email: 'ismail.meggouri@gmail.com',
-      status: true,
-      post: 'Back End Developer',
-      department: '',
-      phoneNumber: '',
-      isActivate: true,
-      userName: 's.elmaghraoui',
-    },
+  roles: string[] = [];
 
-    referenceTicket: '',
-    sharedWith: [
-      {
-        id: 1,
-        image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-        firstName: 'Soufiane',
-        lastName: 'El Maghraoui',
-        email: 'soufiane.elmaghraoui@gmail.com',
-        status: false,
-        post: 'Front End Developer',
-        department: '',
-        phoneNumber: '',
-        isActivate: true,
-        userName: 's.elmaghraoui',
-      },
-      {
-        id: 2,
-        image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-        firstName: 'Ismail',
-        lastName: 'Meggouri',
-        email: 'ismail.meggouri@gmail.com',
-        status: true,
-        post: 'Back End Developer',
-        department: '',
-        phoneNumber: '',
-        isActivate: true,
-        userName: 's.elmaghraoui',
-      },
-    ],
-  };
-  helpDesk: IBadgeUser = {
-    image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-    firstName: 'Mohamed',
-    lastName: 'El Maghraoui',
-  };
-
-  helpDeskList: IBadgeUser[] = [
-    {
-      image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-      firstName: 'Mohamed',
-      lastName: 'El Maghraoui',
-    },
-    {
-      image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-      firstName: 'Brahim',
-      lastName: 'El Maghraoui',
-    },
-    {
-      image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-      firstName: 'Ahmed',
-      lastName: 'El Maghraoui',
-    },
-    {
-      image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-      firstName: 'Ismail',
-      lastName: 'Meggouri',
-    },
-    {
-      image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-      firstName: 'Mohamed',
-      lastName: 'Youssfi',
-    },
-  ];
+  ticket?: Ticket;
 
   constructor(
     private ticketService: TicketService,
-    private activatedRoute: ActivatedRoute
+    private usersService: UsersService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router
   ) {
-    const id = this.activatedRoute.snapshot.params['id'];
+    this.idTicket = this.activatedRoute.snapshot.params['id'];
 
-    this.isNewTicket = id === undefined;
+    this.isNewTicket = this.idTicket === undefined;
+  }
+
+  ngOnInit() {
+    this.roles = this.usersService.getRoles();
+    console.log('this.roles ', this.roles);
+
+    this.getTicket();
+    this.setType();
+    this.initFormGroup();
+  }
+
+  getTicket() {
+    if (this.idTicket) {
+      this.ticketService.getTicketById(this.idTicket).subscribe({
+        next: (value: Ticket) => {
+          this.ticket = value;
+          this.initBreadcrumb();
+        },
+        error: (error: HttpErrorResponse) => {
+          error.message;
+        },
+      });
+    }
+  }
+
+  setType() {
+    if (this.router.url.includes('application'))
+      this.ticketFormGroup?.get('type')?.setValue('application');
+    if (this.router.url.includes('incedent'))
+      this.ticketFormGroup?.get('type')?.setValue('incedent');
+    if (this.router.url.includes('achat'))
+      this.ticketFormGroup?.get('type')?.setValue('achat');
+  }
+
+  initFormGroup() {
     this.ticketFormGroup = new FormGroup({
       title: new FormControl(null, Validators.required),
-      priority: new FormControl(null, Validators.required),
+      priority: new FormControl(TaskPriority.low, Validators.required),
       type: new FormControl(null, Validators.required),
       description: new FormControl(null, Validators.required),
       file: new FormControl(null, Validators.required),
       // status: new FormControl(null, Validators.required),
     });
-
-    this.commentFormGroup = new FormGroup({
-      text: new FormControl('', Validators.required),
-      images: new FormArray([]),
-    });
   }
 
-  ngOnInit() {
-    this.ticketService.getTicketById(1).subscribe({
-      next: (value) => {
-        this.ticket = value;
-        console.log('this.ticket ', this.ticket);
-
-        // this.ticketFormGroup;
+  initBreadcrumb() {
+    this.breadCrumb = [
+      {
+        title: 'Tickets',
+        isLien: true,
+        lien: '/tickets',
       },
+      {
+        title: this.isNewTicket ? 'New ticket' : this.ticket?.reference ?? '',
+        isLien: false,
+      },
+    ];
+  }
+
+  createEditTicket(ticketFormGroup: FormGroup) {
+    this.ticketService.createTicket(ticketFormGroup.getRawValue()).subscribe({
+      next: (value: any) => {},
       error: (error: HttpErrorResponse) => {
         error.message;
       },
     });
   }
 
-  createEditTicket(ticketFormGroup: FormGroup) {
-    console.log('ticketFormGroup :: ', ticketFormGroup);
-    console.log(
-      'this.ticketFormGroup?.getRawValue().title: ',
-      this.ticketFormGroup?.getRawValue().title
-    );
-
-    this.ticketService
-      ?.createTicket(this.ticketFormGroup?.getRawValue())
-      .subscribe({
-        next: (value) => {
-          console.log('value : ', value);
-        },
-        error: (error: HttpErrorResponse) => {
-          error.message;
-        },
-      });
-  }
-
-  uploadFile() {}
-
-  openFileInput() {
-    document?.getElementById('imageInput')?.click();
-  }
-
-  onImageChange(event: any) {
-    if (event.target.files && event.target.files.length > 0) {
-      const files = event.target.files;
-
-      // Validate for image types (optional)
-      for (let i = 0; i < files.length; i++) {
-        const file = files[i];
-        if (!this.validateFileType(file)) {
-          alert('Invalid file type. Please select images only.');
-          continue;
-        }
-      }
-
-      // Read and preview images
-      for (let i = 0; i < files.length; i++) {
-        const reader = new FileReader();
-        reader.onload = (e: any) => {
-          this.previewImages.push(e.target.result);
-        };
-        reader.readAsDataURL(files[i]);
-      }
+  sharedTicket(updateSharedWith: UpdateSharedWithDto) {
+    if (this.ticket?.id) {
+      this.ticketService
+        .sharedTicket(this.ticket?.id, updateSharedWith)
+        .subscribe({
+          next: (value: Ticket) => {},
+          error: (error: HttpErrorResponse) => {
+            error.message;
+          },
+        });
     }
   }
 
-  onDeleteImage(index: number) {
-    this.previewImages.splice(index, 1);
+  affecedTicket(updateAssignedTo: UpdateAssignedToDto) {
+    if (this.ticket?.id) {
+      this.ticketService
+        .affectedTicket(this.ticket?.id, updateAssignedTo)
+        .subscribe({
+          next: (value: Ticket) => {},
+          error: (error: HttpErrorResponse) => {
+            error.message;
+          },
+        });
+    }
   }
 
-  validateFileType(file: File): boolean {
-    const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
-    return allowedTypes.includes(file.type);
-  }
-
-  addComment(commentFormGroup: FormGroup) {
-    console.log('commentFormGroup : ', commentFormGroup);
+  toggleFavorits() {
+    // this.ticket.forEach((ticket: Ticket) => {
+    //   if (ticket.id === idTicket) ticket.favorite = !ticket.favorite;
+    // });
+    if (this.ticket?.favorite) this.ticket.favorite = !this.ticket?.favorite;
   }
 }

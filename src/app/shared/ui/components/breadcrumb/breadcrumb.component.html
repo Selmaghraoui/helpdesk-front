@@ -4,11 +4,11 @@
       <ng-container *ngIf="data.isLien">
         <li class="inline-flex items-center">
           <a routerLink="{{ data.lien }}">
-            <h2
-              class="flex items-center text-xl leading-9 font-semibold hover:text-blue-600 focus:outline-none focus:text-blue-600 dark:text-neutral-500 dark:hover:text-blue-500 dark:focus:text-blue-500"
+            <div
+              class="flex items-center text-black text-xl leading-9 font-semibold hover:text-blue-600 focus:outline-none focus:text-blue-600 dark:text-neutral-500 dark:hover:text-blue-500 dark:focus:text-blue-500"
             >
               {{ data.title }}
-            </h2>
+            </div>
           </a>
           <svg
             class="flex-shrink-0 mx-2 overflow-visible size-4 text-gray-400 dark:text-neutral-600"
@@ -29,7 +29,7 @@
 
       <ng-container *ngIf="!data.isLien">
         <li
-          class="inline-flex items-center text-xl leading-9 font-semibold text-gray-800 truncate dark:text-neutral-200"
+          class="inline-flex items-center text-lg leading-9 font-semibold text-gray-500 truncate dark:text-neutral-200"
           aria-current="page"
         >
           {{ data.title }}

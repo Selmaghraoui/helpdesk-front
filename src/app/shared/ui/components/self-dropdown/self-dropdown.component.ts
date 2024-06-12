@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { IBadgeUser } from 'src/app/core/modeles/IBadgeUser';
+import { IUser } from 'src/app/core/modeles/IUser';
 import { TaskPriority } from 'src/app/core/modeles/TaskPriority';
-import { IBadgeUser } from '../badge-user/badge-user.component';
 
 @Component({
   selector: 'app-self-dropdown',
@@ -8,7 +9,7 @@ import { IBadgeUser } from '../badge-user/badge-user.component';
   styleUrls: ['./self-dropdown.component.scss'],
 })
 export class SelfDropdownComponent implements OnInit {
-  @Input() helpDeskList?: IBadgeUser[];
+  @Input() helpDesk?: IUser;
   TaskPriority = TaskPriority;
 
   constructor() {}
