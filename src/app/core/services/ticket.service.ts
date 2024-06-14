@@ -39,8 +39,8 @@ export class TicketService {
 
   constructor(private http: HttpClient) {}
 
-  getAllTickets(): Observable<Array<any>> {
-    return this.http.get<Array<any>>(this.url);
+  getAllTickets(): Observable<Array<Ticket>> {
+    return this.http.get<Array<Ticket>>(this.url);
   }
 
   getTicketForUser(): Observable<Array<Ticket>> {
