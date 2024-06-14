@@ -45,7 +45,7 @@ export class TicketsComponent implements OnInit {
 
   getAllTickets() {
     this.TicketService.getAllTickets().subscribe({
-      next: (tickets: any) => {
+      next: (tickets: Ticket[]) => {
         this.ticketList = tickets;
       },
       error: (error: HttpErrorResponse) => {

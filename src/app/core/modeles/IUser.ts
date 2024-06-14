@@ -1,6 +1,16 @@
 import { Department } from './Department';
 import { Ticket } from './Ticket';
 
+export interface DocumentDto {
+  id: number;
+  documentName: string;
+  contentType: string;
+  size: number;
+  creationDate: Date;
+  data: any;
+  user: any;
+}
+
 export interface IUser {
   id: number;
   username: string;
@@ -8,7 +18,7 @@ export interface IUser {
   firstName: string;
   lastName: string;
   referenceUser: string;
-  image: string;
+  docId: number;
   status: boolean;
   phoneNumber: string;
   post: string;
@@ -19,5 +29,6 @@ export interface IUser {
   roles: [];
   tickets: Ticket[];
   department: Department;
+  document?: DocumentDto;
   // password: string;
 }

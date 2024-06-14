@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { IUser } from 'src/app/core/modeles/IUser';
+import { UsersService } from 'src/app/core/services/users.service';
 
 @Component({
   selector: 'app-header',
@@ -6,7 +8,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
-  constructor() {}
+  // user ma fihch document
+  @Input() user?: IUser;
 
-  ngOnInit() {}
+  constructor(private usersService: UsersService) {}
+
+  ngOnInit() {
+    this.user = this.usersService.getUser();
+  }
 }

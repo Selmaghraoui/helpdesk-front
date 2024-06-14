@@ -471,6 +471,7 @@
                     <a class="block relative z-10">
                       <div class="flex py-3 px-1.5 flex-col gap-1">
                         <app-badge-user
+                          *ngIf="ticket.assignedTo"
                           [badgeUser]="ticket.assignedTo"
                           [isDeleted]="false"
                         ></app-badge-user>

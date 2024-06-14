@@ -3,12 +3,18 @@ import {
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { IBreadcrumb } from 'src/app/core/modeles/IBreadcrumb';
 import { Role } from 'src/app/core/modeles/Role';
 import { TaskStatus } from 'src/app/core/modeles/TaskStatus';
 import { Ticket } from 'src/app/core/modeles/Ticket';
+import {
+  TicketService,
+  TicketStatusDto,
+} from 'src/app/core/services/ticket.service';
+import { UsersService } from 'src/app/core/services/users.service';
 
 @Component({
   selector: 'app-tickets-board',
@@ -18,856 +24,6 @@ import { Ticket } from 'src/app/core/modeles/Ticket';
 export class TicketsBoardComponent implements OnInit {
   TaskStatus = TaskStatus;
   ticketList: Ticket[] = [];
-  // = [
-  //   {
-  //     id: 1,
-  //     title: 'Problem dans le demarrage de machine virtuelle.',
-  //     type: {
-  //       id: 1,
-  //       label: 'Application',
-  //       lien: '',
-  //       description: '',
-  //     },
-  //     priority: 'Hight',
-  //     status: TaskStatus.open,
-  //     createdBy: {
-  //       id: 1,
-  //       image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //       firstName: 'Soufiane',
-  //       lastName: 'El Maghraoui',
-  //       email: 'soufiane.elmaghraoui@gmail.com',
-  //       status: false,
-  //       post: 'Front End Developer',
-  //       department: '',
-  //       phoneNumber: '',
-  //       isActivate: true,
-  //       userName: 's.elmaghraoui',
-  //     },
-  //     createdTime: '11-05-2024',
-  //     affectedTo: {
-  //       id: 1,
-  //       image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //       firstName: 'Soufiane',
-  //       lastName: 'El Maghraoui',
-  //       email: 'soufiane.elmaghraoui@gmail.com',
-  //       status: false,
-  //       post: 'Front End Developer',
-  //       department: '',
-  //       phoneNumber: '',
-  //       isActivate: true,
-  //       userName: 's.elmaghraoui',
-  //     },
-  //     referenceTicket: '',
-  //     description:
-  //       'Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem ',
-  //     sharedWith: [
-  //       {
-  //         id: 1,
-  //         image:
-  //           'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //         firstName: 'Soufiane',
-  //         lastName: 'El Maghraoui',
-  //         email: 'soufiane.elmaghraoui@gmail.com',
-  //         status: false,
-  //         post: 'Front End Developer',
-  //         department: '',
-  //         phoneNumber: '',
-  //         isActivate: true,
-  //         userName: 's.elmaghraoui',
-  //       },
-  //       {
-  //         id: 2,
-  //         image:
-  //           'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //         firstName: 'Ismail',
-  //         lastName: 'Meggouri',
-  //         email: 'ismail.meggouri@gmail.com',
-  //         status: true,
-  //         post: 'Back End Developer',
-  //         department: '',
-  //         phoneNumber: '',
-  //         isActivate: true,
-  //         userName: 's.elmaghraoui',
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     id: 2,
-  //     title: 'Ticket 2 ',
-  //     type: {
-  //       id: 1,
-  //       label: 'Application',
-  //       lien: '',
-  //       description: '',
-  //     },
-  //     priority: 'Hight',
-  //     status: TaskStatus.open,
-  //     createdBy: {
-  //       id: 1,
-  //       image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //       firstName: 'Soufiane',
-  //       lastName: 'El Maghraoui',
-  //       email: 'soufiane.elmaghraoui@gmail.com',
-  //       status: false,
-  //       post: 'Front End Developer',
-  //       department: '',
-  //       phoneNumber: '',
-  //       isActivate: true,
-  //       userName: 's.elmaghraoui',
-  //     },
-  //     createdTime: '11-05-2024',
-  //     affectedTo: {
-  //       id: 2,
-  //       image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //       firstName: 'Mohamed',
-  //       lastName: 'El Maghraoui',
-  //       email: 'mohamed.elmaghraoui@gmail.com',
-  //       status: true,
-  //       post: 'Back End Developer',
-  //       department: '',
-  //       phoneNumber: '',
-  //       isActivate: true,
-  //       userName: 's.elmaghraoui',
-  //     },
-  //     referenceTicket: '',
-  //     description:
-  //       'Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem ',
-  //     sharedWith: [
-  //       {
-  //         id: 1,
-  //         image:
-  //           'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //         firstName: 'Soufiane',
-  //         lastName: 'El Maghraoui',
-  //         email: 'soufiane.elmaghraoui@gmail.com',
-  //         status: false,
-  //         post: 'Front End Developer',
-  //         department: '',
-  //         phoneNumber: '',
-  //         isActivate: true,
-  //         userName: 's.elmaghraoui',
-  //       },
-  //       {
-  //         id: 2,
-  //         image:
-  //           'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //         firstName: 'Ismail',
-  //         lastName: 'Meggouri',
-  //         email: 'ismail.meggouri@gmail.com',
-  //         status: true,
-  //         post: 'Back End Developer',
-  //         department: '',
-  //         phoneNumber: '',
-  //         isActivate: true,
-  //         userName: 's.elmaghraoui',
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     id: 3,
-  //     title: 'Ticket 3 ',
-  //     type: {
-  //       id: 1,
-  //       label: 'Application',
-  //       lien: '',
-  //       description: '',
-  //     },
-  //     priority: 'Hight',
-  //     status: TaskStatus.open,
-  //     createdBy: {
-  //       id: 1,
-  //       image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //       firstName: 'Soufiane',
-  //       lastName: 'El Maghraoui',
-  //       email: 'soufiane.elmaghraoui@gmail.com',
-  //       status: false,
-  //       post: 'Front End Developer',
-  //       department: '',
-  //       phoneNumber: '',
-  //       isActivate: true,
-  //       userName: 's.elmaghraoui',
-  //     },
-  //     createdTime: '11-05-2024',
-  //     affectedTo:
-  //       // {
-  //       //   id: 2,
-  //       //   image:
-  //       //     'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //       //   firstName: 'Ismail',
-  //       //   lastName: 'Meggouri',
-  //       //   email: 'ismail.meggouri@gmail.com',
-  //       //   status: true,
-  //       //   post: 'Back End Developer',
-  //       //   department: '',
-  //       //   phoneNumber: '',
-  //       //   isActivate: true,
-  //       // },
-  //       {
-  //         id: 2,
-  //         image:
-  //           'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //         firstName: 'Mohamed',
-  //         lastName: 'El Maghraoui',
-  //         email: 'mohamed.elmaghraoui@gmail.com',
-  //         status: true,
-  //         post: 'Back End Developer',
-  //         department: '',
-  //         phoneNumber: '',
-  //         isActivate: true,
-  //         userName: 's.elmaghraoui',
-  //       },
-  //     referenceTicket: '',
-  //     description:
-  //       'Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem ',
-  //     sharedWith: [
-  //       {
-  //         id: 1,
-  //         image:
-  //           'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //         firstName: 'Soufiane',
-  //         lastName: 'El Maghraoui',
-  //         email: 'soufiane.elmaghraoui@gmail.com',
-  //         status: false,
-  //         post: 'Front End Developer',
-  //         department: '',
-  //         phoneNumber: '',
-  //         isActivate: true,
-  //         userName: 's.elmaghraoui',
-  //       },
-  //       {
-  //         id: 2,
-  //         image:
-  //           'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //         firstName: 'Ismail',
-  //         lastName: 'Meggouri',
-  //         email: 'ismail.meggouri@gmail.com',
-  //         status: true,
-  //         post: 'Back End Developer',
-  //         department: '',
-  //         phoneNumber: '',
-  //         isActivate: true,
-  //         userName: 's.elmaghraoui',
-  //       },
-  //     ],
-  //   },
-  //   // -----------------------------------------------
-  //   // -----------------------------------------------
-  //   // -----------------------------------------------
-  //   // -----------------------------------------------
-  //   // -----------------------------------------------
-  //   // -----------------------------------------------
-  //   {
-  //     id: 31,
-  //     // todo : add ... 3point apres un nombre de lettres
-  //     title: 'Ticket 31',
-  //     type: {
-  //       id: 1,
-  //       label: 'Achat',
-  //       lien: '',
-  //       description: '',
-  //     },
-  //     priority: 'Meduim',
-  //     status: TaskStatus.inProgress,
-  //     createdBy: {
-  //       id: 1,
-  //       image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //       firstName: 'Soufiane',
-  //       lastName: 'El Maghraoui',
-  //       email: 'soufiane.elmaghraoui@gmail.com',
-  //       status: false,
-  //       post: 'Front End Developer',
-  //       department: '',
-  //       phoneNumber: '',
-  //       isActivate: true,
-  //       userName: 's.elmaghraoui',
-  //     },
-  //     createdTime: '11-05-2024',
-  //     referenceTicket: '',
-  //     description:
-  //       'Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem ',
-  //     sharedWith: [
-  //       {
-  //         id: 1,
-  //         image:
-  //           'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //         firstName: 'Soufiane',
-  //         lastName: 'El Maghraoui',
-  //         email: 'soufiane.elmaghraoui@gmail.com',
-  //         status: false,
-  //         post: 'Front End Developer',
-  //         department: '',
-  //         phoneNumber: '',
-  //         isActivate: true,
-  //         userName: 's.elmaghraoui',
-  //       },
-  //       {
-  //         id: 2,
-  //         image:
-  //           'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //         firstName: 'Ismail',
-  //         lastName: 'Meggouri',
-  //         email: 'ismail.meggouri@gmail.com',
-  //         status: true,
-  //         post: 'Back End Developer',
-  //         department: '',
-  //         phoneNumber: '',
-  //         isActivate: true,
-  //         userName: 's.elmaghraoui',
-  //       },
-  //     ],
-  //     affectedTo: {
-  //       id: 1,
-  //       image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //       firstName: 'Soufiane',
-  //       lastName: 'El Maghraoui',
-  //       email: 'soufiane.elmaghraoui@gmail.com',
-  //       status: false,
-  //       post: 'Front End Developer',
-  //       department: '',
-  //       phoneNumber: '',
-  //       isActivate: true,
-  //       userName: 's.elmaghraoui',
-  //     },
-  //   },
-  //   {
-  //     id: 4,
-  //     // todo : add ... 3point apres un nombre de lettres
-  //     title: 'Ticket 4 ',
-  //     type: {
-  //       id: 1,
-  //       label: 'Achat',
-  //       lien: '',
-  //       description: '',
-  //     },
-  //     priority: 'Meduim',
-  //     status: TaskStatus.inProgress,
-  //     createdBy: {
-  //       id: 1,
-  //       image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //       firstName: 'Soufiane',
-  //       lastName: 'El Maghraoui',
-  //       email: 'soufiane.elmaghraoui@gmail.com',
-  //       status: false,
-  //       post: 'Front End Developer',
-  //       department: '',
-  //       phoneNumber: '',
-  //       isActivate: true,
-  //       userName: 's.elmaghraoui',
-  //     },
-  //     createdTime: '11-05-2024',
-  //     referenceTicket: '',
-  //     description:
-  //       'Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem ',
-  //     sharedWith: [
-  //       {
-  //         id: 1,
-  //         image:
-  //           'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //         firstName: 'Soufiane',
-  //         lastName: 'El Maghraoui',
-  //         email: 'soufiane.elmaghraoui@gmail.com',
-  //         status: false,
-  //         post: 'Front End Developer',
-  //         department: '',
-  //         phoneNumber: '',
-  //         isActivate: true,
-  //         userName: 's.elmaghraoui',
-  //       },
-  //       {
-  //         id: 2,
-  //         image:
-  //           'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //         firstName: 'Ismail',
-  //         lastName: 'Meggouri',
-  //         email: 'ismail.meggouri@gmail.com',
-  //         status: true,
-  //         post: 'Back End Developer',
-  //         department: '',
-  //         phoneNumber: '',
-  //         isActivate: true,
-  //         userName: 's.elmaghraoui',
-  //       },
-  //     ],
-  //     affectedTo: {
-  //       id: 1,
-  //       image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //       firstName: 'Soufiane',
-  //       lastName: 'El Maghraoui',
-  //       email: 'soufiane.elmaghraoui@gmail.com',
-  //       status: false,
-  //       post: 'Front End Developer',
-  //       department: '',
-  //       phoneNumber: '',
-  //       isActivate: true,
-  //       userName: 's.elmaghraoui',
-  //     },
-  //   },
-  //   {
-  //     id: 5,
-  //     title: 'Ticket 5',
-  //     type: {
-  //       id: 1,
-  //       label: 'Incedent',
-  //       lien: '',
-  //       description: '',
-  //     },
-  //     priority: 'Low',
-  //     status: TaskStatus.canceled,
-  //     createdBy: {
-  //       id: 2,
-  //       image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //       firstName: 'Ismail',
-  //       lastName: 'Meggouri',
-  //       email: 'ismail.meggouri@gmail.com',
-  //       status: true,
-  //       post: 'Back End Developer',
-  //       department: '',
-  //       phoneNumber: '',
-  //       isActivate: true,
-  //       userName: 's.elmaghraoui',
-  //     },
-  //     createdTime: '11-05-2024',
-  //     affectedTo: {
-  //       id: 1,
-  //       image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //       firstName: 'Soufiane',
-  //       lastName: 'El Maghraoui',
-  //       email: 'soufiane.elmaghraoui@gmail.com',
-  //       status: false,
-  //       post: 'Front End Developer',
-  //       department: '',
-  //       phoneNumber: '',
-  //       isActivate: true,
-  //       userName: 's.elmaghraoui',
-  //     },
-  //     referenceTicket: '',
-  //     description:
-  //       'Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem ',
-  //     sharedWith: [
-  //       {
-  //         id: 1,
-  //         image:
-  //           'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //         firstName: 'Soufiane',
-  //         lastName: 'El Maghraoui',
-  //         email: 'soufiane.elmaghraoui@gmail.com',
-  //         status: false,
-  //         post: 'Front End Developer',
-  //         department: '',
-  //         phoneNumber: '',
-  //         isActivate: true,
-  //         userName: 's.elmaghraoui',
-  //       },
-  //       {
-  //         id: 2,
-  //         image:
-  //           'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //         firstName: 'Ismail',
-  //         lastName: 'Meggouri',
-  //         email: 'ismail.meggouri@gmail.com',
-  //         status: true,
-  //         post: 'Back End Developer',
-  //         department: '',
-  //         phoneNumber: '',
-  //         isActivate: true,
-  //         userName: 's.elmaghraoui',
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     id: 6,
-  //     title: 'Ticket 6',
-  //     type: {
-  //       id: 1,
-  //       label: 'Incedent',
-  //       lien: '',
-  //       description: '',
-  //     },
-  //     priority: 'Low',
-  //     status: TaskStatus.canceled,
-  //     createdBy: {
-  //       id: 2,
-  //       image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //       firstName: 'Ismail',
-  //       lastName: 'Meggouri',
-  //       email: 'ismail.meggouri@gmail.com',
-  //       status: true,
-  //       post: 'Back End Developer',
-  //       department: '',
-  //       phoneNumber: '',
-  //       isActivate: true,
-  //       userName: 's.elmaghraoui',
-  //     },
-  //     createdTime: '11-05-2024',
-  //     affectedTo: {
-  //       id: 1,
-  //       image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //       firstName: 'Soufiane',
-  //       lastName: 'El Maghraoui',
-  //       email: 'soufiane.elmaghraoui@gmail.com',
-  //       status: false,
-  //       post: 'Front End Developer',
-  //       department: '',
-  //       phoneNumber: '',
-  //       isActivate: true,
-  //       userName: 's.elmaghraoui',
-  //     },
-  //     referenceTicket: '',
-  //     description:
-  //       'Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem ',
-  //     sharedWith: [
-  //       {
-  //         id: 1,
-  //         image:
-  //           'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //         firstName: 'Soufiane',
-  //         lastName: 'El Maghraoui',
-  //         email: 'soufiane.elmaghraoui@gmail.com',
-  //         status: false,
-  //         post: 'Front End Developer',
-  //         department: '',
-  //         phoneNumber: '',
-  //         isActivate: true,
-  //         userName: 's.elmaghraoui',
-  //       },
-  //       {
-  //         id: 2,
-  //         image:
-  //           'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //         firstName: 'Ismail',
-  //         lastName: 'Meggouri',
-  //         email: 'ismail.meggouri@gmail.com',
-  //         status: true,
-  //         post: 'Back End Developer',
-  //         department: '',
-  //         phoneNumber: '',
-  //         isActivate: true,
-  //         userName: 's.elmaghraoui',
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     id: 7,
-  //     title: 'Ticket 7',
-  //     type: {
-  //       id: 1,
-  //       label: 'Incedent',
-  //       lien: '',
-  //       description: '',
-  //     },
-  //     priority: 'Low',
-  //     status: TaskStatus.evaluating,
-  //     createdBy: {
-  //       id: 2,
-  //       image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //       firstName: 'Ismail',
-  //       lastName: 'Meggouri',
-  //       email: 'ismail.meggouri@gmail.com',
-  //       status: true,
-  //       post: 'Back End Developer',
-  //       department: '',
-  //       phoneNumber: '',
-  //       isActivate: true,
-  //       userName: 's.elmaghraoui',
-  //     },
-  //     createdTime: '11-05-2024',
-  //     affectedTo: {
-  //       id: 1,
-  //       image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //       firstName: 'Soufiane',
-  //       lastName: 'El Maghraoui',
-  //       email: 'soufiane.elmaghraoui@gmail.com',
-  //       status: false,
-  //       post: 'Front End Developer',
-  //       department: '',
-  //       phoneNumber: '',
-  //       isActivate: true,
-  //       userName: 's.elmaghraoui',
-  //     },
-  //     referenceTicket: '',
-  //     description:
-  //       'Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem ',
-  //     sharedWith: [
-  //       {
-  //         id: 1,
-  //         image:
-  //           'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //         firstName: 'Soufiane',
-  //         lastName: 'El Maghraoui',
-  //         email: 'soufiane.elmaghraoui@gmail.com',
-  //         status: false,
-  //         post: 'Front End Developer',
-  //         department: '',
-  //         phoneNumber: '',
-  //         isActivate: true,
-  //         userName: 's.elmaghraoui',
-  //       },
-  //       {
-  //         id: 2,
-  //         image:
-  //           'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //         firstName: 'Ismail',
-  //         lastName: 'Meggouri',
-  //         email: 'ismail.meggouri@gmail.com',
-  //         status: true,
-  //         post: 'Back End Developer',
-  //         department: '',
-  //         phoneNumber: '',
-  //         isActivate: true,
-  //         userName: 's.elmaghraoui',
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     id: 8,
-  //     title: 'Ticket 8',
-  //     type: {
-  //       id: 1,
-  //       label: 'Incedent',
-  //       lien: '',
-  //       description: '',
-  //     },
-  //     priority: 'Low',
-  //     status: TaskStatus.resolved,
-  //     createdBy: {
-  //       id: 2,
-  //       image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //       firstName: 'Ismail',
-  //       lastName: 'Meggouri',
-  //       email: 'ismail.meggouri@gmail.com',
-  //       status: true,
-  //       post: 'Back End Developer',
-  //       department: '',
-  //       phoneNumber: '',
-  //       isActivate: true,
-  //       userName: 's.elmaghraoui',
-  //     },
-  //     createdTime: '11-05-2024',
-  //     referenceTicket: '',
-  //     description:
-  //       'Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem ',
-  //     sharedWith: [],
-  //   },
-  //   {
-  //     id: 9,
-  //     title: 'Ticket 9',
-  //     type: {
-  //       id: 1,
-  //       label: 'Incedent',
-  //       lien: '',
-  //       description: '',
-  //     },
-  //     priority: 'Low',
-  //     status: TaskStatus.rejected,
-  //     createdBy: {
-  //       id: 2,
-  //       image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //       firstName: 'Ismail',
-  //       lastName: 'Meggouri',
-  //       email: 'ismail.meggouri@gmail.com',
-  //       status: true,
-  //       post: 'Back End Developer',
-  //       department: '',
-  //       phoneNumber: '',
-  //       isActivate: true,
-  //       userName: 's.elmaghraoui',
-  //     },
-  //     createdTime: '11-05-2024',
-  //     affectedTo: {
-  //       id: 1,
-  //       image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //       firstName: 'Soufiane',
-  //       lastName: 'El Maghraoui',
-  //       email: 'soufiane.elmaghraoui@gmail.com',
-  //       status: false,
-  //       post: 'Front End Developer',
-  //       department: '',
-  //       phoneNumber: '',
-  //       isActivate: true,
-  //       userName: 's.elmaghraoui',
-  //     },
-  //     referenceTicket: '',
-  //     description:
-  //       'Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem ',
-  //     sharedWith: [
-  //       {
-  //         id: 1,
-  //         image:
-  //           'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //         firstName: 'Soufiane',
-  //         lastName: 'El Maghraoui',
-  //         email: 'soufiane.elmaghraoui@gmail.com',
-  //         status: false,
-  //         post: 'Front End Developer',
-  //         department: '',
-  //         phoneNumber: '',
-  //         isActivate: true,
-  //         userName: 's.elmaghraoui',
-  //       },
-  //       {
-  //         id: 2,
-  //         image:
-  //           'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //         firstName: 'Ismail',
-  //         lastName: 'Meggouri',
-  //         email: 'ismail.meggouri@gmail.com',
-  //         status: true,
-  //         post: 'Back End Developer',
-  //         department: '',
-  //         phoneNumber: '',
-  //         isActivate: true,
-  //         userName: 's.elmaghraoui',
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     id: 12,
-  //     title: 'Ticket Brahim',
-  //     type: {
-  //       id: 1,
-  //       label: 'Incedent',
-  //       lien: '',
-  //       description: '',
-  //     },
-  //     priority: 'Low',
-  //     status: TaskStatus.testing,
-  //     createdBy: {
-  //       id: 2,
-  //       image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //       firstName: 'Ismail',
-  //       lastName: 'Meggouri',
-  //       email: 'ismail.meggouri@gmail.com',
-  //       status: true,
-  //       post: 'Back End Developer',
-  //       department: '',
-  //       phoneNumber: '',
-  //       isActivate: true,
-  //       userName: 's.elmaghraoui',
-  //     },
-  //     createdTime: '11-05-2024',
-  //     affectedTo: {
-  //       id: 1,
-  //       image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //       firstName: 'Soufiane',
-  //       lastName: 'El Maghraoui',
-  //       email: 'soufiane.elmaghraoui@gmail.com',
-  //       status: false,
-  //       post: 'Front End Developer',
-  //       department: '',
-  //       phoneNumber: '',
-  //       isActivate: true,
-  //       userName: 's.elmaghraoui',
-  //     },
-  //     referenceTicket: '',
-  //     description:
-  //       'Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem ',
-  //     sharedWith: [],
-  //   },
-  //   {
-  //     id: 11,
-  //     title: 'fouzia',
-  //     type: {
-  //       id: 1,
-  //       label: 'Application',
-  //       lien: '',
-  //       description: '',
-  //     },
-  //     priority: 'Hight',
-  //     status: TaskStatus.testing,
-  //     createdBy: {
-  //       id: 2,
-  //       image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //       firstName: 'Ismail',
-  //       lastName: 'Meggouri',
-  //       email: 'ismail.meggouri@gmail.com',
-  //       status: true,
-  //       post: 'Back End Developer',
-  //       department: '',
-  //       phoneNumber: '',
-  //       isActivate: true,
-  //       userName: 's.elmaghraoui',
-  //     },
-  //     createdTime: '11-05-2024',
-  //     referenceTicket: '',
-  //     description:
-  //       'Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem ',
-  //     sharedWith: [],
-  //     isResolved: true,
-  //   },
-  //   {
-  //     id: 10,
-  //     title: 'Ticket soufiane',
-  //     type: {
-  //       id: 1,
-  //       label: 'Incedent',
-  //       lien: '',
-  //       description: '',
-  //     },
-  //     priority: 'Low',
-  //     status: TaskStatus.testing,
-  //     createdBy: {
-  //       id: 2,
-  //       image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //       firstName: 'Ismail',
-  //       lastName: 'Meggouri',
-  //       email: 'ismail.meggouri@gmail.com',
-  //       status: true,
-  //       post: 'Back End Developer',
-  //       department: '',
-  //       phoneNumber: '',
-  //       isActivate: true,
-  //       userName: 's.elmaghraoui',
-  //     },
-  //     createdTime: '11-05-2024',
-  //     affectedTo: {
-  //       id: 1,
-  //       image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //       firstName: 'Soufiane',
-  //       lastName: 'El Maghraoui',
-  //       email: 'soufiane.elmaghraoui@gmail.com',
-  //       status: false,
-  //       post: 'Front End Developer',
-  //       department: '',
-  //       phoneNumber: '',
-  //       isActivate: true,
-  //       userName: 's.elmaghraoui',
-  //     },
-  //     referenceTicket: '',
-  //     description:
-  //       'Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem Lorem ',
-  //     sharedWith: [
-  //       {
-  //         id: 1,
-  //         image:
-  //           'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //         firstName: 'Soufiane',
-  //         lastName: 'El Maghraoui',
-  //         email: 'soufiane.elmaghraoui@gmail.com',
-  //         status: false,
-  //         post: 'Front End Developer',
-  //         department: '',
-  //         phoneNumber: '',
-  //         isActivate: true,
-  //         userName: 's.elmaghraoui',
-  //       },
-  //       {
-  //         id: 2,
-  //         image:
-  //           'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //         firstName: 'Ismail',
-  //         lastName: 'Meggouri',
-  //         email: 'ismail.meggouri@gmail.com',
-  //         status: true,
-  //         post: 'Back End Developer',
-  //         department: '',
-  //         phoneNumber: '',
-  //         isActivate: true,
-  //         userName: 's.elmaghraoui',
-  //       },
-  //     ],
-  //     isResolved: false,
-  //   },
-  // ];
   breadCrumb: IBreadcrumb[] = [
     {
       title: 'Tickets',
@@ -876,28 +32,63 @@ export class TicketsBoardComponent implements OnInit {
     },
   ];
   Role = Role;
-  roleUser = 'helpDesk';
-  // roleUser = 'user';
-  // roleUser = 'admin';
-  itemDragged?: Ticket;
-  itemList_ids: string[] = ['cdk-drop-list-5'];
-  constructor(private router: Router) {}
+  roles: string[] = [];
+
+  constructor(
+    private router: Router,
+    private ticketService: TicketService,
+    private usersService: UsersService
+  ) {}
+
+  ngOnInit() {
+    this.roles = this.usersService.getRoles();
+    console.log('this.roles', this.roles);
+
+    this.getAllTickets();
+  }
 
   filterTicket(status: string) {
     return this.ticketList.filter((m) => m.status == status);
   }
 
-  ticketListOpen: Ticket[] = this.filterTicket(TaskStatus.open);
-  ticketListCanceled: Ticket[] = this.filterTicket(TaskStatus.canceled);
-  ticketListEvaluating: Ticket[] = this.filterTicket(TaskStatus.evaluating);
-  ticketListInProgress: Ticket[] = this.filterTicket(TaskStatus.inProgress);
-  ticketListTesting: Ticket[] = this.filterTicket(TaskStatus.testing);
-  ticketListRejected: Ticket[] = this.filterTicket(TaskStatus.rejected);
-  ticketListResolved: Ticket[] = this.filterTicket(TaskStatus.resolved);
+  ticketListOpen: Ticket[] = [];
+  ticketListCanceled: Ticket[] = [];
+  ticketListEvaluating: Ticket[] = [];
+  ticketListInProgress: Ticket[] = [];
+  ticketListTesting: Ticket[] = [];
+  ticketListRejected: Ticket[] = [];
+  ticketListResolved: Ticket[] = [];
 
-  ngOnInit() {}
+  getAllTickets() {
+    this.ticketService.getAllTickets().subscribe({
+      next: (tickets: Ticket[]) => {
+        this.ticketList = tickets;
 
-  drop(event: CdkDragDrop<Ticket[]>) {
+        this.ticketListOpen = this.filterTicket(TaskStatus.open);
+        this.ticketListCanceled = this.filterTicket(TaskStatus.canceled);
+        this.ticketListEvaluating = this.filterTicket(TaskStatus.evaluating);
+        this.ticketListInProgress = this.filterTicket(TaskStatus.inProgress);
+        this.ticketListTesting = this.filterTicket(TaskStatus.testing);
+        this.ticketListRejected = this.filterTicket(TaskStatus.rejected);
+        this.ticketListResolved = this.filterTicket(TaskStatus.resolved);
+      },
+      error: (error: HttpErrorResponse) => {
+        console.log(error.message);
+      },
+    });
+  }
+
+  ticket!: Ticket;
+
+  getTicket(ticket: Ticket) {
+    this.ticket = ticket;
+  }
+
+  drop(event: CdkDragDrop<Ticket[]>, status: string) {
+    console.log('drop');
+
+    this.changeStatus(this.ticket, status);
+
     if (event.previousContainer === event.container) {
       moveItemInArray(
         event.container.data,
@@ -914,37 +105,42 @@ export class TicketsBoardComponent implements OnInit {
     }
   }
 
-  // try to use switch case ...
-  mouseEnter(item: Ticket) {
-    if (item.isResolved === false) {
-      this.itemList_ids = ['cdk-drop-list-3', 'cdk-drop-list-4'];
-    }
-    if (item.isResolved === true) {
-      this.itemList_ids = ['cdk-drop-list-5', 'cdk-drop-list-4'];
-    }
-    if (item.isResolved === undefined) {
-      this.itemList_ids = ['cdk-drop-list-4'];
-    }
+  changeStatus(ticket: Ticket, status: string) {
+    console.log('ticket', ticket);
+    console.log('status', status);
+
+    const ticketStatus: TicketStatusDto = {
+      explication: ticket?.title,
+      status: status,
+    };
+
+    if (ticket?.id)
+      this.ticketService.changeStatus(ticket?.id, ticketStatus).subscribe({
+        next: () => {
+          // toaster of changing status
+          console.log('status changed');
+        },
+        error: (error: HttpErrorResponse) => {
+          console.log(error.message);
+        },
+      });
   }
 
-  // cdkDragMoved(item: Ticket) {
-
-  //   if (item.isResolved === true) {
-  //     this.itemList_ids = ['cdk-drop-list-6', 'cdk-drop-list-5'];
-  //   } else if (item.isResolved === false) {
-  //     this.itemList_ids = ['cdk-drop-list-4', 'cdk-drop-list-5'];
-  //   }
-  // }
-
-  navigateTo(path: string) {
-    this.router.navigateByUrl(path);
-  }
-
-  resolvedTicket(idTicket: number, isResolved: boolean) {
-    const index = this.ticketListTesting.findIndex(
-      (ticket) => ticket.id === idTicket
+  resolvedTicket(ticket: Ticket, isResolved: boolean, index: number) {
+    const indexTicket = this.ticketListTesting.findIndex(
+      (ticket) => ticket.id === ticket.id
     );
 
-    this.ticketListTesting[index].isResolved = isResolved;
+    this.ticketListTesting[indexTicket].resolved = isResolved;
+    if (isResolved == true) {
+      this.ticketListResolved.push(ticket);
+      this.changeStatus(ticket, 'Resolved');
+    }
+    if (isResolved == false) {
+      this.changeStatus(ticket, 'In Progress');
+      this.ticketListInProgress.push(ticket);
+    }
+
+    this.ticketListTesting.splice(index, 1);
   }
 }

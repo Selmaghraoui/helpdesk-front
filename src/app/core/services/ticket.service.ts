@@ -8,41 +8,68 @@ export interface UpdateSharedWithDto {
   sharedWithUserIds: number[];
 }
 
+export interface CreateTicket {
+  title: string;
+  priority: string;
+  type: TicketTypeDto;
+  description: string;
+  impact: string;
+  sharedWith: Array<UserNameDto>;
+}
+
+export interface UserNameDto {
+  username: string;
+}
+
+export interface TicketTypeDto {
+  code: string;
+  title: string;
+}
+
+export interface TicketStatusDto {
+  explication: string;
+  status: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class TicketService {
-  url = 'http://localhost:8082/api';
+  url = 'http://localhost:8082/api/tickets';
 
   constructor(private http: HttpClient) {}
 
   getAllTickets(): Observable<Array<any>> {
-    return this.http.get<Array<any>>(this.url + '/tickets');
+    return this.http.get<Array<any>>(this.url);
   }
 
   getTicketForUser(): Observable<Array<Ticket>> {
-    return this.http.get<Array<Ticket>>(this.url + '/tickets');
+    return this.http.get<Array<Ticket>>(this.url);
   }
 
   getTicketById(idTicket: number): Observable<Ticket> {
-    return this.http.get<Ticket>(this.url + '/tickets/' + idTicket);
+    return this.http.get<Ticket>(this.url + '/' + idTicket);
   }
 
-  createTicket(ticket: any) {
-    return this.http.post<any>(this.url + '/tickets/new', ticket);
+  createTicket(ticket: CreateTicket): Observable<Ticket> {
+    return this.http.post<Ticket>(this.url + '/new', ticket);
   }
 
   sharedTicket(idTicket: number, updateSharedWith: UpdateSharedWithDto) {
     return this.http.put<any>(
-      this.url + '/tickets/sharedWith/' + idTicket,
+      this.url + '/sharedWith/' + idTicket,
       updateSharedWith
     );
   }
 
   affectedTicket(idTicket: number, updateSharedWith: UpdateAssignedToDto) {
     return this.http.put<any>(
-      this.url + '/tickets/assignedTo/' + idTicket,
+      this.url + '/assignedTo/' + idTicket,
       updateSharedWith
     );
+  }
+
+  changeStatus(ticketId: number, ticketStatus: TicketStatusDto) {
+    return this.http.put<any>(this.url + '/status/' + ticketId, ticketStatus);
   }
 }

@@ -8,8 +8,10 @@
     <div class="flex" [ngClass]="isProfil ? 'gap-10' : 'gap-4'">
       <div class="relative avatar-xl avatar inline-block">
         <img
-          class="shadow-sm-sm inline-block rounded-2xl ring-4 ring-white dark:ring-neutral-900"
-          [src]="url ? url : '../../../../../../../assets/images/user.png'"
+          class="avatar-xl shadow-sm-sm inline-block rounded-2xl ring-4 ring-white dark:ring-neutral-900"
+          [src]="
+            imageUrl ? imageUrl : '../../../../../../../assets/images/user.png'
+          "
         />
 
         <ng-container *ngIf="isProfil">
@@ -147,7 +149,7 @@
                 <div class="text-gray-500">Join Date</div>
               </dt>
               <dd class="relative text-gray-500 dark:text-neutral-200">
-                {{ user?.joinDate }}
+                {{ user?.joinDate | date : "dd-MM-yyyy" }}
               </dd>
             </div>
 
@@ -372,6 +374,7 @@
   </div>
 </div>
 
+<!-- pop up -->
 <app-edit-profil-user-popup
   *ngIf="isModalOpen"
   (closeModalEvent)="closeModal()"
@@ -414,9 +417,7 @@
       <div class="grid md:grid-cols-2 gap-12">
         <!-- First name -->
         <div class="sm:inline-flex sm:items-start w-full">
-          <label
-            for="input-label-with-helper-text"
-            class="block text-sm font-medium mb-2 dark:text-white"
+          <label class="w-1/3 text-sm font-normal mb-2 dark:text-white"
             >First Name</label
           >
           <input

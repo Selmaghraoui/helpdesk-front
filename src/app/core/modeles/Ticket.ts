@@ -16,4 +16,5 @@ export interface Ticket {
   owner: IUser;
   assignedTo: IUser;
   sharedWith: IUser[];
+  resolved?: boolean | undefined;
 }

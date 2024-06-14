@@ -3,7 +3,7 @@
     class="mb-2 p-3 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
     type="text"
     [placeholder]="
-      isSharedWhith ? 'Shared this ticket with ' : 'Affeced this ticket to'
+      isSharedWhith ? 'Shared this ticket with ' : 'Affected this ticket to'
     "
     [(ngModel)]="searchText"
   />
@@ -23,19 +23,19 @@
   </div>
 
   <ng-container *ngIf="isSharedWhith">
-    <ng-container *ngFor="let user of usersShared; let index = index">
-      <div class="flex flex-col gap-2">
+    <div class="flex flex-col gap-2">
+      <ng-container *ngFor="let user of usersShared; let index = index">
         <app-badge-user
           [badgeUser]="user"
           [isDeleted]="roles.includes(Role.user)"
           [isDeleted]="true"
           (userDeleted)="removeUser($event)"
         ></app-badge-user>
-      </div>
-    </ng-container>
+      </ng-container>
+    </div>
   </ng-container>
 
-  <ng-container *ngIf="!isSharedWhith">
+  <ng-container *ngIf="!isSharedWhith && userAffected">
     <app-badge-user
       [badgeUser]="userAffected"
       [isDeleted]="roles.includes(Role.user)"

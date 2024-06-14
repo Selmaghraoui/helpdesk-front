@@ -1,8 +1,13 @@
-<div class="bg-gray-50 min-h-lvh p-4">
+<div class="min-h-lvh p-4" [ngClass]="isBoard ? 'bg-white' : 'bg-gray-50'">
   <app-sidebar></app-sidebar>
 
   <div class="margin-left">
-    <app-header></app-header>
-    <router-outlet></router-outlet>
+    <app-header
+      class="fixed bg-gray-50 z-50"
+      style="width: calc(100% - 332px)"
+    ></app-header>
+    <div class="relative top-16">
+      <router-outlet></router-outlet>
+    </div>
   </div>
 </div>

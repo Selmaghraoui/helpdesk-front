@@ -23,6 +23,7 @@ export class CreateUserComponent implements OnInit {
       isLien: false,
     },
   ];
+  current = 0;
 
   userFormGroup!: FormGroup;
 
@@ -56,9 +57,6 @@ export class CreateUserComponent implements OnInit {
       },
     });
   }
-
-  current = 0;
-  index = 'First-content';
 
   pre(): void {
     this.current -= 1;

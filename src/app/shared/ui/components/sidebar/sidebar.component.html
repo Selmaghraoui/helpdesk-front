@@ -20,10 +20,10 @@
       <ul class="space-y-2 font-medium">
         <!-- dashboard -->
         <li>
-          <a
+          <div
             routerLink="dashboard"
             [routerLinkActive]="['active']"
-            class="pr-10 flex items-center py-2 px-2.5 text-gray-700 rounded-lg dark:text-white hover:bg-gray-100 gap-x-3.5 text-sm dark:bg-neutral-700 dark:hover:bg-gray-700 group font-semibold"
+            class="cursor-pointer pr-10 flex items-center py-2 px-2.5 text-gray-700 rounded-lg dark:text-white hover:bg-gray-100 gap-x-3.5 text-sm dark:bg-neutral-700 dark:hover:bg-gray-700 group font-semibold"
           >
             <div class="icon" [routerLinkActive]="['icon-active']">
               <svg
@@ -42,14 +42,14 @@
               </svg>
             </div>
             Dashboard
-          </a>
+          </div>
         </li>
         <!-- tickets board -->
         <li>
-          <a
+          <div
             routerLink="tickets-board"
             [routerLinkActive]="['active']"
-            class="pr-10 flex items-center py-2 px-2.5 text-gray-700 rounded-lg dark:text-white hover:bg-gray-100 gap-x-3.5 text-sm dark:bg-neutral-700 dark:hover:bg-gray-700 group font-semibold"
+            class="cursor-pointer pr-10 flex items-center py-2 px-2.5 text-gray-700 rounded-lg dark:text-white hover:bg-gray-100 gap-x-3.5 text-sm dark:bg-neutral-700 dark:hover:bg-gray-700 group font-semibold"
           >
             <div class="icon" [routerLinkActive]="['icon-active']">
               <svg
@@ -68,14 +68,14 @@
               </svg>
             </div>
             Tickets Board
-          </a>
+          </div>
         </li>
         <!-- tickets management -->
         <li>
-          <a
+          <div
             routerLink="tickets"
             [routerLinkActive]="['active']"
-            class="pr-10 flex items-center py-2 px-2.5 text-gray-700 rounded-lg dark:text-white hover:bg-gray-100 gap-x-3.5 text-sm dark:bg-neutral-700 dark:hover:bg-gray-700 group font-semibold"
+            class="cursor-pointer pr-10 flex items-center py-2 px-2.5 text-gray-700 rounded-lg dark:text-white hover:bg-gray-100 gap-x-3.5 text-sm dark:bg-neutral-700 dark:hover:bg-gray-700 group font-semibold"
           >
             <div class="icon" [routerLinkActive]="['icon-active']">
               <svg
@@ -94,15 +94,15 @@
               </svg>
             </div>
             Tickets Management
-          </a>
+          </div>
         </li>
         <!-- For HelpDesk -->
         <!-- users -->
         <li>
-          <a
+          <div
             routerLink="users"
             [routerLinkActive]="['active']"
-            class="pr-10 flex items-center py-2 px-2.5 text-gray-700 rounded-lg dark:text-white hover:bg-gray-100 gap-x-3.5 text-sm dark:bg-neutral-700 dark:hover:bg-gray-700 group font-semibold"
+            class="cursor-pointer pr-10 flex items-center py-2 px-2.5 text-gray-700 rounded-lg dark:text-white hover:bg-gray-100 gap-x-3.5 text-sm dark:bg-neutral-700 dark:hover:bg-gray-700 group font-semibold"
           >
             <div class="icon" [routerLinkActive]="['icon-active']">
               <svg
@@ -121,7 +121,7 @@
               </svg>
             </div>
             Users
-          </a>
+          </div>
         </li>
       </ul>
     </nav>
@@ -142,160 +142,3 @@
     </div>
   </div>
 </div>
-
-<!-- <li class="hs-accordion" id="tickets-accordion">
-        <a
-          class="cursor-pointer hs-accordion-toggle hs-accordion-active:text-blue-600 flex items-center py-2 px-2.5 text-gray-700 rounded-lg dark:text-white hover:bg-gray-100 gap-x-3.5 text-sm dark:bg-neutral-700 dark:hover:bg-gray-700 group font-semibold"
-        >
-          <div
-            class="icon hs-accordion-active:text-blue-600 hs-accordion-active:border-2 hs-accordion-active:border-indigo-600"
-            [routerLinkActive]="['icon-active']"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              class="w-6 h-6"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 0 1 0 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 0 1 0-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375Z"
-              />
-            </svg>
-          </div>
-          Tickets Management
-
-          <svg
-            class="hs-accordion-active:block ms-auto hidden size-4 text-gray-600 group-hover:text-gray-500 dark:text-neutral-400"
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path d="m18 15-6-6-6 6" />
-          </svg>
-
-          <svg
-            class="hs-accordion-active:hidden ms-auto block size-4 text-gray-600 group-hover:text-gray-500 dark:text-neutral-400"
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path d="m6 9 6 6 6-6" />
-          </svg>
-        </a>
-
-        <div
-          id="tickets-accordion"
-          class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 hidden"
-        >
-          <ul
-            class="hs-accordion-group flex flex-col gap-y-2 ml-6 border-l border-slate-200"
-            data-hs-accordion-always-open
-          >
-            <li [routerLinkActive]="['sous-active']">
-              <a
-                [routerLinkActive]="['active']"
-                routerLink="tickets-management/tickets"
-                class="flex items-center gap-x-3.5 py-2 px-2.5 ml-3 text-gray-700 rounded-lg hover:bg-gray-100 text-sm dark:bg-neutral-700 dark:hover:bg-gray-700 group"
-              >
-                Tickets
-              </a>
-            </li>
-            <li [routerLinkActive]="['sous-active']">
-              <a
-                [routerLinkActive]="['active']"
-                routerLink="tickets-management/create-ticket"
-                class="flex items-center gap-x-3.5 py-2 px-2.5 ml-3 text-sm text-gray-700 rounded-lg hover:bg-gray-100 dark:bg-neutral-800 dark:text-neutral-400 dark:hover:text-neutral-300"
-              >
-                Create Ticket
-              </a>
-            </li>
-          </ul>
-        </div>
-      </li> -->
-<!-- <li class="hs-accordion" id="tickets-accordion">
-        <a
-          type="button"
-          [routerLinkActive]="['active']"
-          class="flex items-center py-2 px-2.5 text-gray-700 rounded-lg dark:text-white hover:bg-gray-100 gap-x-3.5 text-sm dark:bg-neutral-700 dark:hover:bg-gray-700 group font-semibold hover:text-indigo-500"
-        >
-          <div class="icon" [routerLinkActive]="['icon-active']">
-            <img src="../../../../../assets/images/tickets.svg" />
-          </div>
-          Tickets Management
-
-          <svg
-            class="hs-accordion-active:block ms-auto hidden size-4 text-gray-600 group-hover:text-gray-500 dark:text-neutral-400"
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path d="m18 15-6-6-6 6" />
-          </svg>
-
-          <svg
-            class="hs-accordion-active:hidden ms-auto block size-4 text-gray-600 group-hover:text-gray-500 dark:text-neutral-400"
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path d="m6 9 6 6 6-6" />
-          </svg>
-        </a>
-        <div
-          id="tickets-accordion"
-          class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 hidden"
-        >
-          <ul
-            class="hs-accordion-group pt-2 ps-2 flex flex-col gap-y-2"
-            data-hs-accordion-always-open
-          >
-            <li>
-              <a
-                routerLink="tickets-management/tickets"
-                [routerLinkActive]="['active']"
-                class="flex items-center gap-x-3.5 py-2 px-2.5 text-gray-700 rounded-lg hover:bg-gray-100 text-sm dark:bg-neutral-700 dark:hover:bg-gray-700 group"
-              >
-                Tickets
-              </a>
-            </li>
-            <li>
-              <a
-                routerLink="tickets-management/create-ticket"
-                [routerLinkActive]="['active']"
-                class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-gray-700 rounded-lg hover:bg-gray-100 dark:bg-neutral-800 dark:text-neutral-400 dark:hover:text-neutral-300"
-                (click)="navigateTo('tickets-management/create-ticket')"
-              >
-                Create Ticket
-              </a>
-            </li>
-          </ul>
-        </div>
-      </li> -->

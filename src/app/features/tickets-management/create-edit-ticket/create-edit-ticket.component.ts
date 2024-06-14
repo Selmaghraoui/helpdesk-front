@@ -10,6 +10,7 @@ import { Ticket } from 'src/app/core/modeles/Ticket';
 import {
   TicketService,
   UpdateSharedWithDto,
+  UserNameDto,
 } from 'src/app/core/services/ticket.service';
 import { UsersService } from 'src/app/core/services/users.service';
 import { UpdateAssignedToDto } from 'src/app/shared/ui/components/affected-shared/affected-shared.component';
@@ -60,7 +61,6 @@ export class CreateEditTicketComponent implements OnInit {
 
   ngOnInit() {
     this.roles = this.usersService.getRoles();
-    console.log('this.roles ', this.roles);
 
     this.getTicket();
     this.setType();
@@ -68,7 +68,7 @@ export class CreateEditTicketComponent implements OnInit {
   }
 
   getTicket() {
-    if (this.idTicket) {
+    if (!this.isNewTicket && this.idTicket) {
       this.ticketService.getTicketById(this.idTicket).subscribe({
         next: (value: Ticket) => {
           this.ticket = value;
@@ -79,6 +79,7 @@ export class CreateEditTicketComponent implements OnInit {
         },
       });
     }
+    if (this.isNewTicket) this.initBreadcrumb();
   }
 
   setType() {
@@ -94,11 +95,18 @@ export class CreateEditTicketComponent implements OnInit {
     this.ticketFormGroup = new FormGroup({
       title: new FormControl(null, Validators.required),
       priority: new FormControl(TaskPriority.low, Validators.required),
-      type: new FormControl(null, Validators.required),
+      type: new FormGroup({
+        code: new FormControl('achat', Validators.required),
+        title: new FormControl('Achat', Validators.required),
+      }),
       description: new FormControl(null, Validators.required),
-      file: new FormControl(null, Validators.required),
+      // file: new FormControl(null, Validators.required),
       // status: new FormControl(null, Validators.required),
+
+      // sharedWith: new FormArray([], Validators.required),
+      sharedWith: new FormControl([], Validators.required),
     });
+    console.log('this.ticketFormGroup :: ', this.ticketFormGroup);
   }
 
   initBreadcrumb() {
@@ -116,12 +124,30 @@ export class CreateEditTicketComponent implements OnInit {
   }
 
   createEditTicket(ticketFormGroup: FormGroup) {
+    console.log('this.ticketFormGroup', this.ticketFormGroup);
+
     this.ticketService.createTicket(ticketFormGroup.getRawValue()).subscribe({
       next: (value: any) => {},
       error: (error: HttpErrorResponse) => {
         error.message;
       },
     });
+  }
+
+  sharedTicketUsername(updateSharedWith: IUser[]) {
+    console.log('sharedTicketUsername');
+
+    let userNameList: UserNameDto[] = [];
+    updateSharedWith.forEach((user) => {
+      const userNameDto: UserNameDto = {
+        username: user.username,
+      };
+      userNameList.push(userNameDto);
+    });
+    // console.log('userNameList', userNameList);
+
+    this.ticketFormGroup.controls['sharedWith'].setValue(userNameList);
+    console.log('this.ticketFormGroup', this.ticketFormGroup);
   }
 
   sharedTicket(updateSharedWith: UpdateSharedWithDto) {
@@ -151,9 +177,6 @@ export class CreateEditTicketComponent implements OnInit {
   }
 
   toggleFavorits() {
-    // this.ticket.forEach((ticket: Ticket) => {
-    //   if (ticket.id === idTicket) ticket.favorite = !ticket.favorite;
-    // });
     if (this.ticket?.favorite) this.ticket.favorite = !this.ticket?.favorite;
   }
 }

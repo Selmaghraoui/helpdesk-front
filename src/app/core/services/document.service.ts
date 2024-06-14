@@ -2,23 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-export interface MultipartFile {
-  getName: string;
-
-  getOriginalFilename: string;
-  getContentType: string;
-
-  isEmpty: boolean;
-
-  getSize: number;
-
-  // byte[] getBytes;
-  // InputStream getInputStream;
-  // default Resource getResource() {
-  //     return new MultipartFileResource(this);
-  // }
-}
-
 @Injectable({
   providedIn: 'root',
 })
@@ -30,7 +13,20 @@ export class DocumentService {
   /*
    * Upload Profil Photo
    */
-  uploadProfilPhoto(file: File, userId: number): Observable<string> {
-    return this.http.post<string>(this.url + 'profile/' + userId, file);
+  uploadProfilPhoto(file: File, userId: number): Observable<any> {
+    const formData: FormData = new FormData();
+    formData.append('files', file, file.name);
+
+    return this.http.post<any>(`${this.url}profile/${userId}`, formData, {
+      reportProgress: true,
+      observe: 'events',
+    });
+  }
+
+  /*
+   * Download Profil Photo
+   */
+  downloadProfilPhoto(docId: number): Observable<Blob> {
+    return this.http.get(`${this.url}${docId}`, { responseType: 'blob' });
   }
 }

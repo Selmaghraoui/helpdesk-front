@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { FormGroup, FormControl } from '@angular/forms';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Department } from 'src/app/core/modeles/Department';
 import { IUser } from 'src/app/core/modeles/IUser';
 import { RecentActivityUser } from 'src/app/core/modeles/RecentActivity';
@@ -264,7 +265,8 @@ export class ProfilUserComponent implements OnInit {
 
   constructor(
     private usersService: UsersService,
-    private documentService: DocumentService
+    private documentService: DocumentService,
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit() {
@@ -272,6 +274,7 @@ export class ProfilUserComponent implements OnInit {
     this.roles = this.usersService.getRoles();
 
     this.getUserForm();
+    this.loadImage();
   }
 
   //
@@ -341,10 +344,6 @@ export class ProfilUserComponent implements OnInit {
     );
   }
   changePassword() {
-    console.log(
-      'this.passwordFormGroup.value . ',
-      this.passwordFormGroup.value
-    );
     this.usersService
       .updatePasswordUser(this.passwordFormGroup.value)
       .subscribe({
@@ -356,9 +355,10 @@ export class ProfilUserComponent implements OnInit {
 
   // Upload image
   uploadFile(file: File) {
-    console.log('file .. ', file);
+    console.log();
 
-    if (this.user?.id)
+    if (this.user?.id) {
+      // API logged in khassha tzid trad lina user kaml , id ma kaynch
       this.documentService.uploadProfilPhoto(file, this.user?.id).subscribe({
         next: () => {
           console.log('file uploaded .. ');
@@ -367,21 +367,18 @@ export class ProfilUserComponent implements OnInit {
           console.log(error.message);
         },
       });
+    }
   }
 
-  // ---------------------------
-  url: string | ArrayBuffer | null | undefined = '';
+  // url: string | ArrayBuffer | null | undefined = '';
   onSelectFile(event: any) {
-    console.log('event :: ', event);
-
     if (event.target.files && event.target.files[0]) {
       var reader = new FileReader();
 
-      reader.readAsDataURL(event.target.files[0]); // read file as data url
+      reader.readAsDataURL(event.target.files[0]);
 
       reader.onload = (event) => {
-        // called once readAsDataURL is completed
-        this.url = event?.target?.result;
+        this.imageUrl = event?.target?.result;
       };
       this.uploadFile(event.target?.files[0]);
     }
@@ -389,5 +386,17 @@ export class ProfilUserComponent implements OnInit {
 
   openFileInput() {
     document?.getElementById('imageInput')?.click();
+  }
+
+  // Download Profil
+  imageUrl: SafeUrl | string | ArrayBuffer | null | undefined;
+  loadImage() {
+    if (this.user?.docId)
+      this.documentService
+        .downloadProfilPhoto(this.user.docId)
+        .subscribe((response) => {
+          const objectURL = URL.createObjectURL(response);
+          this.imageUrl = this.sanitizer.bypassSecurityTrustUrl(objectURL);
+        });
   }
 }

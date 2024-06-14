@@ -1,4 +1,12 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  forwardRef,
+} from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { IUser } from 'src/app/core/modeles/IUser';
 import { Role } from 'src/app/core/modeles/Role';
 import { UpdateSharedWithDto } from 'src/app/core/services/ticket.service';
@@ -12,13 +20,22 @@ export interface UpdateAssignedToDto {
   selector: 'app-affected-shared',
   templateUrl: './affected-shared.component.html',
   styleUrls: ['./affected-shared.component.scss'],
+  // providers: [
+  //   {
+  //     provide: NG_VALUE_ACCESSOR,
+  //     useExisting: forwardRef(() => AffectedSharedComponent),
+  //     multi: true,
+  //   },
+  // ],
 })
+// export class AffectedSharedComponent implements OnInit, ControlValueAccessor {
 export class AffectedSharedComponent implements OnInit {
   @Input() isSharedWhith?: boolean = true;
 
   @Input() usersShared?: IUser[];
   @Input() userAffected?: IUser;
-  @Output() usersSelectedShared = new EventEmitter<UpdateSharedWithDto>();
+  @Output() usersSelectedShared = new EventEmitter<IUser[]>();
+  @Output() idUsersSelectedShared = new EventEmitter<UpdateSharedWithDto>();
   @Output() usersSelectedAffected = new EventEmitter<UpdateAssignedToDto>();
 
   searchText = '';
@@ -47,6 +64,7 @@ export class AffectedSharedComponent implements OnInit {
       if (!this.isUserUserSelected(user)) {
         this.usersShared?.push(user);
         this.sendSharedList();
+        this.sendIdsSharedList();
       }
     } else {
       this.userAffected = user;
@@ -59,16 +77,22 @@ export class AffectedSharedComponent implements OnInit {
     if (this.isSharedWhith) {
       this.usersShared = this.usersShared?.filter((i) => i.id !== User.id);
       this.sendSharedList();
+      this.sendIdsSharedList();
     } else {
       this.sendAffected(0);
     }
   }
 
   isUserUserSelected(User: IUser): boolean {
+    if (this.usersShared == null) this.usersShared = [];
     return this.usersShared!.some((i) => i.id === User.id);
   }
 
   sendSharedList() {
+    this.usersSelectedShared.emit(this.usersShared);
+  }
+
+  sendIdsSharedList() {
     let usersId: number[] = [];
 
     this.usersShared?.forEach((user) => {
@@ -77,7 +101,7 @@ export class AffectedSharedComponent implements OnInit {
     const updateSharedWith: UpdateSharedWithDto = {
       sharedWithUserIds: usersId,
     };
-    this.usersSelectedShared.emit(updateSharedWith);
+    this.idUsersSelectedShared.emit(updateSharedWith);
   }
 
   sendAffected(id: number) {
@@ -87,4 +111,19 @@ export class AffectedSharedComponent implements OnInit {
 
     this.usersSelectedAffected.emit(updateAssignedToDto);
   }
+
+  // -----------------------------------------
+  // -----------------------------------------
+  // writeValue(obj: any): void {
+  //   throw new Error('Method not implemented.');
+  // }
+  // registerOnChange(fn: any): void {
+  //   throw new Error('Method not implemented.');
+  // }
+  // registerOnTouched(fn: any): void {
+  //   throw new Error('Method not implemented.');
+  // }
+  // setDisabledState?(isDisabled: boolean): void {
+  //   throw new Error('Method not implemented.');
+  // }
 }

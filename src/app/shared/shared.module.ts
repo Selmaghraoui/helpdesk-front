@@ -21,6 +21,7 @@ import { DepartmentComponent } from './ui/components/department/department.compo
 import { EditProfilUserPopupComponent } from './ui/components/edit-profil-user-popup/edit-profil-user-popup.component';
 import { ActivityComponent } from './ui/components/activity/activity.component';
 import { AffectedSharedComponent } from './ui/components/affected-shared/affected-shared.component';
+import { DisplayImageComponent } from './ui/components/display-image/display-image.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { AffectedSharedComponent } from './ui/components/affected-shared/affecte
     EditProfilUserPopupComponent,
     ActivityComponent,
     AffectedSharedComponent,
+    DisplayImageComponent,
 
     BadgePriorityComponent,
     BadgeStatusComponent,
@@ -65,6 +67,7 @@ import { AffectedSharedComponent } from './ui/components/affected-shared/affecte
     EditProfilUserPopupComponent,
     ActivityComponent,
     AffectedSharedComponent,
+    DisplayImageComponent,
 
     BadgePriorityComponent,
     BadgeStatusComponent,
