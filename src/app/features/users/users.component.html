@@ -314,7 +314,7 @@
                       <span
                         class="text-lg font-semibold tracking-wide text-gray-800 dark:text-neutral-200"
                       >
-                        Reference User
+                        Reference user
                       </span>
                     </div>
                   </th>
@@ -354,7 +354,7 @@
                       <span
                         class="text-lg font-semibold tracking-wide text-gray-800 dark:text-neutral-200"
                       >
-                        Phone Number
+                        Phone number
                       </span>
                     </div>
                   </th>
@@ -403,7 +403,7 @@
                     <div class="p-3">
                       <div class="flex items-center gap-x-3">
                         <app-display-image
-                          [imageData]="user?.document"
+                          [docId]="user?.docId"
                           [css]="
                             !user.enabled
                               ? 'inline-block size-[38px] rounded-xl ring-4 ring-white border !border-red-200'
@@ -450,8 +450,8 @@
                     <div class="p-3">
                       <span
                         class="ring-2 ring-white inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium text-white"
-                        [ngClass]="user.status ? 'bg-teal-500' : 'bg-red-500'"
-                        >{{ user.status ? "Active" : "Inactive" }}</span
+                        [ngClass]="user.enabled ? 'bg-teal-500' : 'bg-red-500'"
+                        >{{ user.enabled ? "Active" : "Inactive" }}</span
                       >
                     </div>
                   </td>

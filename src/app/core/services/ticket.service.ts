@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Ticket } from '../modeles/Ticket';
@@ -35,41 +35,58 @@ export interface TicketStatusDto {
   providedIn: 'root',
 })
 export class TicketService {
-  url = 'http://localhost:8082/api/tickets';
+  url = 'http://localhost:8082/api';
 
   constructor(private http: HttpClient) {}
 
   getAllTickets(): Observable<Array<Ticket>> {
-    return this.http.get<Array<Ticket>>(this.url);
+    return this.http.get<Array<Ticket>>(this.url + '/tickets');
   }
 
-  getTicketForUser(): Observable<Array<Ticket>> {
-    return this.http.get<Array<Ticket>>(this.url);
+  // getTickestForUser(userNameDto: UserNameDto): Observable<any> {
+  //   const options = {
+  //     body: userNameDto,
+  //   };
+
+  //   // return this.http.get<any>(this.url + '/user-tickets/', options);
+  //   return this.http.request<any>('GET', `${this.url}/user-tickets/`, options);
+  // }
+  getTickestForUser(userNameDto: UserNameDto): Observable<any> {
+    return this.http.request<any>('GET', `${this.url}/user-tickets/`, {
+      body: userNameDto,
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      responseType: 'json' as const,
+    });
   }
 
   getTicketById(idTicket: number): Observable<Ticket> {
-    return this.http.get<Ticket>(this.url + '/' + idTicket);
+    return this.http.get<Ticket>(this.url + '/tickets/' + idTicket);
   }
 
   createTicket(ticket: CreateTicket): Observable<Ticket> {
-    return this.http.post<Ticket>(this.url + '/new', ticket);
+    return this.http.post<Ticket>(this.url + '/tickets/new', ticket);
   }
 
   sharedTicket(idTicket: number, updateSharedWith: UpdateSharedWithDto) {
     return this.http.put<any>(
-      this.url + '/sharedWith/' + idTicket,
+      this.url + '/tickets/sharedWith/' + idTicket,
       updateSharedWith
     );
   }
 
   affectedTicket(idTicket: number, updateSharedWith: UpdateAssignedToDto) {
     return this.http.put<any>(
-      this.url + '/assignedTo/' + idTicket,
+      this.url + '/tickets/assignedTo/' + idTicket,
       updateSharedWith
     );
   }
 
   changeStatus(ticketId: number, ticketStatus: TicketStatusDto) {
-    return this.http.put<any>(this.url + '/status/' + ticketId, ticketStatus);
+    return this.http.put<any>(
+      this.url + '/tickets/status/' + ticketId,
+      ticketStatus
+    );
   }
 }

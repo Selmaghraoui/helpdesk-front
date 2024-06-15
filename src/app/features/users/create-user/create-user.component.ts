@@ -1,10 +1,12 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Validators } from '@angular/forms';
-import { FormControl, FormControlName, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Department } from 'src/app/core/modeles/Department';
 import { IBreadcrumb } from 'src/app/core/modeles/IBreadcrumb';
 import { ICreateUser, UsersService } from 'src/app/core/services/users.service';
+import { passwordMatchValidator } from 'src/app/shared/ui/components/profil-user/profil-user.component';
 
 @Component({
   selector: 'app-create-user',
@@ -23,22 +25,39 @@ export class CreateUserComponent implements OnInit {
       isLien: false,
     },
   ];
+
+  departments: Department[] = [];
+
   current = 0;
 
   userFormGroup!: FormGroup;
 
   constructor(private usersService: UsersService, private router: Router) {
-    this.userFormGroup = new FormGroup({
-      username: new FormControl('', Validators.required),
-      email: new FormControl('', Validators.required),
-      firstName: new FormControl('', Validators.required),
-      lastName: new FormControl('', Validators.required),
-      password: new FormControl('', Validators.required),
-      departmentDto: new FormControl('', Validators.required),
-    });
+    this.userFormGroup = new FormGroup(
+      {
+        username: new FormControl('', Validators.required),
+        email: new FormControl('', [
+          Validators.required,
+          Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
+        ]),
+        firstName: new FormControl('', Validators.required),
+        lastName: new FormControl('', Validators.required),
+        password: new FormControl('', Validators.required),
+        confirmPassword: new FormControl('', Validators.required),
+        departmentDto: new FormControl('', Validators.required),
+      },
+      { validators: passwordMatchValidator() }
+    );
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.getDepartments();
+  }
+
+  getDepartments(): void {
+    const departmentsData = localStorage.getItem('departments');
+    this.departments = departmentsData ? JSON.parse(departmentsData) : null;
+  }
 
   createUser(userCreated: ICreateUser) {
     const createdUser: ICreateUser = {
@@ -49,7 +68,7 @@ export class CreateUserComponent implements OnInit {
     };
 
     this.usersService.createUser(createdUser).subscribe({
-      next: (value: any) => {
+      next: () => {
         this.router.navigateByUrl('/users');
       },
       error: (error: HttpErrorResponse) => {

@@ -1,6 +1,11 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
-import { Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { FormGroup, FormControl } from '@angular/forms';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Department } from 'src/app/core/modeles/Department';
@@ -11,6 +16,23 @@ import { TaskStatus } from 'src/app/core/modeles/TaskStatus';
 import { DocumentService } from 'src/app/core/services/document.service';
 
 import { IUpdateUser, UsersService } from 'src/app/core/services/users.service';
+
+export function passwordMatchValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const password = control.get('password');
+    const confirmPassword = control.get('confirmPassword');
+
+    if (
+      password &&
+      confirmPassword &&
+      password.value !== confirmPassword.value
+    ) {
+      return { passwordMismatch: true };
+    }
+
+    return null;
+  };
+}
 
 @Component({
   selector: 'app-profil-user',
@@ -24,9 +46,10 @@ export class ProfilUserComponent implements OnInit {
   TaskStatus = TaskStatus;
   Role = Role;
   roles: string[] = [];
-  isModalOpen = false;
 
   departments: Department[] = [];
+  isModalOpen = false;
+
   profilUserFormGroup!: FormGroup;
   passwordFormGroup!: FormGroup;
   recentActivities: RecentActivityUser[] = [];
@@ -262,6 +285,7 @@ export class ProfilUserComponent implements OnInit {
   //     time: '12:05PM',
   //   },
   // ];
+  imageUrl: SafeUrl | string | ArrayBuffer | null | undefined;
 
   constructor(
     private usersService: UsersService,
@@ -270,11 +294,27 @@ export class ProfilUserComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.user = this.usersService.getUser();
-    this.roles = this.usersService.getRoles();
+    this.getUser();
+    this.getRoles();
+    this.getDepartments();
 
     this.getUserForm();
     this.loadImage();
+  }
+
+  getUser(): void {
+    const userData = localStorage.getItem('user');
+    this.user = userData ? JSON.parse(userData) : null;
+  }
+
+  getRoles(): void {
+    const rolesData = localStorage.getItem('roles');
+    this.roles = rolesData ? JSON.parse(rolesData) : null;
+  }
+
+  getDepartments(): void {
+    const departmentsData = localStorage.getItem('departments');
+    this.departments = departmentsData ? JSON.parse(departmentsData) : null;
   }
 
   //
@@ -288,9 +328,13 @@ export class ProfilUserComponent implements OnInit {
       location: new FormControl(this.user?.location),
       aboutMe: new FormControl(this.user?.aboutMe),
     });
-    this.passwordFormGroup = new FormGroup({
-      password: new FormControl('', Validators.required),
-    });
+    this.passwordFormGroup = new FormGroup(
+      {
+        password: new FormControl('', Validators.required),
+        confirmPassword: new FormControl('', Validators.required),
+      },
+      { validators: passwordMatchValidator() }
+    );
   }
 
   //
@@ -355,10 +399,7 @@ export class ProfilUserComponent implements OnInit {
 
   // Upload image
   uploadFile(file: File) {
-    console.log();
-
     if (this.user?.id) {
-      // API logged in khassha tzid trad lina user kaml , id ma kaynch
       this.documentService.uploadProfilPhoto(file, this.user?.id).subscribe({
         next: () => {
           console.log('file uploaded .. ');
@@ -370,7 +411,6 @@ export class ProfilUserComponent implements OnInit {
     }
   }
 
-  // url: string | ArrayBuffer | null | undefined = '';
   onSelectFile(event: any) {
     if (event.target.files && event.target.files[0]) {
       var reader = new FileReader();
@@ -388,8 +428,7 @@ export class ProfilUserComponent implements OnInit {
     document?.getElementById('imageInput')?.click();
   }
 
-  // Download Profil
-  imageUrl: SafeUrl | string | ArrayBuffer | null | undefined;
+  // Download Profil Photo
   loadImage() {
     if (this.user?.docId)
       this.documentService

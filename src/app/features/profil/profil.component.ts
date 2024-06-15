@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { IUser } from 'src/app/core/modeles/IUser';
 import { UsersService } from 'src/app/core/services/users.service';
 
 @Component({
@@ -7,13 +8,23 @@ import { UsersService } from 'src/app/core/services/users.service';
   styleUrls: ['./profil.component.scss'],
 })
 export class ProfilComponent implements OnInit {
-  user: any;
+  user?: IUser;
   roles: string[] = [];
 
-  constructor(private usersService: UsersService) {}
+  constructor() {}
 
   ngOnInit() {
-    this.user = this.usersService.getUser();
-    this.roles = this.usersService.getRoles();
+    this.getUser();
+    this.getRoles();
+  }
+
+  getUser(): void {
+    const userData = localStorage.getItem('user');
+    this.user = userData ? JSON.parse(userData) : null;
+  }
+
+  getRoles(): void {
+    const rolesData = localStorage.getItem('roles');
+    this.roles = rolesData ? JSON.parse(rolesData) : null;
   }
 }

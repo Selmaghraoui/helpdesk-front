@@ -213,6 +213,8 @@ export class ActivityComponent implements OnInit {
   }
 
   onImageChange(event: any) {
+    console.log('onImageChange event , ', event);
+
     if (event.target.files && event.target.files.length > 0) {
       const files = event.target.files;
 
@@ -230,6 +232,7 @@ export class ActivityComponent implements OnInit {
         const reader = new FileReader();
         reader.onload = (e: any) => {
           this.previewImages.push(e.target.result);
+          console.log('this.previewImages', this.previewImages);
         };
         reader.readAsDataURL(files[i]);
       }

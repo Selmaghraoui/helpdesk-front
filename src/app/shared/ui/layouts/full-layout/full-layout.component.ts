@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
   selector: 'app-full-layout',
@@ -8,17 +8,19 @@ import { Router } from '@angular/router';
 })
 export class FullLayoutComponent implements OnInit {
   isBoard: boolean = false;
-  constructor(private router: Router) {
-    // router.subscribe((val: any) => {
-    //   console.log('val', val);
-    //   console.log('NavigationEnd', val.NavigationEnd);
-    //   // console.log('val.NavigationEnd?.url', val.NavigationEnd?.url);
-    //   if (val.NavigationEnd?.url == '/tickets-board') {
-    //     console.log('this.isBoard', this.isBoard);
-    //     this.isBoard = true;
-    //   }
-    // });
+  constructor(private router: Router) {}
+
+  ngOnInit() {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.onUrlChange(event.url);
+      }
+    });
   }
 
-  ngOnInit() {}
+  // Function to handle URL changes
+  onUrlChange(url: string): void {
+    if (url == '/tickets-board') this.isBoard = true;
+    else this.isBoard = false;
+  }
 }

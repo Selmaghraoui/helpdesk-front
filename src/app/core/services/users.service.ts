@@ -32,8 +32,7 @@ export interface IUpdateUser {
 })
 export class UsersService {
   url = 'http://localhost:8082/users';
-  private user: any;
-  private roles = [];
+
   constructor(private http: HttpClient) {}
 
   /*
@@ -43,27 +42,11 @@ export class UsersService {
     return this.http.get<IUser>(this.url + '/loggedIn');
   }
 
-  getUser() {
-    return this.user;
-  }
-
-  setUser(value: any) {
-    this.user = value;
-  }
-
   /*
    * Auth to get Roles
    */
   getRole() {
     return this.http.get(this.url + '/auth');
-  }
-
-  getRoles() {
-    return this.roles;
-  }
-
-  setRoles(value: any) {
-    this.roles = value;
   }
 
   /*

@@ -87,9 +87,12 @@
               class="py-3 px-4 block w-full border-gray-200 rounded-lg bg-gray-50 text-sm focus:outline-none border focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
               formControlName="departmentDto"
             >
-              <!-- <option selected="">Select department</option> -->
-              <option selected="Development">Development</option>
-              <option>RH</option>
+              <option
+                *ngFor="let department of departments"
+                [ngValue]="department.id"
+              >
+                {{ department.name }}
+              </option>
             </select>
             <span class="text-red-600" *ngIf="checkValidators('departmentDto')"
               >*Department is required</span
@@ -140,9 +143,24 @@
                   : 'border border-gray-200'
               "
             />
-            <span class="text-red-600" *ngIf="checkValidators('email')"
-              >*E-mail name is required</span
+            <div
+              *ngIf="
+                (userFormGroup.get('email')?.invalid &&
+                  userFormGroup.get('email')?.touched) ||
+                userFormGroup.get('email')?.dirty
+              "
             >
+              <span
+                class="text-red-600"
+                *ngIf="userFormGroup.get('email')?.errors?.['required']"
+                >*E-mail name is required</span
+              >
+              <span
+                class="text-red-600"
+                *ngIf="userFormGroup.get('email')?.errors?.['pattern']"
+                >*Please provide a valid email address</span
+              >
+            </div>
           </div>
         </div>
       </ng-container>
@@ -180,9 +198,20 @@
               >Confirm password</label
             >
             <input
+              formControlName="confirmPassword"
               class="py-3 px-4 block w-full border-gray-200 rounded-lg bg-gray-50 text-sm focus:outline-none border focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
               placeholder="Confirm password"
+              [ngClass]="
+                checkValidators('confirmPassword')
+                  ? 'border border-red-600'
+                  : 'border border-gray-200'
+              "
             />
+            <span
+              class="text-red-600"
+              *ngIf="userFormGroup.errors?.['passwordMismatch']"
+              >*Passwords do not match.</span
+            >
           </div>
         </div>
       </ng-container>

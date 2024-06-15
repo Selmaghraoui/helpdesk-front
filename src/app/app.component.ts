@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { KeycloakService } from 'keycloak-angular';
 import { UsersService } from './core/services/users.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ActivatedRoute } from '@angular/router';
+import { IUser } from './core/modeles/IUser';
+import { DepartmentService } from './core/services/department.service';
+import { Department } from './core/modeles/Department';
 
 @Component({
   selector: 'app-root',
@@ -15,18 +17,20 @@ export class AppComponent implements OnInit {
   constructor(
     public keycloakService: KeycloakService,
     private usersService: UsersService,
-    private activatedRoute: ActivatedRoute
+    private departmentService: DepartmentService
   ) {}
 
   ngOnInit(): void {
     this.getProfil();
-    this.getRole();
+    this.getRoles();
+    this.getDepartments();
   }
 
+  // Profil
   getProfil() {
     this.usersService.getMe().subscribe({
-      next: (value: any) => {
-        this.usersService.setUser(value);
+      next: (user: IUser) => {
+        this.saveProfil(user);
       },
       error: (error: HttpErrorResponse) => {
         console.log(error.message);
@@ -34,7 +38,12 @@ export class AppComponent implements OnInit {
     });
   }
 
-  getRole() {
+  saveProfil(user: IUser): void {
+    localStorage.setItem('user', JSON.stringify(user));
+  }
+
+  // Roles
+  getRoles() {
     this.usersService.getRole().subscribe({
       next: (response: any) => {
         let roles: string[] = [];
@@ -43,12 +52,32 @@ export class AppComponent implements OnInit {
           if (auth.authority == 'ADMIN') roles.push('admin');
           if (auth.authority == 'HELPDESK') roles.push('helpDesk');
         });
-        this.usersService.setRoles(roles);
+        this.saveRoles(roles);
       },
       error: (error: HttpErrorResponse) => {
         console.log(error.message);
       },
     });
+  }
+
+  saveRoles(roles: string[]): void {
+    localStorage.setItem('roles', JSON.stringify(roles));
+  }
+
+  // Roles
+  getDepartments() {
+    this.departmentService.getAllDepartment().subscribe({
+      next: (departments: Department[]) => {
+        this.saveDepartments(departments);
+      },
+      error: (error: HttpErrorResponse) => {
+        console.log(error.message);
+      },
+    });
+  }
+
+  saveDepartments(departments: Department[]): void {
+    localStorage.setItem('departments', JSON.stringify(departments));
   }
 
   async handleLogin() {

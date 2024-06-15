@@ -29,9 +29,14 @@ export class UsersComponent implements OnInit {
   constructor(private usersService: UsersService) {}
 
   ngOnInit() {
-    this.getAllUsers();
+    this.getRoles();
 
-    this.roles = this.usersService.getRoles();
+    this.getAllUsers();
+  }
+
+  getRoles(): void {
+    const rolesData = localStorage.getItem('roles');
+    this.roles = rolesData ? JSON.parse(rolesData) : null;
   }
 
   getAllUsers() {

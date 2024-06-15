@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class DocumentService {
-  url = 'http://localhost:8082/api/document/';
+  url = 'http://localhost:8082/api/document';
 
   constructor(private http: HttpClient) {}
 
@@ -17,7 +17,7 @@ export class DocumentService {
     const formData: FormData = new FormData();
     formData.append('files', file, file.name);
 
-    return this.http.post<any>(`${this.url}profile/${userId}`, formData, {
+    return this.http.post<any>(`${this.url}/profile/${userId}`, formData, {
       reportProgress: true,
       observe: 'events',
     });
@@ -27,6 +27,22 @@ export class DocumentService {
    * Download Profil Photo
    */
   downloadProfilPhoto(docId: number): Observable<Blob> {
-    return this.http.get(`${this.url}${docId}`, { responseType: 'blob' });
+    return this.http.get(`${this.url}/${docId}`, { responseType: 'blob' });
+  }
+
+  /*
+   * Upload Dovs For Ticket
+   */
+  uploadDocForTicket(files: File[], icketId: number) {
+    const formData = new FormData();
+
+    Array.from(files).forEach((file) =>
+      formData.append('files', file, file.name)
+    );
+
+    return this.http.post<any>(`${this.url}/ticket/${icketId}`, formData, {
+      reportProgress: true,
+      observe: 'events',
+    });
   }
 }

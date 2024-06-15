@@ -1,12 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  forwardRef,
-} from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { IUser } from 'src/app/core/modeles/IUser';
 import { Role } from 'src/app/core/modeles/Role';
 import { UpdateSharedWithDto } from 'src/app/core/services/ticket.service';
@@ -20,15 +12,7 @@ export interface UpdateAssignedToDto {
   selector: 'app-affected-shared',
   templateUrl: './affected-shared.component.html',
   styleUrls: ['./affected-shared.component.scss'],
-  // providers: [
-  //   {
-  //     provide: NG_VALUE_ACCESSOR,
-  //     useExisting: forwardRef(() => AffectedSharedComponent),
-  //     multi: true,
-  //   },
-  // ],
 })
-// export class AffectedSharedComponent implements OnInit, ControlValueAccessor {
 export class AffectedSharedComponent implements OnInit {
   @Input() isSharedWhith?: boolean = true;
 
@@ -47,7 +31,8 @@ export class AffectedSharedComponent implements OnInit {
   constructor(private usersService: UsersService) {}
 
   ngOnInit() {
-    this.roles = this.usersService.getRoles();
+    this.getRoles();
+
     if (this.isSharedWhith)
       this.usersService.getAllUsers().subscribe((response: IUser[]) => {
         this.usersSearched = response;
@@ -57,6 +42,11 @@ export class AffectedSharedComponent implements OnInit {
       this.usersService.getAllUsers().subscribe((response: IUser[]) => {
         this.usersSearched = response;
       });
+  }
+
+  getRoles(): void {
+    const rolesData = localStorage.getItem('roles');
+    this.roles = rolesData ? JSON.parse(rolesData) : null;
   }
 
   addUser(user: IUser) {
@@ -111,19 +101,4 @@ export class AffectedSharedComponent implements OnInit {
 
     this.usersSelectedAffected.emit(updateAssignedToDto);
   }
-
-  // -----------------------------------------
-  // -----------------------------------------
-  // writeValue(obj: any): void {
-  //   throw new Error('Method not implemented.');
-  // }
-  // registerOnChange(fn: any): void {
-  //   throw new Error('Method not implemented.');
-  // }
-  // registerOnTouched(fn: any): void {
-  //   throw new Error('Method not implemented.');
-  // }
-  // setDisabledState?(isDisabled: boolean): void {
-  //   throw new Error('Method not implemented.');
-  // }
 }

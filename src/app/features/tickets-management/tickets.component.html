@@ -1,4 +1,5 @@
 <app-breadcrumb [breadcrumb]="breadCrumb"></app-breadcrumb>
+
 <div class="flex flex-row gap-4 mb-4">
   <!--  -->
   <div
@@ -294,6 +295,17 @@
           <ng-container *ngIf="ticketList.length != 0; else emptyTicketList">
             <thead class="dark:bg-neutral-800">
               <tr>
+                <!-- Reference ticket -->
+                <th scope="col" class="p-3 text-start">
+                  <div class="flex items-center gap-x-2">
+                    <span
+                      class="text-lg font-semibold tracking-wide text-gray-800 dark:text-neutral-200"
+                    >
+                      Reference ticket
+                    </span>
+                  </div>
+                </th>
+
                 <!-- title -->
                 <th scope="col" class="py-3 px-1.5 text-start min-w-[440px]">
                   <a class="group inline-flex items-center gap-x-2">
@@ -399,6 +411,10 @@
                     : 'hover:bg-gray-50'
                 "
               >
+                <!-- Reference ticket -->
+                <td class="whitespace-nowrap">
+                  <div class="p-3 font-medium">{{ ticket.reference }}</div>
+                </td>
                 <!-- title -->
                 <td class="min-w-[440px]">
                   <a class="block relative z-10">

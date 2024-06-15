@@ -1,6 +1,7 @@
 export interface TypesTicket {
-  id: number;
-  label: string;
-  lien: string;
-  description: string;
+  id?: number;
+  lien?: string;
+  description?: string;
+  code: string;
+  title: string;
 }

@@ -16,7 +16,7 @@ export class TypesTicketComponent implements OnInit {
       lien: '/tickets',
     },
     {
-      title: 'Create ticket',
+      title: 'Type ticket',
       isLien: false,
     },
   ];
@@ -24,19 +24,22 @@ export class TypesTicketComponent implements OnInit {
   typesTicket?: TypesTicket[] = [
     {
       id: 1,
-      label: 'Application',
+      code: 'application',
+      title: 'Application',
       lien: '/application',
       description: 'Create ticket to install a new application or ',
     },
     {
       id: 2,
-      label: 'Incedent',
+      code: 'incedent',
+      title: 'Incedent',
       lien: '/incedent',
       description: 'Create ticket to fix a problem.',
     },
     {
       id: 3,
-      label: 'Achat',
+      code: 'achat',
+      title: 'Achat',
       lien: '/achat',
       description:
         'Create a ticket to request or to change new equipment and device.',
@@ -46,7 +49,7 @@ export class TypesTicketComponent implements OnInit {
 
   ngOnInit() {}
 
-  selectType(type: string) {
+  selectType(type?: string) {
     this.router.navigateByUrl('/tickets/create-ticket' + type);
   }
 }

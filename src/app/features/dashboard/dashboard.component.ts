@@ -27,18 +27,21 @@ export class DashboardComponent implements OnInit {
 
   departments: Department[] = [];
 
-  constructor(
-    private usersService: UsersService,
-    private ticketService: TicketService
-  ) {}
+  constructor(private ticketService: TicketService) {}
 
   ngOnInit(): void {
-    this.roles = this.usersService.getRoles();
-    if (this.roles.includes(Role.helpDesk) || this.roles.includes(Role.admin))
+    this.getRoles();
+
+    if (this.roles?.includes(Role.helpDesk) || this.roles?.includes(Role.admin))
       this.getFavoriteTickets();
-    else if (this.roles.includes(Role.user)) {
+    else if (this.roles?.includes(Role.user)) {
       // this.getTicketsForUser();
     }
+  }
+
+  getRoles(): void {
+    const rolesData = localStorage.getItem('roles');
+    this.roles = rolesData ? JSON.parse(rolesData) : null;
   }
 
   getFavoriteTickets() {

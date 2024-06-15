@@ -1,11 +1,15 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { IBreadcrumb } from 'src/app/core/modeles/IBreadcrumb';
+import { IUser } from 'src/app/core/modeles/IUser';
 import { Role } from 'src/app/core/modeles/Role';
 import { TaskPriority } from 'src/app/core/modeles/TaskPriority';
 import { TaskStatus } from 'src/app/core/modeles/TaskStatus';
 import { Ticket } from 'src/app/core/modeles/Ticket';
-import { TicketService } from 'src/app/core/services/ticket.service';
+import {
+  TicketService,
+  UserNameDto,
+} from 'src/app/core/services/ticket.service';
 import { UsersService } from 'src/app/core/services/users.service';
 
 @Component({
@@ -18,6 +22,7 @@ export class TicketsComponent implements OnInit {
   TaskPriority = TaskPriority;
   Role = Role;
   roles: string[] = [];
+  user?: IUser;
 
   breadCrumb: IBreadcrumb[] = [
     {
@@ -29,18 +34,31 @@ export class TicketsComponent implements OnInit {
 
   ticketList: Ticket[] = [];
 
-  constructor(
-    private TicketService: TicketService,
-    private usersService: UsersService
-  ) {}
+  constructor(private TicketService: TicketService) {}
 
   ngOnInit() {
-    this.roles = this.usersService.getRoles();
+    this.getUser();
+    this.getRoles();
+
     if (this.roles.includes(Role.helpDesk) || this.roles.includes(Role.admin))
       this.getAllTickets();
-    else if (this.roles.includes(Role.user)) {
+    else if (
+      this.roles.includes(Role.user) &&
+      !this.roles.includes(Role.helpDesk) &&
+      !this.roles.includes(Role.admin)
+    ) {
       this.getTicketsForUser();
     }
+  }
+
+  getUser(): void {
+    const userData = localStorage.getItem('user');
+    this.user = userData ? JSON.parse(userData) : null;
+  }
+
+  getRoles(): void {
+    const rolesData = localStorage.getItem('roles');
+    this.roles = rolesData ? JSON.parse(rolesData) : null;
   }
 
   getAllTickets() {
@@ -54,5 +72,17 @@ export class TicketsComponent implements OnInit {
     });
   }
 
-  getTicketsForUser() {}
+  getTicketsForUser() {
+    const userNameDto: UserNameDto = {
+      username: this.user?.username!,
+    };
+    this.TicketService.getTickestForUser(userNameDto).subscribe({
+      next: (tickets: Ticket[]) => {
+        this.ticketList = tickets;
+      },
+      error: (error: HttpErrorResponse) => {
+        console.log(error.message);
+      },
+    });
+  }
 }

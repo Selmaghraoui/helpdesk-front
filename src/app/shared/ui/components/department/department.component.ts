@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Department } from 'src/app/core/modeles/Department';
+import { Role } from 'src/app/core/modeles/Role';
 import { DepartmentService } from 'src/app/core/services/department.service';
 import { DepartmentDto } from 'src/app/core/services/users.service';
 
@@ -14,6 +15,8 @@ export class DepartmentComponent implements OnInit {
   departments: Department[] = [];
   isModalOpen = false;
   departmentFormGroup!: FormGroup;
+  Role = Role;
+  roles: string[] = [];
 
   constructor(private departmentService: DepartmentService) {
     this.departmentFormGroup = new FormGroup({
@@ -22,7 +25,14 @@ export class DepartmentComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getRoles();
+
     this.getAllDepartment();
+  }
+
+  getRoles(): void {
+    const rolesData = localStorage.getItem('roles');
+    this.roles = rolesData ? JSON.parse(rolesData) : null;
   }
 
   getAllDepartment() {

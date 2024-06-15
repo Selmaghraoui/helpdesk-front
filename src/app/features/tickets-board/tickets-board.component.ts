@@ -34,17 +34,17 @@ export class TicketsBoardComponent implements OnInit {
   Role = Role;
   roles: string[] = [];
 
-  constructor(
-    private router: Router,
-    private ticketService: TicketService,
-    private usersService: UsersService
-  ) {}
+  constructor(private ticketService: TicketService) {}
 
   ngOnInit() {
-    this.roles = this.usersService.getRoles();
-    console.log('this.roles', this.roles);
+    this.getRoles();
 
     this.getAllTickets();
+  }
+
+  getRoles(): void {
+    const rolesData = localStorage.getItem('roles');
+    this.roles = rolesData ? JSON.parse(rolesData) : null;
   }
 
   filterTicket(status: string) {
