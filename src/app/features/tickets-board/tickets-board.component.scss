@@ -1,13 +1,28 @@
+.card {
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
+    var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+
+  --tw-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+  --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color),
+    0 1px 2px -1px var(--tw-shadow-color);
+}
+
 .example-list {
   display: block;
 }
+
 .overflowx {
+  overflow-x: hidden;
+}
+.overflowx:hover {
   overflow-x: scroll;
 }
+
 .overflowy {
   overflow-y: hidden;
-  max-height: calc(100vh - 196px) !important;
+  max-height: calc(100vh - 144px) !important;
 }
+
 .overflowy:hover {
   overflow-y: scroll;
 }

@@ -7,6 +7,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { IBreadcrumb } from 'src/app/core/modeles/IBreadcrumb';
+import { IUser } from 'src/app/core/modeles/IUser';
 import { Role } from 'src/app/core/modeles/Role';
 import { TaskStatus } from 'src/app/core/modeles/TaskStatus';
 import { Ticket } from 'src/app/core/modeles/Ticket';
@@ -14,7 +15,6 @@ import {
   TicketService,
   TicketStatusDto,
 } from 'src/app/core/services/ticket.service';
-import { UsersService } from 'src/app/core/services/users.service';
 
 @Component({
   selector: 'app-tickets-board',
@@ -31,12 +31,17 @@ export class TicketsBoardComponent implements OnInit {
       lien: '/tickets',
     },
   ];
+
+  ticket!: Ticket;
+  user?: IUser;
+
   Role = Role;
   roles: string[] = [];
 
   constructor(private ticketService: TicketService) {}
 
   ngOnInit() {
+    this.getRoles();
     this.getRoles();
 
     this.getAllTickets();
@@ -45,6 +50,11 @@ export class TicketsBoardComponent implements OnInit {
   getRoles(): void {
     const rolesData = localStorage.getItem('roles');
     this.roles = rolesData ? JSON.parse(rolesData) : null;
+  }
+
+  getUser(): void {
+    const userData = localStorage.getItem('user');
+    this.user = userData ? JSON.parse(userData) : null;
   }
 
   filterTicket(status: string) {
@@ -77,8 +87,6 @@ export class TicketsBoardComponent implements OnInit {
       },
     });
   }
-
-  ticket!: Ticket;
 
   getTicket(ticket: Ticket) {
     this.ticket = ticket;

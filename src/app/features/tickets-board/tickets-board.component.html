@@ -1,50 +1,107 @@
-<div class="flex flex-row gap-3">
-  <!-- Open -->
-  <div class="example-container p-4 bg-gray-50 rounded-2xl">
-    <!-- board header -->
-    <div
-      class="flex flex-row justify-between items-center mb-4 mx-1 p-2 pb-4 border-b-4 border-gray-300"
-    >
-      <div class="flex items-center justify-between min-w-full">
-        <div class="text-2xl dark:bg-neutral-500 font-semibold">Open</div>
+<div class="overflowx min-h-full">
+  <div class="flex gap-3" style="max-height: calc(100vh - 100px) !important">
+    <!-- Open -->
+    <div class="example-container rounded-2xl">
+      <!-- board header -->
+      <div class="text-xl dark:bg-neutral-500 font-semibold mb-4">Open</div>
+      <!-- board card -->
+      <div
+        cdkDropList
+        #openList="cdkDropList"
+        [cdkDropListData]="ticketListOpen"
+        class="example-list overflowy"
+        (cdkDropListDropped)="drop($event, 'Open')"
+        [cdkDropListConnectedTo]="
+          roles.includes(Role.user) &&
+          !roles.includes(Role.helpDesk) &&
+          !roles.includes(Role.admin)
+            ? [canceledList]
+            : roles.includes(Role.admin)
+            ? [evaluatingList]
+            : []
+        "
+      >
+        <ng-container
+          *ngIf="ticketListOpen.length > 0; else emptyticketListOpen"
+        >
+          <div
+            cdkDrag
+            class="example-box"
+            *ngFor="let item of ticketListOpen"
+            (cdkDragStarted)="getTicket(item)"
+          >
+            <div
+              class="border border-gray-300 bg-gray-100 example-custom-placeholder rounded-lg mb-4"
+              *cdkDragPlaceholder
+            ></div>
+            <div
+              class="p-5 mb-4 bg-white border border-gray-300 rounded-lg shadow-sm dark:bg-gray-700 dark:border-gray-600"
+            >
+              <div class="flex justify-between">
+                <div class="text-lg dark:bg-neutral-500 font-medium mb-4">
+                  {{ item.title }}
+                </div>
+
+                <button
+                  [routerLink]="['/tickets/detail', item.id]"
+                  type="button"
+                  class="ring-2 ring-white h-full py-2 px-3 inline-flex items-start gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-neutral-800 text-gray-900"
+                >
+                  View
+                </button>
+              </div>
+
+              <div class="flex gap-2">
+                <app-badge-priority
+                  [badgePriority]="item.priority"
+                ></app-badge-priority>
+                <app-badge-type [type]="item.type"></app-badge-type>
+              </div>
+
+              <div class="flex flex-row items-center mt-2">
+                <app-badge-user [badgeUser]="item.assignedTo"></app-badge-user>
+              </div>
+              <p class="text-xs text-gray-500 mt-2">
+                {{ item.createdTime | date : "dd-MM-yyyy hh:mm" }}
+              </p>
+            </div>
+          </div>
+        </ng-container>
       </div>
     </div>
-    <!-- board card -->
-    <div
-      cdkDropList
-      #openList="cdkDropList"
-      [cdkDropListData]="ticketListOpen"
-      class="example-list h-full"
-      (cdkDropListDropped)="drop($event, 'Open')"
-      [cdkDropListConnectedTo]="
-        roles.includes(Role.user) &&
-        !roles.includes(Role.helpDesk) &&
-        !roles.includes(Role.admin)
-          ? [canceledList]
-          : roles.includes(Role.admin)
-          ? [evaluatingList]
-          : []
-      "
-    >
-      <ng-container *ngIf="ticketListOpen.length > 0; else emptyticketListOpen">
+
+    <!-- Canceled -->
+    <div class="example-container rounded-2xl">
+      <!-- board header -->
+      <div class="text-xl dark:bg-neutral-500 font-semibold mb-4">Canceled</div>
+
+      <!-- board card -->
+      <div
+        cdkDropList
+        #canceledList="cdkDropList"
+        [cdkDropListData]="ticketListCanceled"
+        [cdkDropListConnectedTo]="[]"
+        class="example-list overflowy"
+        (cdkDropListDropped)="drop($event, 'Canceled')"
+      >
         <div
           cdkDrag
           class="example-box"
-          *ngFor="let item of ticketListOpen"
+          cdkDragLockAxis="y"
+          *ngFor="let item of ticketListCanceled"
           (cdkDragStarted)="getTicket(item)"
         >
           <div
-            class="border border-gray-300 bg-gray-200 example-custom-placeholder rounded-lg mb-4"
+            class="border border-red-500 bg-red-50 example-custom-placeholder rounded-lg mb-4"
             *cdkDragPlaceholder
           ></div>
           <div
-            class="p-5 mb-4 bg-white border border-gray-300 rounded-lg dark:bg-gray-700 dark:border-gray-600"
+            class="p-5 mb-4 bg-white border border-gray-300 rounded-lg shadow-sm dark:bg-gray-700 dark:border-gray-600"
           >
             <div class="flex justify-between">
               <div class="text-lg dark:bg-neutral-500 font-medium mb-4">
                 {{ item.title }}
               </div>
-
               <button
                 [routerLink]="['/tickets/detail', item.id]"
                 type="button"
@@ -69,444 +126,348 @@
             </p>
           </div>
         </div>
-      </ng-container>
-    </div>
-  </div>
-
-  <!-- Canceled -->
-  <div class="example-container p-4 bg-gray-50 rounded-2xl">
-    <!-- board header -->
-    <div
-      class="flex flex-row justify-between items-center mb-4 mx-1 p-2 pb-4 border-b-4 border-red-500"
-    >
-      <div class="text-2xl dark:bg-neutral-500 font-semibold">Canceled</div>
-    </div>
-    <!-- board card -->
-    <div
-      cdkDropList
-      #canceledList="cdkDropList"
-      [cdkDropListData]="ticketListCanceled"
-      [cdkDropListConnectedTo]="[]"
-      class="example-list h-full"
-      (cdkDropListDropped)="drop($event, 'Canceled')"
-    >
-      <div
-        cdkDrag
-        class="example-box"
-        cdkDragLockAxis="y"
-        *ngFor="let item of ticketListCanceled"
-        (cdkDragStarted)="getTicket(item)"
-      >
-        <div
-          class="border border-gray-300 bg-gray-200 example-custom-placeholder rounded-lg mb-4"
-          *cdkDragPlaceholder
-        ></div>
-        <div
-          class="p-5 mb-4 bg-white border border-red-300 rounded-lg card dark:bg-gray-700 dark:border-gray-600"
-        >
-          <div class="flex justify-between">
-            <div class="text-lg dark:bg-neutral-500 font-medium mb-4">
-              {{ item.title }}
-            </div>
-            <button
-              [routerLink]="['/tickets/detail', item.id]"
-              type="button"
-              class="ring-2 ring-white h-full py-2 px-3 inline-flex items-start gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-neutral-800 text-gray-900"
-            >
-              View
-            </button>
-          </div>
-
-          <div class="flex gap-2">
-            <app-badge-priority
-              [badgePriority]="item.priority"
-            ></app-badge-priority>
-            <app-badge-type [type]="item.type"></app-badge-type>
-          </div>
-
-          <div class="flex flex-row items-center mt-2">
-            <app-badge-user [badgeUser]="item.assignedTo"></app-badge-user>
-          </div>
-          <p class="text-xs text-gray-500 mt-2">
-            {{ item.createdTime | date : "dd-MM-yyyy hh:mm" }}
-          </p>
-        </div>
       </div>
     </div>
-  </div>
 
-  <!-- Evaluating -->
-  <div class="example-container p-4 bg-gray-50 rounded-2xl">
-    <!-- board header -->
-    <div
-      class="flex flex-row justify-between items-center mb-4 mx-1 p-2 pb-4 border-b-4 border-orange-400"
-    >
-      <div class="text-2xl dark:bg-neutral-500 font-semibold">Evaluating</div>
-    </div>
-    <!-- board card -->
-    <div
-      cdkDropList
-      #evaluatingList="cdkDropList"
-      [cdkDropListData]="ticketListEvaluating"
-      class="example-list h-full"
-      (cdkDropListDropped)="drop($event, 'Evaluating')"
-      [cdkDropListConnectedTo]="
-        roles.includes(Role.admin) ? [inProgressList, rejectedList] : []
-      "
-    >
-      <div
-        cdkDrag
-        class="example-box"
-        *ngFor="let item of ticketListEvaluating"
-        (cdkDragStarted)="getTicket(item)"
-      >
-        <!-- [cdkDragDisabled]="
-        roleUser !== Role.admin && roleUser !== Role.helpDesk
-      "
-      [ngClass]="
-        roleUser === Role.admin || roleUser === Role.helpDesk
-          ? 'cursor-move'
-          : ''
-      " -->
-        <div
-          class="border border-gray-300 bg-gray-200 example-custom-placeholder rounded-lg mb-4"
-          *cdkDragPlaceholder
-        ></div>
-        <div
-          class="p-5 mb-4 bg-white border border-gray-300 rounded-lg card dark:bg-gray-700 dark:border-gray-600"
-        >
-          <div class="flex justify-between">
-            <div class="text-lg dark:bg-neutral-500 font-medium mb-4">
-              {{ item.title }}
-            </div>
-            <button
-              [routerLink]="['/tickets/detail', item.id]"
-              type="button"
-              class="ring-2 ring-white h-full py-2 px-3 inline-flex items-start gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-neutral-800 text-gray-900"
-            >
-              View
-            </button>
-          </div>
-
-          <div class="flex gap-2">
-            <app-badge-priority
-              [badgePriority]="item.priority"
-            ></app-badge-priority>
-            <app-badge-type [type]="item.type"></app-badge-type>
-          </div>
-
-          <div class="flex flex-row items-center mt-2">
-            <app-badge-user [badgeUser]="item.assignedTo"></app-badge-user>
-          </div>
-          <p class="text-xs text-gray-500 mt-2">
-            {{ item.createdTime | date : "dd-MM-yyyy hh:mm" }}
-          </p>
-        </div>
+    <!-- Evaluating -->
+    <div class="example-container rounded-2xl">
+      <!-- board header -->
+      <div class="text-xl dark:bg-neutral-500 font-semibold mb-4">
+        Evaluating
       </div>
-    </div>
-  </div>
 
-  <!-- Rejected -->
-  <div class="example-container p-4 bg-gray-50 rounded-2xl">
-    <!-- board header -->
-    <div
-      class="flex flex-row justify-between items-center mb-4 mx-1 p-2 pb-4 border-b-4 border-yellow-500"
-    >
-      <div class="text-2xl dark:bg-neutral-500 font-semibold">Rejected</div>
-    </div>
-    <!-- board card -->
-    <div
-      cdkDropList
-      #rejectedList="cdkDropList"
-      [cdkDropListData]="ticketListRejected"
-      [cdkDropListConnectedTo]="[]"
-      class="example-list h-full"
-      (cdkDropListDropped)="drop($event, 'Rejected')"
-    >
+      <!-- board card -->
       <div
-        cdkDrag
-        cdkDragLockAxis="y"
-        class="example-box"
-        *ngFor="let item of ticketListRejected"
-        (cdkDragStarted)="getTicket(item)"
-      >
-        <!-- [cdkDragDisabled]="roleUser !== Role.admin"
-        [ngClass]="roleUser === Role.admin ? 'cursor-move' : ''" -->
-        <div
-          class="border border-gray-300 bg-gray-200 example-custom-placeholder rounded-lg mb-4"
-          *cdkDragPlaceholder
-        ></div>
-        <div
-          class="p-5 mb-4 bg-white border border-yellow-200 rounded-lg card dark:bg-gray-700 dark:border-gray-600"
-        >
-          <div class="flex justify-between">
-            <div class="text-lg dark:bg-neutral-500 font-medium mb-4">
-              {{ item.title }}
-            </div>
-            <button
-              [routerLink]="['/tickets/detail', item.id]"
-              type="button"
-              class="ring-2 ring-white h-full py-2 px-3 inline-flex items-start gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-neutral-800 text-gray-900"
-            >
-              View
-            </button>
-          </div>
-
-          <div class="flex gap-2">
-            <app-badge-priority
-              [badgePriority]="item.priority"
-            ></app-badge-priority>
-            <app-badge-type [type]="item.type"></app-badge-type>
-          </div>
-
-          <div class="flex flex-row items-center mt-2">
-            <app-badge-user [badgeUser]="item.assignedTo"></app-badge-user>
-          </div>
-          <p class="text-xs text-gray-500 mt-2">
-            {{ item.createdTime | date : "dd-MM-yyyy hh:mm" }}
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- In Progress -->
-  <div class="example-container p-4 bg-gray-50 rounded-2xl">
-    <!-- board header -->
-    <div
-      class="flex flex-row justify-between items-center mb-4 mx-1 p-2 pb-4 border-b-4 border-blue-600"
-    >
-      <div class="text-2xl dark:bg-neutral-500 font-semibold">In Progress</div>
-    </div>
-    <!-- board card -->
-    <div
-      cdkDropList
-      #inProgressList="cdkDropList"
-      [cdkDropListData]="ticketListInProgress"
-      class="example-list h-full"
-      (cdkDropListDropped)="drop($event, 'In Progress')"
-      [cdkDropListConnectedTo]="[testingList]"
-    >
-      <div
-        cdkDrag
-        class="example-box"
-        *ngFor="let item of ticketListInProgress"
-        (cdkDragStarted)="getTicket(item)"
-      >
-        <!-- [cdkDragDisabled]="
-          (roleUser !== Role.helpDesk && roleUser !== Role.admin) ||
-          itemList_ids.includes('cdk-drop-list-6')
+        cdkDropList
+        #evaluatingList="cdkDropList"
+        [cdkDropListData]="ticketListEvaluating"
+        class="example-list overflowy"
+        (cdkDropListDropped)="drop($event, 'Evaluating')"
+        [cdkDropListConnectedTo]="
+          roles.includes(Role.admin) ? [inProgressList, rejectedList] : []
         "
-        [ngClass]="
-          roleUser === Role.helpDesk || roleUser === Role.admin
-            ? 'cursor-move'
-            : ''
-        " -->
+      >
         <div
-          class="border border-gray-300 bg-gray-200 example-custom-placeholder rounded-lg mb-4"
-          *cdkDragPlaceholder
-        ></div>
-        <div
-          class="p-5 mb-4 bg-white border border-blue-200 rounded-lg card dark:bg-gray-700 dark:border-gray-600"
+          cdkDrag
+          class="example-box"
+          *ngFor="let item of ticketListEvaluating"
+          (cdkDragStarted)="getTicket(item)"
         >
-          <div class="flex justify-between">
-            <div class="text-lg dark:bg-neutral-500 font-medium mb-4">
-              {{ item.title }}
+          <div
+            class="border border-gray-800 bg-gray-200 example-custom-placeholder rounded-lg mb-4"
+            *cdkDragPlaceholder
+          ></div>
+          <div
+            class="p-5 mb-4 bg-white border border-gray-300 rounded-lg shadow-sm dark:bg-gray-700 dark:border-gray-600"
+          >
+            <div class="flex justify-between">
+              <div class="text-lg dark:bg-neutral-500 font-medium mb-4">
+                {{ item.title }}
+              </div>
+              <button
+                [routerLink]="['/tickets/detail', item.id]"
+                type="button"
+                class="ring-2 ring-white h-full py-2 px-3 inline-flex items-start gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-neutral-800 text-gray-900"
+              >
+                View
+              </button>
             </div>
-            <button
-              [routerLink]="['/tickets/detail', item.id]"
-              type="button"
-              class="ring-2 ring-white h-full py-2 px-3 inline-flex items-start gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-neutral-800 text-gray-900"
-            >
-              View
-            </button>
-          </div>
 
-          <div class="flex gap-2">
-            <app-badge-priority
-              [badgePriority]="item.priority"
-            ></app-badge-priority>
-            <app-badge-type [type]="item.type"></app-badge-type>
-          </div>
+            <div class="flex gap-2">
+              <app-badge-priority
+                [badgePriority]="item.priority"
+              ></app-badge-priority>
+              <app-badge-type [type]="item.type"></app-badge-type>
+            </div>
 
-          <div class="flex flex-row items-center mt-2">
-            <app-badge-user [badgeUser]="item.assignedTo"></app-badge-user>
+            <div class="flex flex-row items-center mt-2">
+              <app-badge-user [badgeUser]="item.assignedTo"></app-badge-user>
+            </div>
+            <p class="text-xs text-gray-500 mt-2">
+              {{ item.createdTime | date : "dd-MM-yyyy hh:mm" }}
+            </p>
           </div>
-          <p class="text-xs text-gray-500 mt-2">
-            {{ item.createdTime | date : "dd-MM-yyyy hh:mm" }}
-          </p>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Testing -->
-  <div class="example-container p-4 bg-gray-50 rounded-2xl">
-    <!-- board header -->
-    <div
-      class="flex flex-row justify-between items-center mb-4 mx-1 p-2 pb-4 border-b-4 border-purple-300"
-    >
-      <div class="text-2xl dark:bg-neutral-500 font-semibold">Testing</div>
-    </div>
-    <!-- board card -->
-    <div
-      cdkDropList
-      #testingList="cdkDropList"
-      [cdkDropListData]="ticketListTesting"
-      class="example-list h-full"
-      (cdkDropListDropped)="drop($event, 'Testing')"
-      [cdkDropListConnectedTo]="[]"
-    >
-      <!-- [cdkDropListConnectedTo]="itemList_ids" -->
+    <!-- Rejected -->
+    <div class="example-container rounded-2xl">
+      <!-- board header -->
+      <div class="text-xl dark:bg-neutral-500 font-semibold mb-4">Rejected</div>
+
+      <!-- board card -->
       <div
-        cdkDrag
-        class="example-box"
-        *ngFor="let item of ticketListTesting; let index = index"
-        [cdkDragDisabled]="item.isResolved === undefined"
-        (cdkDragStarted)="getTicket(item)"
+        cdkDropList
+        #rejectedList="cdkDropList"
+        [cdkDropListData]="ticketListRejected"
+        [cdkDropListConnectedTo]="[]"
+        class="example-list overflowy"
+        (cdkDropListDropped)="drop($event, 'Rejected')"
       >
-        <!-- (mouseenter)="mouseEnter(item)" -->
-        <!-- (cdkDragMoved)="cdkDragMoved(item)" -->
-        <!-- [ngClass]="
-          roleUser === Role.helpDesk || roleUser === Role.admin
-            ? 'cursor-move'
-            : ''
+        <div
+          cdkDrag
+          cdkDragLockAxis="y"
+          class="example-box"
+          *ngFor="let item of ticketListRejected"
+          (cdkDragStarted)="getTicket(item)"
+        >
+          <div
+            class="border border-yellow-500 bg-yellow-50 example-custom-placeholder rounded-lg mb-4"
+            *cdkDragPlaceholder
+          ></div>
+          <div
+            class="p-5 mb-4 bg-white border border-gray-300 rounded-lg shadow-sm dark:bg-gray-700 dark:border-gray-600"
+          >
+            <div class="flex justify-between">
+              <div class="text-lg dark:bg-neutral-500 font-medium mb-4">
+                {{ item.title }}
+              </div>
+              <button
+                [routerLink]="['/tickets/detail', item.id]"
+                type="button"
+                class="ring-2 ring-white h-full py-2 px-3 inline-flex items-start gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-neutral-800 text-gray-900"
+              >
+                View
+              </button>
+            </div>
+
+            <div class="flex gap-2">
+              <app-badge-priority
+                [badgePriority]="item.priority"
+              ></app-badge-priority>
+              <app-badge-type [type]="item.type"></app-badge-type>
+            </div>
+
+            <div class="flex flex-row items-center mt-2">
+              <app-badge-user [badgeUser]="item.assignedTo"></app-badge-user>
+            </div>
+            <p class="text-xs text-gray-500 mt-2">
+              {{ item.createdTime | date : "dd-MM-yyyy hh:mm" }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- In Progress -->
+    <div class="example-container rounded-2xl">
+      <!-- board header -->
+      <div class="text-xl dark:bg-neutral-500 font-semibold mb-4">
+        In Progress
+      </div>
+
+      <!-- board card -->
+      <div
+        cdkDropList
+        #inProgressList="cdkDropList"
+        [cdkDropListData]="ticketListInProgress"
+        class="example-list overflowy"
+        (cdkDropListDropped)="drop($event, 'In Progress')"
+        [cdkDropListConnectedTo]="[testingList]"
+      >
+        <!-- [cdkDropListConnectedTo]="
+          user?.username == ticket?.assignedTo?.username ? [testingList] : []
         " -->
         <div
-          class="border border-gray-300 bg-gray-200 example-custom-placeholder rounded-lg mb-4"
-          *cdkDragPlaceholder
-        ></div>
-        <div
-          class="p-5 mb-4 bg-white border border-purple-200 rounded-lg card dark:bg-gray-700 dark:border-gray-600"
+          cdkDrag
+          class="example-box"
+          *ngFor="let item of ticketListInProgress"
+          (cdkDragStarted)="getTicket(item)"
         >
-          <div class="flex justify-between">
-            <div class="text-lg dark:bg-neutral-500 font-medium mb-4">
-              {{ item.title }}
+          <div
+            class="border border-blue-600 bg-blue-50 example-custom-placeholder rounded-lg mb-4"
+            *cdkDragPlaceholder
+          ></div>
+          <div
+            class="p-5 mb-4 bg-white border border-gray-300 rounded-lg shadow-sm dark:bg-gray-700 dark:border-gray-600"
+          >
+            <div class="flex justify-between">
+              <div class="text-lg dark:bg-neutral-500 font-medium mb-4">
+                {{ item.title }}
+              </div>
+              <button
+                [routerLink]="['/tickets/detail', item.id]"
+                type="button"
+                class="ring-2 ring-white h-full py-2 px-3 inline-flex items-start gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-neutral-800 text-gray-900"
+              >
+                View
+              </button>
             </div>
-            <button
-              [routerLink]="['/tickets/detail', item.id]"
-              type="button"
-              class="ring-2 ring-white h-full py-2 px-3 inline-flex items-start gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-neutral-800 text-gray-900"
-            >
-              View
-            </button>
-          </div>
 
-          <div class="flex gap-2">
-            <app-badge-priority
-              [badgePriority]="item.priority"
-            ></app-badge-priority>
-            <app-badge-type [type]="item.type"></app-badge-type>
-          </div>
+            <div class="flex gap-2">
+              <app-badge-priority
+                [badgePriority]="item.priority"
+              ></app-badge-priority>
+              <app-badge-type [type]="item.type"></app-badge-type>
+            </div>
 
-          <div class="flex flex-row items-center mt-2">
-            <app-badge-user [badgeUser]="item.assignedTo"></app-badge-user>
+            <div class="flex flex-row items-center mt-2">
+              <app-badge-user [badgeUser]="item.assignedTo"></app-badge-user>
+            </div>
+            <p class="text-xs text-gray-500 mt-2">
+              {{ item.createdTime | date : "dd-MM-yyyy hh:mm" }}
+            </p>
           </div>
-          <p class="text-xs text-gray-500 mt-2">
-            {{ item.createdTime | date : "dd-MM-yyyy hh:mm" }}
-          </p>
+        </div>
+      </div>
+    </div>
 
-          <div class="flex justify-between pt-5">
-            <!-- *ngIf="
+    <!-- Testing -->
+    <div class="example-container rounded-2xl">
+      <!-- board header -->
+      <div class="text-xl dark:bg-neutral-500 font-semibold mb-4">Testing</div>
+
+      <!-- board card -->
+      <div
+        cdkDropList
+        #testingList="cdkDropList"
+        [cdkDropListData]="ticketListTesting"
+        class="example-list overflowy"
+        (cdkDropListDropped)="drop($event, 'Testing')"
+        [cdkDropListConnectedTo]="[]"
+      >
+        <div
+          cdkDrag
+          class="example-box"
+          *ngFor="let item of ticketListTesting; let index = index"
+          [cdkDragDisabled]="item.isResolved === undefined"
+          (cdkDragStarted)="getTicket(item)"
+        >
+          <div
+            class="border border-purple-600 bg-purple-50 example-custom-placeholder rounded-lg mb-4"
+            *cdkDragPlaceholder
+          ></div>
+          <div
+            class="p-5 mb-4 bg-white border border-gray-300 rounded-lg shadow-sm dark:bg-gray-700 dark:border-gray-600"
+          >
+            <div class="flex justify-between">
+              <div class="text-lg dark:bg-neutral-500 font-medium mb-4">
+                {{ item.title }}
+              </div>
+              <button
+                [routerLink]="['/tickets/detail', item.id]"
+                type="button"
+                class="ring-2 ring-white h-full py-2 px-3 inline-flex items-start gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-neutral-800 text-gray-900"
+              >
+                View
+              </button>
+            </div>
+
+            <div class="flex gap-2">
+              <app-badge-priority
+                [badgePriority]="item.priority"
+              ></app-badge-priority>
+              <app-badge-type [type]="item.type"></app-badge-type>
+            </div>
+
+            <div class="flex flex-row items-center mt-2">
+              <app-badge-user [badgeUser]="item.assignedTo"></app-badge-user>
+            </div>
+            <p class="text-xs text-gray-500 mt-2">
+              {{ item.createdTime | date : "dd-MM-yyyy hh:mm" }}
+            </p>
+
+            <div class="flex justify-between pt-5">
+              <!-- *ngIf="
               roles.includes(Role.user) &&
               !roles.includes(Role.helpDesk) &&
               !roles.includes(Role.admin)
             " -->
-            <button
-              (click)="resolvedTicket(item, true, index)"
-              type="button"
-              class="ring-2 ring-white h-full py-2 px-3 inline-flex items-start gap-x-2 text-sm font-medium rounded-lg text-teal-500 border border-gray-200 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-neutral-800"
-            >
-              Resolved
-            </button>
-            <button
-              (click)="resolvedTicket(item, false, index)"
-              type="button"
-              class="ring-2 ring-white h-full py-2 px-3 inline-flex items-start gap-x-2 text-sm font-medium rounded-lg text-red-500 border border-gray-200 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-neutral-800"
-            >
-              Unresolved
-            </button>
-          </div>
-
-          <div
-            class="flex justify-end pt-5"
-            *ngIf="roles.includes(Role.helpDesk) && item.resolved !== undefined"
-          >
-            <span
-              class="ring-2 ring-white h-full py-2 px-3 inline-flex items-start gap-x-2 text-sm font-medium rounded-lg border bg-white disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-neutral-800"
-              [ngClass]="
-                item.resolved
-                  ? 'text-teal-500 border-teal-500'
-                  : 'text-red-500 border-red-500'
+              <button
+                (click)="resolvedTicket(item, true, index)"
+                type="button"
+                class="ring-2 ring-white h-full py-2 px-3 inline-flex items-start gap-x-2 text-sm font-medium rounded-lg text-teal-500 border border-gray-200 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-neutral-800"
+              >
+                Resolved
+              </button>
+              <button
+                (click)="resolvedTicket(item, false, index)"
+                type="button"
+                class="ring-2 ring-white h-full py-2 px-3 inline-flex items-start gap-x-2 text-sm font-medium rounded-lg text-red-500 border border-gray-200 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-neutral-800"
+              >
+                Unresolved
+              </button>
+            </div>
+            <!-- 
+            <div
+              class="flex justify-end pt-5"
+              *ngIf="
+                roles.includes(Role.helpDesk) && item.resolved !== undefined
               "
             >
-              {{ item.resolved ? "Resolved" : "Unresolved" }}
-            </span>
+              <span
+                class="ring-2 ring-white h-full py-2 px-3 inline-flex items-start gap-x-2 text-sm font-medium rounded-lg border bg-white disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-neutral-800"
+                [ngClass]="
+                  item.resolved
+                    ? 'text-teal-500 border-teal-500'
+                    : 'text-red-500 border-red-500'
+                "
+              >
+                {{ item.resolved ? "Resolved" : "Unresolved" }}
+              </span>
+            </div> -->
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Resolved -->
-  <div class="example-container p-4 bg-gray-50 rounded-2xl">
-    <!-- board header -->
-    <div
-      class="flex flex-row justify-between items-center mb-4 mx-1 p-2 pb-4 border-b-4 border-teal-300"
-    >
-      <div class="text-2xl dark:bg-neutral-500 font-semibold">Resolved</div>
-    </div>
-    <!-- board card -->
-    <div
-      cdkDropList
-      #resolvedList="cdkDropList"
-      [cdkDropListData]="ticketListResolved"
-      [cdkDropListConnectedTo]="[]"
-      class="example-list h-full"
-      (cdkDropListDropped)="drop($event, 'Resolved')"
-    >
+    <!-- Resolved -->
+    <div class="example-container rounded-2xl">
+      <!-- board header -->
+      <div class="text-xl dark:bg-neutral-500 font-semibold mb-4">Resolved</div>
+
+      <!-- board card -->
       <div
-        cdkDrag
-        cdkDragLockAxis="y"
-        class="example-box"
-        [cdkDragDisabled]="true"
-        *ngFor="let item of ticketListResolved"
-        (cdkDragStarted)="getTicket(item)"
+        cdkDropList
+        #resolvedList="cdkDropList"
+        [cdkDropListData]="ticketListResolved"
+        [cdkDropListConnectedTo]="[]"
+        class="example-list overflowy"
+        (cdkDropListDropped)="drop($event, 'Resolved')"
       >
-        <!-- [ngClass]="roles.includes(Role.admin) ? 'cursor-move' : ''" -->
         <div
-          class="border border-gray-300 bg-gray-200 example-custom-placeholder rounded-lg mb-4"
-          *cdkDragPlaceholder
-        ></div>
-        <div
-          class="p-5 mb-4 bg-white border border-teal-200 rounded-lg card dark:bg-gray-700 dark:border-gray-600"
+          cdkDrag
+          cdkDragLockAxis="y"
+          class="example-box"
+          [cdkDragDisabled]="true"
+          *ngFor="let item of ticketListResolved"
+          (cdkDragStarted)="getTicket(item)"
         >
-          <div class="flex justify-between">
-            <div class="text-lg dark:bg-neutral-500 font-medium mb-4">
-              {{ item.title }}
+          <div
+            class="border border-green-600 bg-green-50 example-custom-placeholder rounded-lg mb-4"
+            *cdkDragPlaceholder
+          ></div>
+          <div
+            class="p-5 mb-4 bg-white border border-gray-300 rounded-lg shadow-sm dark:bg-gray-700 dark:border-gray-600"
+          >
+            <div class="flex justify-between">
+              <div class="text-lg dark:bg-neutral-500 font-medium mb-4">
+                {{ item.title }}
+              </div>
+              <button
+                [routerLink]="['/tickets/detail', item.id]"
+                type="button"
+                class="ring-2 ring-white h-full py-2 px-3 inline-flex items-start gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-neutral-800 text-gray-900"
+              >
+                View
+              </button>
             </div>
-            <button
-              [routerLink]="['/tickets/detail', item.id]"
-              type="button"
-              class="ring-2 ring-white h-full py-2 px-3 inline-flex items-start gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-neutral-800 text-gray-900"
-            >
-              View
-            </button>
-          </div>
 
-          <div class="flex gap-2">
-            <app-badge-priority
-              [badgePriority]="item.priority"
-            ></app-badge-priority>
-            <app-badge-type [type]="item.type"></app-badge-type>
-          </div>
+            <div class="flex gap-2">
+              <app-badge-priority
+                [badgePriority]="item.priority"
+              ></app-badge-priority>
+              <app-badge-type [type]="item.type"></app-badge-type>
+            </div>
 
-          <div class="flex flex-row items-center mt-2">
-            <app-badge-user [badgeUser]="item.assignedTo"></app-badge-user>
+            <div class="flex flex-row items-center mt-2">
+              <app-badge-user [badgeUser]="item.assignedTo"></app-badge-user>
+            </div>
+            <p class="text-xs text-gray-500 mt-2">
+              {{ item.createdTime | date : "dd-MM-yyyy hh:mm" }}
+            </p>
           </div>
-          <p class="text-xs text-gray-500 mt-2">
-            {{ item.createdTime | date : "dd-MM-yyyy hh:mm" }}
-          </p>
         </div>
       </div>
     </div>
@@ -515,7 +476,7 @@
 
 <ng-template #emptyticketListOpen>
   <div
-    [routerLink]="['/tickets/create-ticket']"
+    routerLink="/tickets/create-ticket"
     class="min-w-[354.5px] max-w-[354.5px] mt-4 cursor-pointer border-2 border-dashed border-gray-300 example-custom-placeholder rounded-lg mb-4 flex items-center justify-center font-medium gap-1 hover:bg-gray-100"
   >
     <svg
