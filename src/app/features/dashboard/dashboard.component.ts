@@ -1,17 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { IUser } from 'src/app/core/modeles/IUser';
 import { Role } from 'src/app/core/modeles/Role';
-import { TaskPriority } from 'src/app/core/modeles/TaskPriority';
 import { TaskStatus } from 'src/app/core/modeles/TaskStatus';
 import { Ticket } from 'src/app/core/modeles/Ticket';
 import { TypeActivity } from 'src/app/core/modeles/TypeActivity';
-import { RecentActivityUser } from 'src/app/core/modeles/RecentActivity';
-import { IBadgeUser } from 'src/app/core/modeles/IBadgeUser';
-import { Department } from 'src/app/core/modeles/Department';
-import { UsersService } from 'src/app/core/services/users.service';
 import { TicketService } from 'src/app/core/services/ticket.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -25,7 +18,11 @@ export class DashboardComponent implements OnInit {
   Role = Role;
   roles: string[] = [];
 
-  departments: Department[] = [];
+  // departments: Department[] = [];
+
+  totalTickets?: number;
+  totalUsers?: number;
+  totalDepartments?: number;
 
   constructor(private ticketService: TicketService) {}
 
@@ -47,6 +44,7 @@ export class DashboardComponent implements OnInit {
   getFavoriteTickets() {
     this.ticketService.getAllTickets().subscribe({
       next: (tickets: Ticket[]) => {
+        this.totalTickets = tickets.length;
         tickets.forEach((ticket) => {
           if (ticket.favorite == true) this.favoriteTicketList.push(ticket);
         });
@@ -61,5 +59,9 @@ export class DashboardComponent implements OnInit {
     this.favoriteTicketList.forEach((ticket: Ticket) => {
       if (ticket.id === idTicket) ticket.favorite = !ticket.favorite;
     });
+  }
+
+  getTotalDepartments(event: number) {
+    this.totalDepartments = event;
   }
 }

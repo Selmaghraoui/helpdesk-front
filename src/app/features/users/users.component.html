@@ -130,13 +130,13 @@
                     </svg>
                   </div>
                   <input
-                    style="
-                      background-color: rgb(243 244 246 / var(--tw-bg-opacity));
-                    "
-                    class="py-3 ps-10 pe-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
                     type="text"
-                    placeholder="Type a name"
-                    value=""
+                    class="py-3 ps-10 pe-4 block w-full border-gray-200 bg-gray-50 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+                    id="search-text"
+                    aria-describedby="search-text"
+                    [(ngModel)]="searchText"
+                    placeholder="Search by username"
+                    autofocus
                   />
                 </div>
                 <!-- End SearchBox -->
@@ -144,7 +144,7 @@
 
               <div *ngIf="listUsers.length != 0">
                 <div class="inline-flex gap-x-2">
-                  <div
+                  <!-- <div
                     class="hs-dropdown [--placement:bottom-right] relative inline-block"
                     data-hs-dropdown-auto-close="inside"
                   >
@@ -257,7 +257,7 @@
                         </label>
                       </div>
                     </div>
-                  </div>
+                  </div> -->
 
                   <ng-container
                     *ngIf="
@@ -300,8 +300,22 @@
             class="min-w-full divide-y divide-gray-200 dark:divide-neutral-700"
           >
             <ng-container *ngIf="listUsers.length != 0; else emptyUsersList">
-              <thead class="dark:bg-neutral-800">
+              <thead
+                *ngIf="(listUsers | appFilterUsers : searchText)?.length != 0"
+                class="dark:bg-neutral-800"
+              >
                 <tr>
+                  <!-- name -->
+                  <th scope="col" class="p-3 text-start">
+                    <div class="flex items-center gap-x-2">
+                      <span
+                        class="text-lg font-semibold tracking-wide text-gray-800 dark:text-neutral-200"
+                      >
+                        Name
+                      </span>
+                    </div>
+                  </th>
+                  <!-- reference -->
                   <th
                     scope="col"
                     class="p-3 text-start"
@@ -318,17 +332,16 @@
                       </span>
                     </div>
                   </th>
-
+                  <!-- reference -->
                   <th scope="col" class="p-3 text-start">
                     <div class="flex items-center gap-x-2">
                       <span
                         class="text-lg font-semibold tracking-wide text-gray-800 dark:text-neutral-200"
                       >
-                        Name
+                        Username
                       </span>
                     </div>
                   </th>
-
                   <th scope="col" class="p-3 text-start">
                     <div class="flex items-center gap-x-2">
                       <span
@@ -380,102 +393,124 @@
                 </tr>
               </thead>
 
-              <tbody class="divide-y divide-gray-200 dark:divide-neutral-700">
-                <tr
-                  class="bg-white dark:bg-neutral-900 dark:hover:bg-neutral-800"
-                  *ngFor="let user of listUsers"
-                  [ngClass]="
-                    !user.enabled
-                      ? '!border-b !border-t !border-red-200 hover:bg-red-50'
-                      : 'hover:bg-gray-50'
-                  "
+              <ng-container
+                *ngIf="
+                  (listUsers | appFilterUsers : searchText)?.length != 0;
+                  else emptySearchedUserList
+                "
+              >
+                <tbody
+                  *ngFor="let user of listUsers | appFilterUsers : searchText"
+                  class="divide-y divide-gray-200 dark:divide-neutral-700"
                 >
-                  <td
-                    class="whitespace-nowrap"
-                    *ngIf="
-                      roles.includes(Role.admin) ||
-                      roles.includes(Role.helpDesk)
+                  <tr
+                    class="bg-white dark:bg-neutral-900 dark:hover:bg-neutral-800"
+                    [ngClass]="
+                      !user.enabled
+                        ? '!border-b !border-t !border-red-200 hover:bg-red-50'
+                        : 'hover:bg-gray-50'
                     "
                   >
-                    <div class="p-3 font-medium">{{ user.referenceUser }}</div>
-                  </td>
-                  <td class="whitespace-nowrap">
-                    <div class="p-3">
-                      <div class="flex items-center gap-x-3">
-                        <app-display-image
-                          [docId]="user?.docId"
-                          [css]="
-                            !user.enabled
-                              ? 'inline-block size-[38px] rounded-xl ring-4 ring-white border !border-red-200'
-                              : 'inline-block size-[38px] rounded-xl ring-4 ring-white'
-                          "
-                        ></app-display-image>
-                        <div class="grow">
-                          <span
-                            class="block text-sm font-semibold text-gray-800 dark:text-neutral-200"
-                          >
-                            {{ user.firstName }}
-                            {{ user.lastName }}</span
-                          >
+                    <!-- name -->
+                    <td class="whitespace-nowrap">
+                      <div class="p-3">
+                        <div class="flex items-center gap-x-3">
+                          <app-display-image
+                            [docId]="user?.docId"
+                            [css]="
+                              !user.enabled
+                                ? 'inline-block size-[38px] rounded-xl ring-4 ring-white border !border-red-200'
+                                : 'inline-block size-[38px] rounded-xl ring-4 ring-white'
+                            "
+                          ></app-display-image>
+                          <div class="grow">
+                            <span
+                              class="block text-sm font-semibold text-gray-800 dark:text-neutral-200"
+                            >
+                              {{ user.firstName }}
+                              {{ user.lastName }}</span
+                            >
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </td>
-                  <td class="h-px w-72 whitespace-nowrap">
-                    <div class="p-3">
-                      <span
-                        class="block text-sm text-gray-800 dark:text-neutral-200"
-                      >
-                        {{ user.email }}
-                      </span>
-                    </div>
-                  </td>
-                  <td class="whitespace-nowrap">
-                    <div class="p-3">
-                      <app-badge-department
-                        [department]="user?.department"
-                      ></app-badge-department>
-                    </div>
-                  </td>
-                  <td class="whitespace-nowrap">
-                    <div class="p-3">
-                      <span
-                        class="block text-sm text-gray-800 dark:text-neutral-200"
-                      >
-                        {{ user.phoneNumber }}
-                      </span>
-                    </div>
-                  </td>
-                  <td class="whitespace-nowrap">
-                    <div class="p-3">
-                      <span
-                        class="ring-2 ring-white inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium text-white"
-                        [ngClass]="user.enabled ? 'bg-teal-500' : 'bg-red-500'"
-                        >{{ user.enabled ? "Active" : "Inactive" }}</span
-                      >
-                    </div>
-                  </td>
-
-                  <ng-container
-                    *ngIf="
-                      roles.includes(Role.admin) ||
-                      roles.includes(Role.helpDesk)
-                    "
-                  >
-                    <td class="whitespace-nowrap">
-                      <div class="p-3 flex justify-end">
-                        <button
-                          [routerLink]="['detail', user.id]"
-                          type="button"
-                          class="ring-2 ring-white py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-neutral-800"
-                        >
-                          View
-                        </button>
+                    </td>
+                    <!-- reference -->
+                    <td
+                      class="whitespace-nowrap"
+                      *ngIf="
+                        roles.includes(Role.admin) ||
+                        roles.includes(Role.helpDesk)
+                      "
+                    >
+                      <div class="p-3 font-medium">
+                        {{ user.referenceUser }}
                       </div>
                     </td>
-                  </ng-container>
-                </tr>
-              </tbody>
+                    <!-- username -->
+                    <td class="whitespace-nowrap">
+                      <div class="p-3 font-sm">
+                        {{ user.username }}
+                      </div>
+                    </td>
+                    <!--  -->
+                    <td class="h-px w-72 whitespace-nowrap">
+                      <div class="p-3">
+                        <span
+                          class="text-sm text-gray-800 dark:text-neutral-200"
+                        >
+                          {{ user.email }}
+                        </span>
+                      </div>
+                    </td>
+                    <td class="whitespace-nowrap">
+                      <div class="p-3">
+                        <app-badge-department
+                          [department]="user?.department"
+                        ></app-badge-department>
+                      </div>
+                    </td>
+                    <td class="whitespace-nowrap">
+                      <div class="p-3">
+                        <span
+                          class="block text-sm text-gray-800 dark:text-neutral-200"
+                        >
+                          {{ user.phoneNumber }}
+                        </span>
+                      </div>
+                    </td>
+                    <td class="whitespace-nowrap">
+                      <div class="p-3">
+                        <span
+                          class="ring-2 ring-white inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium text-white"
+                          [ngClass]="
+                            user.enabled ? 'bg-teal-500' : 'bg-red-500'
+                          "
+                          >{{ user.enabled ? "Active" : "Inactive" }}</span
+                        >
+                      </div>
+                    </td>
+                    <!--  -->
+                    <ng-container
+                      *ngIf="
+                        roles.includes(Role.admin) ||
+                        roles.includes(Role.helpDesk)
+                      "
+                    >
+                      <td class="whitespace-nowrap">
+                        <div class="p-3 flex justify-end">
+                          <button
+                            [routerLink]="['detail', user.id]"
+                            type="button"
+                            class="ring-2 ring-white py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-neutral-800"
+                          >
+                            View
+                          </button>
+                        </div>
+                      </td>
+                    </ng-container>
+                  </tr>
+                </tbody>
+              </ng-container>
             </ng-container>
           </table>
           <!-- End Table -->
@@ -550,6 +585,77 @@
   <!-- End Card -->
 </div>
 <!-- End Table Section -->
+
+<ng-template #emptySearchedUserList>
+  <div
+    class="flex items-center text-center border rounded-lg h-96 dark:border-gray-700"
+  >
+    <div class="flex flex-col w-full max-w-sm px-4 mx-auto">
+      <div
+        class="p-3 mx-auto text-blue-500 bg-blue-100 rounded-full dark:bg-gray-800"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="w-6 h-6"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+          />
+        </svg>
+      </div>
+      <h1 class="mt-3 text-lg text-gray-800 dark:text-white">No users found</h1>
+      <p class="mt-2 mb-0 text-gray-500 dark:text-gray-400">
+        Your search “ {{ searchText }} ” did not match any users.
+      </p>
+      <p
+        *ngIf="roles.includes(Role.admin) || roles.includes(Role.helpDesk)"
+        class="m-0 text-gray-500 dark:text-gray-400"
+      >
+        Please try again or create add a new user.
+      </p>
+      <div class="flex items-center mt-4 sm:mx-auto gap-x-3">
+        <button
+          (click)="searchText = ''"
+          class="w-1/2 px-5 py-2 text-sm text-gray-700 transition-colors duration-200 bg-white border rounded-lg sm:w-auto dark:hover:bg-gray-800 dark:bg-gray-900 hover:bg-gray-100 dark:text-gray-200 dark:border-gray-700"
+        >
+          Clear Search
+        </button>
+
+        <ng-container
+          *ngIf="roles.includes(Role.admin) || roles.includes(Role.helpDesk)"
+        >
+          <button
+            class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600"
+            routerLink="/users/create-user"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-5 h-5"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+
+            <span>Add User</span>
+          </button>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</ng-template>
 
 <ng-template #emptyUsersList>
   <div

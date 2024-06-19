@@ -1,0 +1,41 @@
+<h1 mat-dialog-title *ngIf="data.status === 'Rejected'">Provide Explanation</h1>
+<h1 mat-dialog-title *ngIf="data.status === 'In Progress'">Affected to :</h1>
+<div mat-dialog-content>
+  <div *ngIf="data.status === 'Rejected'">
+    <p>Please provide an explanation for rejecting this ticket :</p>
+    <input
+      class="py-3 px-4 block w-full border-gray-200 rounded-lg focus:border-2 bg-gray-50 text-sm focus:outline-none border focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+      placeholder="Enter explanation"
+      [(ngModel)]="explanation"
+    />
+  </div>
+  <div *ngIf="data.status === 'In Progress'">
+    <p>Affected this ticket to :</p>
+    <app-affected-shared
+      [isModal]="true"
+      [isSharedWhith]="false"
+      (usersSelectedAffected)="affecedTicket($event)"
+    ></app-affected-shared>
+  </div>
+</div>
+<!-- Actions -->
+<div
+  mat-dialog-actions
+  class="flex gap-2"
+  *ngIf="this.data.status === 'Rejected' || this.data.status === 'Canceled'"
+>
+  <button
+    class="py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+    (click)="onNoClick()"
+  >
+    Cancel
+  </button>
+  <button
+    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+    color="primary"
+    (click)="onYesClick()"
+    [disabled]="isExplanationValid && isAffectedValid"
+  >
+    Submit
+  </button>
+</div>

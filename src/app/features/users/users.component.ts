@@ -22,6 +22,7 @@ export class UsersComponent implements OnInit {
   roles: string[] = [];
 
   listUsers: IUser[] = [];
+  searchText = '';
   totalUsers: number = 0;
   totalUsersEnabled: number = 0;
   totalUsersHelpDesk: number = 0;

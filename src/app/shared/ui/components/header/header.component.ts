@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { KeycloakService } from 'keycloak-angular';
 import { IUser } from 'src/app/core/modeles/IUser';
 
 @Component({
@@ -9,8 +10,7 @@ import { IUser } from 'src/app/core/modeles/IUser';
 export class HeaderComponent implements OnInit {
   user?: IUser;
   isDisplay: boolean = false;
-
-  constructor() {}
+  constructor(private keycloakService: KeycloakService) {}
 
   ngOnInit() {
     this.getUser();
@@ -23,5 +23,12 @@ export class HeaderComponent implements OnInit {
 
   toggleDisplay() {
     this.isDisplay = !this.isDisplay;
+  }
+
+  signOut() {
+    const x = 'http://localhost:4200';
+
+    // this.keycloakService.logout(this.keycloakService?.)
+    this.keycloakService.clearToken();
   }
 }

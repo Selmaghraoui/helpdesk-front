@@ -22,6 +22,7 @@ import { EditProfilUserPopupComponent } from './ui/components/edit-profil-user-p
 import { ActivityComponent } from './ui/components/activity/activity.component';
 import { AffectedSharedComponent } from './ui/components/affected-shared/affected-shared.component';
 import { DisplayImageComponent } from './ui/components/display-image/display-image.component';
+import { FilterUsersPipe } from '../core/pipes/filter-users.pipe';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,9 @@ import { DisplayImageComponent } from './ui/components/display-image/display-ima
     BadgeUserComponent,
     BadgeTypeComponent,
     BadgeDepartmentComponent,
+
+    // ------- Pipes
+    FilterUsersPipe,
   ],
   imports: [
     CommonModule,
@@ -74,6 +78,9 @@ import { DisplayImageComponent } from './ui/components/display-image/display-ima
     BadgeUserComponent,
     BadgeTypeComponent,
     BadgeDepartmentComponent,
+
+    // ------- Pipes
+    FilterUsersPipe,
   ],
   providers: [],
 })

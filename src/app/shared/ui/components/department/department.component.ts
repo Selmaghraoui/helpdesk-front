@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Department } from 'src/app/core/modeles/Department';
 import { Role } from 'src/app/core/modeles/Role';
@@ -12,6 +12,8 @@ import { DepartmentDto } from 'src/app/core/services/users.service';
   styleUrls: ['./department.component.scss'],
 })
 export class DepartmentComponent implements OnInit {
+  @Output() totalDepartments = new EventEmitter<number>();
+
   departments: Department[] = [];
   isModalOpen = false;
   departmentFormGroup!: FormGroup;
@@ -39,6 +41,7 @@ export class DepartmentComponent implements OnInit {
     this.departmentService.getAllDepartment().subscribe({
       next: (departmentsList: Department[]) => {
         this.departments = departmentsList;
+        this.totalDepartments.emit(departmentsList.length);
       },
       error: (error: HttpErrorResponse) => {
         console.log(error.message);
@@ -65,6 +68,7 @@ export class DepartmentComponent implements OnInit {
           name: departmentDto.name,
           users: undefined,
         });
+        this.totalDepartments.emit(this.departments.length);
         this.closeModal();
       },
       error: (error: HttpErrorResponse) => {
@@ -78,6 +82,7 @@ export class DepartmentComponent implements OnInit {
       this.departmentService.deleteDepartment(idDepartment).subscribe({
         next: () => {
           this.departments.splice(index, 1);
+          this.totalDepartments.emit(this.departments.length);
         },
         error: (error: HttpErrorResponse) => {
           console.log(error.message);

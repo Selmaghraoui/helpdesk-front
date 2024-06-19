@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { KeycloakService } from 'keycloak-angular';
 import { UsersService } from './core/services/users.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { IUser } from './core/modeles/IUser';
@@ -15,7 +14,6 @@ export class AppComponent implements OnInit {
   title = 'HelpDesk';
 
   constructor(
-    public keycloakService: KeycloakService,
     private usersService: UsersService,
     private departmentService: DepartmentService
   ) {}
@@ -23,7 +21,6 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.getProfil();
     this.getRoles();
-    this.getDepartments();
   }
 
   // Profil
@@ -64,29 +61,7 @@ export class AppComponent implements OnInit {
     localStorage.setItem('roles', JSON.stringify(roles));
   }
 
-  // Roles
-  getDepartments() {
-    this.departmentService.getAllDepartment().subscribe({
-      next: (departments: Department[]) => {
-        this.saveDepartments(departments);
-      },
-      error: (error: HttpErrorResponse) => {
-        console.log(error.message);
-      },
-    });
-  }
-
   saveDepartments(departments: Department[]): void {
     localStorage.setItem('departments', JSON.stringify(departments));
-  }
-
-  async handleLogin() {
-    await this.keycloakService.login({
-      redirectUri: window.location.origin,
-    });
-  }
-
-  handleLogout() {
-    this.keycloakService.logout(window.location.origin);
   }
 }

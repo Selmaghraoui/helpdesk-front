@@ -1,24 +1,49 @@
 <div class="relative">
   <input
-    class="mb-2 p-3 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+    *ngIf="
+      (roles.includes(Role.admin) &&
+        (isSharedWhith ||
+          isModal ||
+          ((status == TaskStatus.evaluating ||
+            status == TaskStatus.inProgress) &&
+            !isSharedWhith))) ||
+      (roles.includes(Role.helpDesk) &&
+        !roles.includes(Role.admin) &&
+        isSharedWhith) ||
+      (roles.includes(Role.user) && isSharedWhith)
+    "
     type="text"
+    class="mb-2 p-3 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+    id="search-text"
+    aria-describedby="search-text"
+    [(ngModel)]="searchText"
     [placeholder]="
       isSharedWhith ? 'Shared this ticket with ' : 'Affected this ticket to'
     "
-    [(ngModel)]="searchText"
   />
-
   <div
-    class="absolute w-full rounded-md border p-2 flex flex-col bg-white z-50"
+    [ngClass]="isModal ? '' : 'absolute'"
+    class="w-full rounded-md border p-2 flex flex-col bg-white z-50"
     *ngIf="searchText != ''"
   >
-    <ng-container *ngFor="let user of usersSearched; let index = index">
+    <ng-container
+      *ngFor="let user of usersSearched | appFilterUsers : searchText"
+    >
       <app-badge-user
-        class="hover:bg-gray-100 rounded-lg"
+        class="hover:bg-gray-100 rounded-lg flex items-center"
         [badgeUser]="user"
         [searchable]="false"
         (click)="addUser(user)"
       ></app-badge-user>
+    </ng-container>
+    <ng-container
+      *ngIf="(usersSearched | appFilterUsers : searchText)?.length == 0"
+    >
+      <div class="bg-gray-100 rounded-lg w-full items-center p-3 pe-3">
+        <div class="text-sm font-medium text-gray-800 dark:text-white">
+          No result.
+        </div>
+      </div>
     </ng-container>
   </div>
 

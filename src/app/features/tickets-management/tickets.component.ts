@@ -10,7 +10,7 @@ import {
   TicketService,
   UserNameDto,
 } from 'src/app/core/services/ticket.service';
-import { UsersService } from 'src/app/core/services/users.service';
+import { filterTicket } from 'src/app/core/utils/helpers';
 
 @Component({
   selector: 'app-tickets',
@@ -33,6 +33,9 @@ export class TicketsComponent implements OnInit {
   ];
 
   ticketList: Ticket[] = [];
+  searchText = '';
+  totalTicketListOpen?: number;
+  totalTicketListHigh?: number;
 
   constructor(private TicketService: TicketService) {}
 
@@ -65,6 +68,10 @@ export class TicketsComponent implements OnInit {
     this.TicketService.getAllTickets().subscribe({
       next: (tickets: Ticket[]) => {
         this.ticketList = tickets;
+        const listOpen = filterTicket(tickets, 'status', TaskStatus.open);
+        this.totalTicketListOpen = listOpen.length;
+        const listHigh = filterTicket(tickets, 'priority', TaskPriority.high);
+        this.totalTicketListHigh = listHigh.length;
       },
       error: (error: HttpErrorResponse) => {
         console.log(error.message);

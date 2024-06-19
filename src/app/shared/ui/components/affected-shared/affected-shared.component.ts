@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { IUser } from 'src/app/core/modeles/IUser';
 import { Role } from 'src/app/core/modeles/Role';
+import { TaskStatus } from 'src/app/core/modeles/TaskStatus';
 import { UpdateSharedWithDto } from 'src/app/core/services/ticket.service';
 import { UsersService } from 'src/app/core/services/users.service';
 
@@ -15,18 +16,22 @@ export interface UpdateAssignedToDto {
 })
 export class AffectedSharedComponent implements OnInit {
   @Input() isSharedWhith?: boolean = true;
+  @Input() status?: TaskStatus;
 
   @Input() usersShared?: IUser[];
+  @Input() isModal?: Boolean = false;
   @Input() userAffected?: IUser;
   @Output() usersSelectedShared = new EventEmitter<IUser[]>();
   @Output() idUsersSelectedShared = new EventEmitter<UpdateSharedWithDto>();
   @Output() usersSelectedAffected = new EventEmitter<UpdateAssignedToDto>();
 
   searchText = '';
-  usersSearched?: IUser[];
+  usersSearched: IUser[] = [];
 
   Role = Role;
   roles: string[] = [];
+
+  TaskStatus = TaskStatus;
 
   constructor(private usersService: UsersService) {}
 
