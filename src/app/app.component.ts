@@ -21,6 +21,7 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.getProfil();
     this.getRoles();
+    this.getDepartments();
   }
 
   // Profil
@@ -59,6 +60,18 @@ export class AppComponent implements OnInit {
 
   saveRoles(roles: string[]): void {
     localStorage.setItem('roles', JSON.stringify(roles));
+  }
+
+  // Roles
+  getDepartments() {
+    this.departmentService.getAllDepartment().subscribe({
+      next: (response: Department[]) => {
+        this.saveDepartments(response);
+      },
+      error: (error: HttpErrorResponse) => {
+        console.log(error.message);
+      },
+    });
   }
 
   saveDepartments(departments: Department[]): void {

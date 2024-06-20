@@ -1,10 +1,10 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { IUser } from '../modeles/IUser';
 import { Ticket } from '../modeles/Ticket';
-import { UserRes } from 'src/app/features/users/users.component';
+import { badgeUser } from 'src/app/shared/ui/components/badge-user/badge-user.component';
 
-@Pipe({ name: 'appFilterUsers' })
-export class FilterUsersPipe implements PipeTransform {
+@Pipe({ name: 'appFilterBadgeUsers' })
+export class FilterBadgeUsersPipe implements PipeTransform {
   /**
    * Pipe filters the list of elements based on the search text provided
    *
@@ -12,7 +12,7 @@ export class FilterUsersPipe implements PipeTransform {
    * @param searchText search string
    * @returns list of elements filtered by search text or []
    */
-  transform(users?: UserRes[], searchText?: string): UserRes[] | undefined {
+  transform(users?: badgeUser[], searchText?: string): badgeUser[] | undefined {
     if (!searchText) {
       return users;
     }

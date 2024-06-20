@@ -27,7 +27,7 @@
     *ngIf="searchText != ''"
   >
     <ng-container
-      *ngFor="let user of usersSearched | appFilterUsers : searchText"
+      *ngFor="let user of usersSearched | appFilterBadgeUsers : searchText"
     >
       <app-badge-user
         class="hover:bg-gray-100 rounded-lg flex items-center"
@@ -37,7 +37,7 @@
       ></app-badge-user>
     </ng-container>
     <ng-container
-      *ngIf="(usersSearched | appFilterUsers : searchText)?.length == 0"
+      *ngIf="(usersSearched | appFilterBadgeUsers : searchText)?.length == 0"
     >
       <div class="bg-gray-100 rounded-lg w-full items-center p-3 pe-3">
         <div class="text-sm font-medium text-gray-800 dark:text-white">

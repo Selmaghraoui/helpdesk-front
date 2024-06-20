@@ -44,10 +44,18 @@ export class TicketsBoardComponent implements OnInit {
   constructor(private ticketService: TicketService, public dialog: MatDialog) {}
 
   ngOnInit() {
-    this.getRoles();
+    this.getUser();
     this.getRoles();
 
-    this.getAllTickets();
+    if (this.roles.includes(Role.helpDesk) || this.roles.includes(Role.admin))
+      this.getAllTickets();
+    else if (
+      this.roles.includes(Role.user) &&
+      !this.roles.includes(Role.helpDesk) &&
+      !this.roles.includes(Role.admin)
+    ) {
+      this.getTicketsForUser();
+    }
   }
 
   getRoles(): void {
@@ -71,44 +79,61 @@ export class TicketsBoardComponent implements OnInit {
   getAllTickets() {
     this.ticketService.getAllTickets().subscribe({
       next: (tickets: Ticket[]) => {
-        this.ticketList = tickets;
-
-        this.ticketListOpen = filterTicket(tickets, 'status', TaskStatus.open);
-        this.ticketListCanceled = filterTicket(
-          tickets,
-          'status',
-          TaskStatus.canceled
-        );
-        this.ticketListEvaluating = filterTicket(
-          tickets,
-          'status',
-          TaskStatus.evaluating
-        );
-        this.ticketListInProgress = filterTicket(
-          tickets,
-          'status',
-          TaskStatus.inProgress
-        );
-        this.ticketListTesting = filterTicket(
-          tickets,
-          'status',
-          TaskStatus.testing
-        );
-        this.ticketListRejected = filterTicket(
-          tickets,
-          'status',
-          TaskStatus.rejected
-        );
-        this.ticketListResolved = filterTicket(
-          tickets,
-          'status',
-          TaskStatus.resolved
-        );
+        this.ticketProcessBoard(tickets);
       },
       error: (error: HttpErrorResponse) => {
         console.log(error.message);
       },
     });
+  }
+
+  getTicketsForUser() {
+    if (this.user?.username) {
+      this.ticketService.getTickestForUser(this.user?.username).subscribe({
+        next: (tickets: Ticket[]) => {
+          this.ticketProcessBoard(tickets);
+        },
+        error: (error: HttpErrorResponse) => {
+          console.log(error.message);
+        },
+      });
+    }
+  }
+
+  ticketProcessBoard(tickets: Ticket[]) {
+    this.ticketList = tickets;
+
+    this.ticketListOpen = filterTicket(tickets, 'status', TaskStatus.open);
+    this.ticketListCanceled = filterTicket(
+      tickets,
+      'status',
+      TaskStatus.canceled
+    );
+    this.ticketListEvaluating = filterTicket(
+      tickets,
+      'status',
+      TaskStatus.evaluating
+    );
+    this.ticketListInProgress = filterTicket(
+      tickets,
+      'status',
+      TaskStatus.inProgress
+    );
+    this.ticketListTesting = filterTicket(
+      tickets,
+      'status',
+      TaskStatus.testing
+    );
+    this.ticketListRejected = filterTicket(
+      tickets,
+      'status',
+      TaskStatus.rejected
+    );
+    this.ticketListResolved = filterTicket(
+      tickets,
+      'status',
+      TaskStatus.resolved
+    );
   }
 
   getTicket(ticket: Ticket, index: number) {
@@ -188,17 +213,17 @@ export class TicketsBoardComponent implements OnInit {
       });
   }
 
-  resolvedTicket(ticket: Ticket, isResolved: boolean, index: number) {
+  resolvedTicket(ticket: Ticket, isResolved: string, index: number) {
     const indexTicket = this.ticketListTesting.findIndex(
       (ticket) => ticket.id === ticket.id
     );
 
-    this.ticketListTesting[indexTicket].resolved = isResolved;
-    if (isResolved == true) {
+    this.ticketListTesting[indexTicket].isResolved = isResolved;
+    if (isResolved == 'true') {
       this.ticketListResolved.push(ticket);
       this.changeStatus(ticket, 'Resolved');
     }
-    if (isResolved == false) {
+    if (isResolved == 'false') {
       this.changeStatus(ticket, 'In Progress');
       this.ticketListInProgress.push(ticket);
     }

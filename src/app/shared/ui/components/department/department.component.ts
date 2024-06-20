@@ -29,7 +29,7 @@ export class DepartmentComponent implements OnInit {
   ngOnInit() {
     this.getRoles();
 
-    this.getAllDepartment();
+    this.getDepartments();
   }
 
   getRoles(): void {
@@ -37,16 +37,22 @@ export class DepartmentComponent implements OnInit {
     this.roles = rolesData ? JSON.parse(rolesData) : null;
   }
 
-  getAllDepartment() {
-    this.departmentService.getAllDepartment().subscribe({
-      next: (departmentsList: Department[]) => {
-        this.departments = departmentsList;
-        this.totalDepartments.emit(departmentsList.length);
-      },
-      error: (error: HttpErrorResponse) => {
-        console.log(error.message);
-      },
-    });
+  getDepartments() {
+    const departmentsData = localStorage.getItem('departments');
+    this.departments = departmentsData ? JSON.parse(departmentsData) : null;
+    // this.departmentService.getAllDepartment().subscribe({
+    //   next: (departmentsList: Department[]) => {
+    //     this.departments = departmentsList;
+    //     this.totalDepartments.emit(departmentsList.length);
+    //   },
+    //   error: (error: HttpErrorResponse) => {
+    //     console.log(error.message);
+    //   },
+    // });
+  }
+
+  saveDepartments(departments: Department[]): void {
+    localStorage.setItem('departments', JSON.stringify(departments));
   }
 
   // Modal
@@ -64,11 +70,13 @@ export class DepartmentComponent implements OnInit {
     this.departmentService.addDepartment(departmentDto).subscribe({
       next: () => {
         this.departments.push({
-          id: 0,
+          id: this.departments.length + 1,
           name: departmentDto.name,
           users: undefined,
         });
+
         this.totalDepartments.emit(this.departments.length);
+        this.saveDepartments(this.departments);
         this.closeModal();
       },
       error: (error: HttpErrorResponse) => {
@@ -83,6 +91,7 @@ export class DepartmentComponent implements OnInit {
         next: () => {
           this.departments.splice(index, 1);
           this.totalDepartments.emit(this.departments.length);
+          this.saveDepartments(this.departments);
         },
         error: (error: HttpErrorResponse) => {
           console.log(error.message);

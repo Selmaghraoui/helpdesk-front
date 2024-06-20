@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-import { SafeUrl } from '@angular/platform-browser';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IBreadcrumb } from 'src/app/core/modeles/IBreadcrumb';
 import { IUser } from 'src/app/core/modeles/IUser';
@@ -9,15 +9,23 @@ import { Role } from 'src/app/core/modeles/Role';
 import { TaskPriority } from 'src/app/core/modeles/TaskPriority';
 import { TaskStatus } from 'src/app/core/modeles/TaskStatus';
 import { Ticket } from 'src/app/core/modeles/Ticket';
-import { DocumentService } from 'src/app/core/services/document.service';
+import {
+  DocumentService,
+  IDocument,
+} from 'src/app/core/services/document.service';
 import {
   TicketService,
   TicketStatusDto,
   UpdateSharedWithDto,
   UserNameDto,
 } from 'src/app/core/services/ticket.service';
-import { UsersService } from 'src/app/core/services/users.service';
 import { UpdateAssignedToDto } from 'src/app/shared/ui/components/affected-shared/affected-shared.component';
+import { badgeUser } from 'src/app/shared/ui/components/badge-user/badge-user.component';
+
+// export interface Doc {
+//   file?: File;
+//   imageUrl: SafeUrl | string | ArrayBuffer | null | undefined;
+// }
 
 export interface IComment {
   id: number;
@@ -45,13 +53,14 @@ export class CreateEditTicketComponent implements OnInit {
 
   selectedFiles: FileList | null = null;
   previewImages: string[] = [];
-  imageUrl: SafeUrl | string | ArrayBuffer | null | undefined;
-  docs: Doc[] = [];
+  // imageUrl: SafeUrl | string | ArrayBuffer | null | undefined;
+  docs: IDocument[] = [];
 
   TaskPriority = TaskPriority;
   TaskStatus = TaskStatus;
   Role = Role;
   roles: string[] = [];
+  user?: IUser;
 
   ticket?: Ticket;
 
@@ -59,18 +68,34 @@ export class CreateEditTicketComponent implements OnInit {
     private ticketService: TicketService,
     private documentService: DocumentService,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private sanitizer: DomSanitizer
   ) {
     this.idTicket = this.activatedRoute.snapshot.params['id'];
     this.isNewTicket = this.idTicket === undefined;
   }
 
   ngOnInit() {
+    this.getUser();
     this.getRoles();
 
-    this.getTicket();
+    if (this.roles.includes(Role.helpDesk) || this.roles.includes(Role.admin))
+      this.getTicket();
+    else if (
+      this.roles.includes(Role.user) &&
+      !this.roles.includes(Role.helpDesk) &&
+      !this.roles.includes(Role.admin)
+    ) {
+      this.getTicketForUser();
+    }
+    // this.getTicket();
     this.initFormGroup();
     if (this.isNewTicket) this.setType();
+  }
+
+  getUser(): void {
+    const userData = localStorage.getItem('user');
+    this.user = userData ? JSON.parse(userData) : null;
   }
 
   getRoles(): void {
@@ -83,12 +108,32 @@ export class CreateEditTicketComponent implements OnInit {
       this.ticketService.getTicketById(this.idTicket).subscribe({
         next: (value: Ticket) => {
           this.ticket = value;
+          this.getDoc();
           this.initBreadcrumb();
         },
         error: (error: HttpErrorResponse) => {
           error.message;
         },
       });
+    }
+    if (this.isNewTicket) this.initBreadcrumb();
+  }
+
+  getTicketForUser() {
+    if (!this.isNewTicket && this.idTicket && this.user?.username) {
+      this.ticketService
+        .getTicketByIdForUser(this.user?.username, this.idTicket)
+        .subscribe({
+          next: (value: Ticket) => {
+            this.ticket = value;
+            this.getDoc();
+
+            this.initBreadcrumb();
+          },
+          error: (error: HttpErrorResponse) => {
+            error.message;
+          },
+        });
     }
     if (this.isNewTicket) this.initBreadcrumb();
   }
@@ -178,7 +223,7 @@ export class CreateEditTicketComponent implements OnInit {
     });
   }
 
-  sharedTicketUsername(updateSharedWith: IUser[]) {
+  sharedTicketUsername(updateSharedWith: badgeUser[]) {
     let userNameList: UserNameDto[] = [];
     updateSharedWith.forEach((user) => {
       const userNameDto: UserNameDto = {
@@ -237,14 +282,11 @@ export class CreateEditTicketComponent implements OnInit {
   }
 
   // Upload image
+  files: File[] = [];
   uploadFile(idTicket: number) {
     console.log('1 - idTicket , ', idTicket);
-    let files: File[] = [];
-    this.docs.forEach((doc) => {
-      files.push(doc.file);
-    });
 
-    this.documentService.uploadDocForTicket(files, idTicket).subscribe({
+    this.documentService.uploadDocForTicket(this.files, idTicket).subscribe({
       next: () => {
         this.router.navigateByUrl('tickets');
         console.log('file uploaded .. ');
@@ -256,18 +298,23 @@ export class CreateEditTicketComponent implements OnInit {
   }
 
   onSelectFile(fileEvent: any) {
+    console.log('fileEvent,, ', fileEvent);
+    console.log('fileEvent.target.files[0],, ', fileEvent.target.files[0]);
+
     if (fileEvent.target.files && fileEvent.target.files[0]) {
       var reader = new FileReader();
-      let file: Doc;
+
       reader.readAsDataURL(fileEvent.target.files[0]);
       reader.onload = (event) => {
-        this.imageUrl = event?.target?.result;
-        file = {
-          file: fileEvent.target?.files[0],
-          imageUrl: event?.target?.result,
+        let file: IDocument = {
+          documentName: fileEvent.target.files[0].name,
+          size: fileEvent.target.files[0].size,
+          contentType: fileEvent.target.files[0].type,
+          data: event?.target?.result,
         };
-
+        // if()
         this.docs.push(file);
+        this.files.push(fileEvent.target.files[0]);
       };
     }
   }
@@ -276,13 +323,63 @@ export class CreateEditTicketComponent implements OnInit {
     document?.getElementById('fileInput')?.click();
   }
 
-  previewFiles: string[] = [];
   onDeleteFile(index: number) {
     this.docs.splice(index, 1);
   }
-}
 
-export interface Doc {
-  file: File;
-  imageUrl: string | ArrayBuffer | null | undefined;
+  convertBase64ToDataURL(
+    contentType: string,
+    base64: string | undefined
+  ): string {
+    return `data:${contentType};base64,${base64}`;
+  }
+
+  getDoc() {
+    this.ticket?.documentIds?.forEach((docId: number) => {
+      this.documentService
+        .downloadProfilPhoto(docId)
+        .subscribe((response: IDocument) => {
+          this.docs.push(response);
+        });
+    });
+  }
+
+  // download
+  onDowloadFile(docId?: number): void {
+    if (docId != null)
+      this.documentService
+        .downloadProfilPhoto(docId)
+        .subscribe((response: IDocument) => {
+          const { documentName, contentType, data } = response;
+          this.saveFile(String(data), documentName!, contentType!);
+        });
+  }
+
+  private saveFile(
+    base64Data: string,
+    fileName: string,
+    fileType: string
+  ): void {
+    const binaryData = this.base64ToBlob(base64Data, fileType);
+    const url = window.URL.createObjectURL(binaryData);
+
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = fileName;
+    document.body.appendChild(a);
+    a.click();
+
+    window.URL.revokeObjectURL(url);
+    document.body.removeChild(a);
+  }
+
+  private base64ToBlob(base64Data: string, contentType: string): Blob {
+    const byteCharacters = atob(base64Data);
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+    return new Blob([byteArray], { type: contentType });
+  }
 }

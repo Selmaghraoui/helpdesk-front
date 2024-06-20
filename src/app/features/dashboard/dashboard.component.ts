@@ -5,6 +5,7 @@ import { Ticket } from 'src/app/core/modeles/Ticket';
 import { TypeActivity } from 'src/app/core/modeles/TypeActivity';
 import { TicketService } from 'src/app/core/services/ticket.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { IUser } from 'src/app/core/modeles/IUser';
 
 @Component({
   selector: 'app-dashboard',
@@ -24,16 +25,27 @@ export class DashboardComponent implements OnInit {
   totalUsers?: number;
   totalDepartments?: number;
 
+  user?: IUser;
+
   constructor(private ticketService: TicketService) {}
 
   ngOnInit(): void {
+    this.getUser();
     this.getRoles();
-
     if (this.roles?.includes(Role.helpDesk) || this.roles?.includes(Role.admin))
       this.getFavoriteTickets();
-    else if (this.roles?.includes(Role.user)) {
-      // this.getTicketsForUser();
+    else if (
+      this.roles?.includes(Role.user) &&
+      !this.roles?.includes(Role.helpDesk) &&
+      !this.roles?.includes(Role.admin)
+    ) {
+      this.getTicketsForUser();
     }
+  }
+
+  getUser(): void {
+    const userData = localStorage.getItem('user');
+    this.user = userData ? JSON.parse(userData) : null;
   }
 
   getRoles(): void {
@@ -55,9 +67,25 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  toggleFavorits(idTicket?: number) {
+  getTicketsForUser() {
+    if (this.user?.username) {
+      this.ticketService.getTickestForUser(this.user?.username).subscribe({
+        next: (tickets: Ticket[]) => {
+          this.totalTickets = tickets.length;
+          tickets.forEach((ticket) => {
+            if (ticket.favorite == true) this.favoriteTicketList.push(ticket);
+          });
+        },
+        error: (error: HttpErrorResponse) => {
+          console.log(error.message);
+        },
+      });
+    }
+  }
+
+  toggleFavorits(ticketSelected?: Ticket) {
     this.favoriteTicketList.forEach((ticket: Ticket) => {
-      if (ticket.id === idTicket) ticket.favorite = !ticket.favorite;
+      if (ticket.id === ticketSelected?.id) ticket.favorite = !ticket.favorite;
     });
   }
 

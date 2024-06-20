@@ -2,6 +2,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { verifyHostBindings } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
+import { IUser } from 'src/app/core/modeles/IUser';
+import { Role } from 'src/app/core/modeles/Role';
 import { TaskStatus } from 'src/app/core/modeles/TaskStatus';
 import { Ticket } from 'src/app/core/modeles/Ticket';
 import { TicketService } from 'src/app/core/services/ticket.service';
@@ -19,39 +21,63 @@ export class ChartComponent implements OnInit {
   ticketListResolved: Ticket[] = [];
 
   chart: any;
+  Role = Role;
+  roles: string[] = [];
+  user?: IUser;
+
   constructor(private ticketService: TicketService) {}
 
   ngOnInit() {
+    this.getUser();
+    this.getRoles();
+
     Chart.register(...registerables);
     this.chart = document.getElementById('my_first_chart');
-    this.getAllTickets();
+    // this.getAllTickets();
+    if (this.roles.includes(Role.helpDesk) || this.roles.includes(Role.admin))
+      this.getAllTickets();
+    else if (
+      this.roles.includes(Role.user) &&
+      !this.roles.includes(Role.helpDesk) &&
+      !this.roles.includes(Role.admin)
+    ) {
+      this.getTicketsForUser();
+    }
+  }
+
+  getUser(): void {
+    const userData = localStorage.getItem('user');
+    this.user = userData ? JSON.parse(userData) : null;
+  }
+
+  getRoles(): void {
+    const rolesData = localStorage.getItem('roles');
+    this.roles = rolesData ? JSON.parse(rolesData) : null;
   }
 
   getAllTickets() {
     this.ticketService.getAllTickets().subscribe({
       next: (tickets: Ticket[]) => {
-        this.ticketListOpen = filterTicket(tickets, 'status', TaskStatus.open);
-        this.ticketListCanceled = filterTicket(
-          tickets,
-          'status',
-          TaskStatus.canceled
-        );
-        this.ticketListRejected = filterTicket(
-          tickets,
-          'status',
-          TaskStatus.rejected
-        );
-        this.ticketListResolved = filterTicket(
-          tickets,
-          'status',
-          TaskStatus.resolved
-        );
-        this.loadChart();
+        this.ticketProcess(tickets);
       },
       error: (error: HttpErrorResponse) => {
         console.log(error.message);
       },
     });
+  }
+
+  getTicketsForUser() {
+    console.log('this.user?.username, ', this.user?.username);
+    if (this.user?.username) {
+      this.ticketService.getTickestForUser(this.user?.username).subscribe({
+        next: (tickets: Ticket[]) => {
+          this.ticketProcess(tickets);
+        },
+        error: (error: HttpErrorResponse) => {
+          console.log(error.message);
+        },
+      });
+    }
   }
 
   loadChart() {
@@ -84,7 +110,7 @@ export class ChartComponent implements OnInit {
         ctx.save();
 
         chart
-          .getDatasetMeta(0)
+          .getDatasetMeta(0, 1, 2, 3)
           .data.forEach((dataPoint: any, index: number) => {
             if (dataPoint.active === true) {
               ctx.beginPath();
@@ -200,5 +226,25 @@ export class ChartComponent implements OnInit {
     });
 
     return monthCounts;
+  }
+
+  ticketProcess(tickets: Ticket[]) {
+    this.ticketListOpen = filterTicket(tickets, 'status', TaskStatus.open);
+    this.ticketListCanceled = filterTicket(
+      tickets,
+      'status',
+      TaskStatus.canceled
+    );
+    this.ticketListRejected = filterTicket(
+      tickets,
+      'status',
+      TaskStatus.rejected
+    );
+    this.ticketListResolved = filterTicket(
+      tickets,
+      'status',
+      TaskStatus.resolved
+    );
+    this.loadChart();
   }
 }

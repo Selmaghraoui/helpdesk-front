@@ -125,15 +125,26 @@
                   <!-- favoris -->
                   <th scope="col" class="py-3 px-1.5 text-start"></th>
 
+                  <!-- Reference ticket -->
+                  <th scope="col" class="p-3 text-start">
+                    <div class="flex items-center gap-x-2">
+                      <span
+                        class="text-lg font-semibold tracking-wide text-gray-800 dark:text-neutral-200"
+                      >
+                        Reference ticket
+                      </span>
+                    </div>
+                  </th>
+
                   <!-- title -->
                   <th scope="col" class="py-3 px-1.5 text-start min-w-[440px]">
-                    <a class="group inline-flex items-center gap-x-2">
+                    <div class="group inline-flex items-center gap-x-2">
                       <span
                         class="text-lg font-semibold tracking-wide text-gray-800 dark:text-neutral-200"
                       >
                         Title
                       </span>
-                    </a>
+                    </div>
                   </th>
 
                   <!-- type -->
@@ -231,10 +242,7 @@
                   <!-- favoris -->
                   <td class="">
                     <a class="block relative z-10">
-                      <div
-                        class="py-3 px-1.5"
-                        (click)="toggleFavorits(ticket?.id)"
-                      >
+                      <div class="py-3 px-1.5" (click)="toggleFavorits(ticket)">
                         <ng-container *ngIf="ticket.favorite == true">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -268,15 +276,21 @@
                       </div>
                     </a>
                   </td>
+
+                  <!-- Reference ticket -->
+                  <td class="whitespace-nowrap">
+                    <div class="p-3 font-medium">{{ ticket.reference }}</div>
+                  </td>
+
                   <!-- title -->
                   <td class="min-w-[440px]">
-                    <a class="block relative z-10">
+                    <div class="block relative z-10">
                       <div
                         class="text-sm font-semibold py-3 px-1.5 whitespace-nowrap dark:text-white"
                       >
                         {{ ticket.title }}
                       </div>
-                    </a>
+                    </div>
                   </td>
                   <!-- type -->
                   <!-- <td class="">
@@ -332,8 +346,7 @@
                     </a>
                   </td>
                   <!-- affected to -->
-                  <!-- *ngIf="roleUser == Role.admin" -->
-                  <ng-container *ngIf="roles.includes(Role.admin)">
+                  <ng-container *ngIf="roles.includes(Role.helpDesk)">
                     <td class="">
                       <a class="block relative z-10">
                         <div class="flex py-3 px-1.5 flex-col gap-1">

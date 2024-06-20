@@ -6,7 +6,6 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { DocumentDto, IUser } from 'src/app/core/modeles/IUser';
 import { DocumentService } from 'src/app/core/services/document.service';
 
 @Component({
@@ -24,32 +23,31 @@ export class DisplayImageComponent implements OnInit, OnChanges {
     private sanitizer: DomSanitizer
   ) {}
 
-  ngOnChanges(changes: SimpleChanges): void {
-    // if (this.imageData && this.imageData?.data) {
-    //   this.imageSrc = this.convertBase64ToDataURL(
-    //     this.imageData?.contentType,
-    //     this.imageData?.data
-    //   );
-    // }
-  }
+  ngOnChanges(changes: SimpleChanges): void {}
 
   ngOnInit() {
     this.loadImage();
   }
 
   // Converts the base64 string to a data URL
-  // convertBase64ToDataURL(contentType: string, base64: string): string {
-  //   return `data:${contentType};base64,${base64}`;
-  // }
+  convertBase64ToDataURL(
+    contentType: string,
+    base64: string | ArrayBuffer
+  ): string {
+    return `data:${contentType};base64,${base64}`;
+  }
 
   // Download Profil Photo
   loadImage() {
-    if (this.docId)
+    if (this.docId != null) {
       this.documentService
         .downloadProfilPhoto(this.docId)
         .subscribe((response) => {
-          const objectURL = URL.createObjectURL(response);
-          this.imageUrl = this.sanitizer.bypassSecurityTrustUrl(objectURL);
+          this.imageUrl = this.convertBase64ToDataURL(
+            response.contentType ?? '',
+            response.data ?? ''
+          );
         });
+    }
   }
 }

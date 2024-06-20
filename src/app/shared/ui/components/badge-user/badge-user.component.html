@@ -7,13 +7,14 @@
         : 'rounded-lg cursor-pointer'
     "
   >
-    <img
-      class="me-1.5 inline-block size-6 rounded-full"
-      [src]="imageSrc"
-      alt="Image Description"
-    />
-    <div class="text-sm font-medium text-gray-800 dark:text-white">
-      {{ badgeUser?.username }}
+    <app-display-image
+      [docId]="badgeUser.docId"
+      [css]="'me-1.5 inline-block size-6 rounded-full'"
+    ></app-display-image>
+    <div
+      class="text-sm font-medium text-gray-800 dark:text-white whitespace-pre"
+    >
+      {{ badgeUser.username }}
     </div>
     <ng-container *ngIf="isDeleted">
       <div

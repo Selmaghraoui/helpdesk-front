@@ -1,8 +1,10 @@
+import { badgeUser } from 'src/app/shared/ui/components/badge-user/badge-user.component';
 import { IUser } from './IUser';
 import { TaskStatus } from './TaskStatus';
 import { TypesTicket } from './TypesTicket';
 
 export interface Ticket {
+  favorite: boolean;
   id: number;
   reference: string;
   description: string;
@@ -10,11 +12,11 @@ export interface Ticket {
   type: TypesTicket;
   status: TaskStatus;
   priority: string;
-  isResolved: boolean | undefined;
-  favorite: boolean;
+  isResolved: string;
+  isFavorite: boolean;
   createdTime: Date;
-  owner: IUser;
-  assignedTo: IUser;
-  sharedWith: IUser[];
-  resolved?: boolean | undefined;
+  owner: badgeUser;
+  assignedTo: badgeUser;
+  sharedWith: badgeUser[];
+  documentIds: number[];
 }

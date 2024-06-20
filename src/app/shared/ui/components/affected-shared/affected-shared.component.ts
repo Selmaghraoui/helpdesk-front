@@ -4,6 +4,8 @@ import { Role } from 'src/app/core/modeles/Role';
 import { TaskStatus } from 'src/app/core/modeles/TaskStatus';
 import { UpdateSharedWithDto } from 'src/app/core/services/ticket.service';
 import { UsersService } from 'src/app/core/services/users.service';
+import { badgeUser } from '../badge-user/badge-user.component';
+import { UserRes } from 'src/app/features/users/users.component';
 
 export interface UpdateAssignedToDto {
   assignedToUserId: number;
@@ -18,15 +20,15 @@ export class AffectedSharedComponent implements OnInit {
   @Input() isSharedWhith?: boolean = true;
   @Input() status?: TaskStatus;
 
-  @Input() usersShared?: IUser[];
+  @Input() usersShared?: badgeUser[];
   @Input() isModal?: Boolean = false;
-  @Input() userAffected?: IUser;
-  @Output() usersSelectedShared = new EventEmitter<IUser[]>();
+  @Input() userAffected?: badgeUser;
+  @Output() usersSelectedShared = new EventEmitter<badgeUser[]>();
   @Output() idUsersSelectedShared = new EventEmitter<UpdateSharedWithDto>();
   @Output() usersSelectedAffected = new EventEmitter<UpdateAssignedToDto>();
 
   searchText = '';
-  usersSearched: IUser[] = [];
+  usersSearched: badgeUser[] = [];
 
   Role = Role;
   roles: string[] = [];
@@ -39,12 +41,12 @@ export class AffectedSharedComponent implements OnInit {
     this.getRoles();
 
     if (this.isSharedWhith)
-      this.usersService.getAllUsers().subscribe((response: IUser[]) => {
+      this.usersService.getAllUsers().subscribe((response: UserRes[]) => {
         this.usersSearched = response;
       });
     // get list of help desk
     else
-      this.usersService.getAllUsers().subscribe((response: IUser[]) => {
+      this.usersService.getAllUsers().subscribe((response: UserRes[]) => {
         this.usersSearched = response;
       });
   }
@@ -54,7 +56,7 @@ export class AffectedSharedComponent implements OnInit {
     this.roles = rolesData ? JSON.parse(rolesData) : null;
   }
 
-  addUser(user: IUser) {
+  addUser(user: badgeUser) {
     if (this.isSharedWhith) {
       if (!this.isUserUserSelected(user)) {
         this.usersShared?.push(user);
@@ -68,7 +70,7 @@ export class AffectedSharedComponent implements OnInit {
     this.searchText = '';
   }
 
-  removeUser(User: IUser) {
+  removeUser(User: badgeUser) {
     if (this.isSharedWhith) {
       this.usersShared = this.usersShared?.filter((i) => i.id !== User.id);
       this.sendSharedList();
@@ -78,7 +80,7 @@ export class AffectedSharedComponent implements OnInit {
     }
   }
 
-  isUserUserSelected(User: IUser): boolean {
+  isUserUserSelected(User: badgeUser): boolean {
     if (this.usersShared == null) this.usersShared = [];
     return this.usersShared!.some((i) => i.id === User.id);
   }

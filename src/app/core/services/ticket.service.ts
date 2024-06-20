@@ -43,26 +43,20 @@ export class TicketService {
     return this.http.get<Array<Ticket>>(this.url + '/tickets');
   }
 
-  // getTickestForUser(userNameDto: UserNameDto): Observable<any> {
-  //   const options = {
-  //     body: userNameDto,
-  //   };
-
-  //   // return this.http.get<any>(this.url + '/user-tickets/', options);
-  //   return this.http.request<any>('GET', `${this.url}/user-tickets/`, options);
-  // }
-  getTickestForUser(userNameDto: UserNameDto): Observable<any> {
-    return this.http.request<any>('GET', `${this.url}/user-tickets/`, {
-      body: userNameDto,
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-      responseType: 'json' as const,
-    });
+  getTickestForUser(username: string): Observable<Ticket[]> {
+    return this.http.get<Ticket[]>(
+      this.url + '/user-tickets/' + username + '/'
+    );
   }
 
   getTicketById(idTicket: number): Observable<Ticket> {
     return this.http.get<Ticket>(this.url + '/tickets/' + idTicket);
+  }
+
+  getTicketByIdForUser(username: string, idTicket: number): Observable<Ticket> {
+    return this.http.get<Ticket>(
+      this.url + '/user-ticket/' + username + '/' + idTicket
+    );
   }
 
   createTicket(ticket: CreateTicket): Observable<Ticket> {

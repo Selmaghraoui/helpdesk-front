@@ -34,8 +34,8 @@ export class TicketsComponent implements OnInit {
 
   ticketList: Ticket[] = [];
   searchText = '';
-  totalTicketListOpen?: number;
-  totalTicketListHigh?: number;
+  totalTicketListOpen: number = 0;
+  totalTicketListHigh: number = 0;
 
   constructor(private TicketService: TicketService) {}
 
@@ -80,16 +80,15 @@ export class TicketsComponent implements OnInit {
   }
 
   getTicketsForUser() {
-    const userNameDto: UserNameDto = {
-      username: this.user?.username!,
-    };
-    this.TicketService.getTickestForUser(userNameDto).subscribe({
-      next: (tickets: Ticket[]) => {
-        this.ticketList = tickets;
-      },
-      error: (error: HttpErrorResponse) => {
-        console.log(error.message);
-      },
-    });
+    if (this.user?.username) {
+      this.TicketService.getTickestForUser(this.user?.username).subscribe({
+        next: (tickets: Ticket[]) => {
+          this.ticketList = tickets;
+        },
+        error: (error: HttpErrorResponse) => {
+          console.log(error.message);
+        },
+      });
+    }
   }
 }

@@ -26,8 +26,8 @@ export class DocumentService {
   /*
    * Download Profil Photo
    */
-  downloadProfilPhoto(docId: number): Observable<Blob> {
-    return this.http.get(`${this.url}/${docId}`, { responseType: 'blob' });
+  downloadProfilPhoto(docId: number): Observable<IDocument> {
+    return this.http.get<IDocument>(`${this.url}/${docId}`);
   }
 
   /*
@@ -40,9 +40,22 @@ export class DocumentService {
       formData.append('files', file, file.name)
     );
 
-    return this.http.post<any>(`${this.url}/ticket/${icketId}`, formData, {
-      reportProgress: true,
-      observe: 'events',
-    });
+    return this.http.post<IDocument>(
+      `${this.url}/ticket/${icketId}`,
+      formData,
+      {
+        reportProgress: true,
+        observe: 'events',
+      }
+    );
   }
+}
+
+export interface IDocument {
+  id?: number;
+  documentName?: string;
+  contentType?: string;
+  size?: number;
+  creationDate?: Date;
+  data?: string | ArrayBuffer | null | undefined;
 }

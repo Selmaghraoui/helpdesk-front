@@ -13,7 +13,10 @@ import { IUser } from 'src/app/core/modeles/IUser';
 import { RecentActivityUser } from 'src/app/core/modeles/RecentActivity';
 import { Role } from 'src/app/core/modeles/Role';
 import { TaskStatus } from 'src/app/core/modeles/TaskStatus';
-import { DocumentService } from 'src/app/core/services/document.service';
+import {
+  DocumentService,
+  IDocument,
+} from 'src/app/core/services/document.service';
 
 import { IUpdateUser, UsersService } from 'src/app/core/services/users.service';
 
@@ -299,7 +302,7 @@ export class ProfilUserComponent implements OnInit {
     this.getDepartments();
 
     this.getUserForm();
-    this.loadImage();
+    // this.loadImage();
   }
 
   getUser(): void {
@@ -429,13 +432,13 @@ export class ProfilUserComponent implements OnInit {
   }
 
   // Download Profil Photo
-  loadImage() {
-    if (this.user?.docId)
-      this.documentService
-        .downloadProfilPhoto(this.user.docId)
-        .subscribe((response) => {
-          const objectURL = URL.createObjectURL(response);
-          this.imageUrl = this.sanitizer.bypassSecurityTrustUrl(objectURL);
-        });
-  }
+  // loadImage() {
+  //   if (this.user?.docId)
+  //     this.documentService
+  //       .downloadProfilPhoto(this.user.docId)
+  //       .subscribe((response: IDocument) => {
+  //         // const objectURL = URL.createObjectURL(response.data);
+  //         // this.imageUrl = this.sanitizer.bypassSecurityTrustUrl(objectURL);
+  //       });
+  // }
 }

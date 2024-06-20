@@ -7,12 +7,19 @@
   <div class="pl-10 flex py-4 min-w-full -mt-20 rounded-xl justify-between z-0">
     <div class="flex" [ngClass]="isProfil ? 'gap-10' : 'gap-4'">
       <div class="relative avatar-xl avatar inline-block">
-        <img
+        <!-- <img
           class="avatar-xl shadow-sm-sm inline-block rounded-2xl ring-4 ring-white dark:ring-neutral-900"
           [src]="
             imageUrl ? imageUrl : '../../../../../../../assets/images/user.png'
           "
-        />
+        /> -->
+        <app-display-image
+          class="avatar-xl"
+          [docId]="user?.docId"
+          [css]="
+            'w-full h-full shadow-sm-sm inline-block rounded-2xl ring-4 ring-white dark:ring-neutral-900'
+          "
+        ></app-display-image>
 
         <ng-container *ngIf="isProfil">
           <div
@@ -365,11 +372,11 @@
                       {{ activity.referenceTicket }}
                     </h4>
                   </div>
-                  <app-badge-user
+                  <!-- <app-badge-user
                     *ngIf="roles.includes(Role.admin)"
                     [badgeUser]="activity.author"
                     [isDeleted]="false"
-                  ></app-badge-user>
+                  ></app-badge-user> -->
                 </div>
                 <button
                   type="button"
@@ -529,11 +536,11 @@
           >
           <select
             class="py-3 px-4 block w-full border-gray-200 rounded-lg focus:border-2 bg-gray-50 text-sm focus:outline-none border focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+            formControlName="departmentDto"
           >
             <option
-              formControlName="departmentDto"
               *ngFor="let department of departments"
-              [ngValue]="department.id"
+              [ngValue]="department.name"
             >
               {{ department.name }}
             </option>
@@ -552,7 +559,7 @@
           <textarea
             class="py-3 px-4 block w-full border-gray-200 rounded-lg focus:border-2 bg-gray-50 text-sm focus:outline-none border focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
             placeholder="Enter Post"
-            formControlName="post"
+            formControlName="aboutMe"
           ></textarea>
         </div>
       </div>

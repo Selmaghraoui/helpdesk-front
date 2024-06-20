@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IUser } from '../modeles/IUser';
+import { UserRes } from 'src/app/features/users/users.component';
 
 export interface DepartmentDto {
   name: string;
@@ -60,8 +61,8 @@ export class UsersService {
   /*
    * Get All Users
    */
-  getAllUsers(): Observable<Array<IUser>> {
-    return this.http.get<Array<IUser>>(this.url);
+  getAllUsers(): Observable<Array<UserRes>> {
+    return this.http.get<Array<UserRes>>(this.url + '/');
   }
 
   /*

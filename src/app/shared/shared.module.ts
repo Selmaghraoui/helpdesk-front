@@ -23,6 +23,7 @@ import { ActivityComponent } from './ui/components/activity/activity.component';
 import { AffectedSharedComponent } from './ui/components/affected-shared/affected-shared.component';
 import { DisplayImageComponent } from './ui/components/display-image/display-image.component';
 import { FilterUsersPipe } from '../core/pipes/filter-users.pipe';
+import { FilterBadgeUsersPipe } from '../core/pipes/filter-badge-users.pipe';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { FilterUsersPipe } from '../core/pipes/filter-users.pipe';
 
     // ------- Pipes
     FilterUsersPipe,
+    FilterBadgeUsersPipe,
   ],
   imports: [
     CommonModule,
@@ -81,6 +83,7 @@ import { FilterUsersPipe } from '../core/pipes/filter-users.pipe';
 
     // ------- Pipes
     FilterUsersPipe,
+    FilterBadgeUsersPipe,
   ],
   providers: [],
 })
