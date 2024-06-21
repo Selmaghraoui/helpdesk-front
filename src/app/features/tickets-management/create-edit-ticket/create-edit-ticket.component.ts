@@ -22,23 +22,18 @@ import {
 import { UpdateAssignedToDto } from 'src/app/shared/ui/components/affected-shared/affected-shared.component';
 import { badgeUser } from 'src/app/shared/ui/components/badge-user/badge-user.component';
 
-// export interface Doc {
-//   file?: File;
-//   imageUrl: SafeUrl | string | ArrayBuffer | null | undefined;
+// export interface IComment {
+//   id: number;
+//   user: {
+//     image: string;
+//     firstName: string;
+//     lastName: string;
+//   };
+//   comment: {
+//     text: string;
+//     images: { imageAlt: string }[];
+//   };
 // }
-
-export interface IComment {
-  id: number;
-  user: {
-    image: string;
-    firstName: string;
-    lastName: string;
-  };
-  comment: {
-    text: string;
-    images: { imageAlt: string }[];
-  };
-}
 
 @Component({
   selector: 'app-create-edit-ticket',
@@ -151,10 +146,10 @@ export class CreateEditTicketComponent implements OnInit {
         title: 'Incedent',
       });
     }
-    if (this.router.url.includes('achat')) {
+    if (this.router.url.includes('purchase')) {
       this.ticketFormGroup?.get('type')?.patchValue({
-        code: 'achat',
-        title: 'Achat',
+        code: 'purchase',
+        title: 'Purchase',
       });
     }
   }

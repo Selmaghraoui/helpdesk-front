@@ -1,5 +1,11 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import {
   AbstractControl,
   ValidationErrors,
@@ -13,6 +19,10 @@ import { IUser } from 'src/app/core/modeles/IUser';
 import { RecentActivityUser } from 'src/app/core/modeles/RecentActivity';
 import { Role } from 'src/app/core/modeles/Role';
 import { TaskStatus } from 'src/app/core/modeles/TaskStatus';
+import {
+  CommentResDto,
+  CommentService,
+} from 'src/app/core/services/comment.service';
 import {
   DocumentService,
   IDocument,
@@ -42,7 +52,7 @@ export function passwordMatchValidator(): ValidatorFn {
   templateUrl: './profil-user.component.html',
   styleUrls: ['./profil-user.component.scss'],
 })
-export class ProfilUserComponent implements OnInit {
+export class ProfilUserComponent implements OnInit, OnChanges {
   @Input() isProfil: boolean = true;
   @Input() user?: IUser;
 
@@ -55,254 +65,28 @@ export class ProfilUserComponent implements OnInit {
 
   profilUserFormGroup!: FormGroup;
   passwordFormGroup!: FormGroup;
-  recentActivities: RecentActivityUser[] = [];
-  // = [
-  //   {
-  //     id: 1,
-  //     idTicket: 1,
-  //     referenceTicket: 'RFZ-5528',
-  //     ativity: TypeActivity.changedStatus,
-  //     author: {
-  //       id: 1,
-  //       referenceUser: 'SE-123456',
-  //       image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //       firstName: 'Soufiane',
-  //       lastName: 'El Maghraoui',
-  //       email: 'soufiane.elmaghraoui@gmail.com',
-  //       status: false,
-  //       post: 'Front End Developer',
-  //       department: 'Developpment',
-  //       phoneNumber: '0635383046',
-  //       userName: 's.elmaghraoui',
-  //       isActivate: true,
-  //       location: 'Casablnca , Sidi Maarouf',
-  //       joinDate: '15-08-2023',
-  //     },
-  //     time: '12:05PM',
-  //   },
-  //   {
-  //     id: 2,
-  //     idTicket: 2,
-  //     referenceTicket: 'RFZ-5528',
-  //     ativity: TypeActivity.createdTicket,
-  //     author: {
-  //       id: 1,
-  //       referenceUser: 'SE-123456',
-  //       image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //       firstName: 'Soufiane',
-  //       lastName: 'El Maghraoui',
-  //       email: 'soufiane.elmaghraoui@gmail.com',
-  //       status: false,
-  //       post: 'Front End Developer',
-  //       department: 'Developpment',
-  //       phoneNumber: '0635383046',
-  //       userName: 's.elmaghraoui',
-  //       isActivate: true,
-  //       location: 'Casablnca , Sidi Maarouf',
-  //       joinDate: '15-08-2023',
-  //     },
-  //     time: '12:05PM',
-  //   },
-  //   {
-  //     id: 3,
-  //     idTicket: 3,
-  //     referenceTicket: 'RFZ-5528',
-  //     ativity: TypeActivity.sharedTicket,
-  //     author: {
-  //       id: 1,
-  //       referenceUser: 'SE-123456',
-  //       image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //       firstName: 'Soufiane',
-  //       lastName: 'El Maghraoui',
-  //       email: 'soufiane.elmaghraoui@gmail.com',
-  //       status: false,
-  //       post: 'Front End Developer',
-  //       department: 'Developpment',
-  //       phoneNumber: '0635383046',
-  //       userName: 's.elmaghraoui',
-  //       isActivate: true,
-  //       location: 'Casablnca , Sidi Maarouf',
-  //       joinDate: '15-08-2023',
-  //     },
-  //     time: '12:05PM',
-  //   },
-  //   {
-  //     id: 4,
-  //     idTicket: 4,
-  //     referenceTicket: 'RFZ-5528',
-  //     ativity: TypeActivity.affectedTicket,
-  //     author: {
-  //       id: 1,
-  //       referenceUser: 'SE-123456',
-  //       image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //       firstName: 'Soufiane',
-  //       lastName: 'El Maghraoui',
-  //       email: 'soufiane.elmaghraoui@gmail.com',
-  //       status: false,
-  //       post: 'Front End Developer',
-  //       department: 'Developpment',
-  //       phoneNumber: '0635383046',
-  //       userName: 's.elmaghraoui',
-  //       isActivate: true,
-  //       location: 'Casablnca , Sidi Maarouf',
-  //       joinDate: '15-08-2023',
-  //     },
-  //     time: '12:05PM',
-  //   },
-  //   {
-  //     id: 5,
-  //     idTicket: 5,
-  //     referenceTicket: 'RFZ-5528',
-  //     ativity: TypeActivity.addComment,
-  //     author: {
-  //       id: 1,
-  //       referenceUser: 'SE-123456',
-  //       image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //       firstName: 'Soufiane',
-  //       lastName: 'El Maghraoui',
-  //       email: 'soufiane.elmaghraoui@gmail.com',
-  //       status: false,
-  //       post: 'Front End Developer',
-  //       department: 'Developpment',
-  //       phoneNumber: '0635383046',
-  //       userName: 's.elmaghraoui',
-  //       isActivate: true,
-  //       location: 'Casablnca , Sidi Maarouf',
-  //       joinDate: '15-08-2023',
-  //     },
-  //     time: '12:05PM',
-  //   },
-  //   {
-  //     id: 5,
-  //     idTicket: 5,
-  //     referenceTicket: 'RFZ-5528',
-  //     ativity: TypeActivity.addComment,
-  //     author: {
-  //       id: 1,
-  //       referenceUser: 'SE-123456',
-  //       image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //       firstName: 'Soufiane',
-  //       lastName: 'El Maghraoui',
-  //       email: 'soufiane.elmaghraoui@gmail.com',
-  //       status: false,
-  //       post: 'Front End Developer',
-  //       department: 'Developpment',
-  //       phoneNumber: '0635383046',
-  //       userName: 's.elmaghraoui',
-  //       isActivate: true,
-  //       location: 'Casablnca , Sidi Maarouf',
-  //       joinDate: '15-08-2023',
-  //     },
-  //     time: '12:05PM',
-  //   },
-  //   {
-  //     id: 5,
-  //     idTicket: 5,
-  //     referenceTicket: 'RFZ-5528',
-  //     ativity: TypeActivity.addComment,
-  //     author: {
-  //       id: 1,
-  //       referenceUser: 'SE-123456',
-  //       image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //       firstName: 'Soufiane',
-  //       lastName: 'El Maghraoui',
-  //       email: 'soufiane.elmaghraoui@gmail.com',
-  //       status: false,
-  //       post: 'Front End Developer',
-  //       department: 'Developpment',
-  //       phoneNumber: '0635383046',
-  //       userName: 's.elmaghraoui',
-  //       isActivate: true,
-  //       location: 'Casablnca , Sidi Maarouf',
-  //       joinDate: '15-08-2023',
-  //     },
-  //     time: '12:05PM',
-  //   },
-  //   {
-  //     id: 5,
-  //     idTicket: 5,
-  //     referenceTicket: 'RFZ-5528',
-  //     ativity: TypeActivity.addComment,
-  //     author: {
-  //       id: 1,
-  //       referenceUser: 'SE-123456',
-  //       image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //       firstName: 'Soufiane',
-  //       lastName: 'El Maghraoui',
-  //       email: 'soufiane.elmaghraoui@gmail.com',
-  //       status: false,
-  //       post: 'Front End Developer',
-  //       department: 'Developpment',
-  //       phoneNumber: '0635383046',
-  //       isActivate: true,
-  //       userName: 's.elmaghraoui',
-  //       location: 'Casablnca , Sidi Maarouf',
-  //       joinDate: '15-08-2023',
-  //     },
-  //     time: '12:05PM',
-  //   },
-  //   {
-  //     id: 5,
-  //     idTicket: 5,
-  //     referenceTicket: 'RFZ-5528',
-  //     ativity: TypeActivity.addComment,
-  //     author: {
-  //       id: 1,
-  //       referenceUser: 'SE-123456',
-  //       image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //       firstName: 'Soufiane',
-  //       lastName: 'El Maghraoui',
-  //       email: 'soufiane.elmaghraoui@gmail.com',
-  //       status: false,
-  //       post: 'Front End Developer',
-  //       department: 'Developpment',
-  //       phoneNumber: '0635383046',
-  //       userName: 's.elmaghraoui',
-  //       isActivate: true,
-  //       location: 'Casablnca , Sidi Maarouf',
-  //       joinDate: '15-08-2023',
-  //     },
-  //     time: '12:05PM',
-  //   },
-  //   {
-  //     id: 5,
-  //     idTicket: 5,
-  //     referenceTicket: 'RFZ-5528',
-  //     ativity: TypeActivity.addComment,
-  //     author: {
-  //       id: 1,
-  //       referenceUser: 'SE-123456',
-  //       image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-  //       firstName: 'Soufiane',
-  //       lastName: 'El Maghraoui',
-  //       email: 'soufiane.elmaghraoui@gmail.com',
-  //       status: false,
-  //       post: 'Front End Developer',
-  //       department: 'Developpment',
-  //       phoneNumber: '0635383046',
-  //       userName: 's.elmaghraoui',
-  //       isActivate: true,
-  //       location: 'Casablnca , Sidi Maarouf',
-  //       joinDate: '15-08-2023',
-  //     },
-  //     time: '12:05PM',
-  //   },
-  // ];
+  recentActivities: CommentResDto[] = [];
   imageUrl: SafeUrl | string | ArrayBuffer | null | undefined;
 
   constructor(
     private usersService: UsersService,
     private documentService: DocumentService,
-    private sanitizer: DomSanitizer
+    private commentService: CommentService
   ) {}
 
+  ngOnChanges(changes: SimpleChanges): void {
+    this.user = changes['user'].currentValue;
+    this.getUserForm();
+
+    this.getActivities();
+  }
+
   ngOnInit() {
-    this.getUser();
+    if (this.isProfil) {
+      this.getUser();
+    }
     this.getRoles();
     this.getDepartments();
-
-    this.getUserForm();
-    // this.loadImage();
   }
 
   getUser(): void {
@@ -318,6 +102,20 @@ export class ProfilUserComponent implements OnInit {
   getDepartments(): void {
     const departmentsData = localStorage.getItem('departments');
     this.departments = departmentsData ? JSON.parse(departmentsData) : null;
+  }
+
+  //
+  getActivities() {
+    if (this.user?.username != undefined) {
+      this.commentService.getCommentsForUser(this.user?.username).subscribe({
+        next: (activities: CommentResDto[]) => {
+          this.recentActivities = activities;
+        },
+        error: (error: HttpErrorResponse) => {
+          console.log(error.message);
+        },
+      });
+    }
   }
 
   //

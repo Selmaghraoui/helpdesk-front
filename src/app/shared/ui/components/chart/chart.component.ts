@@ -34,12 +34,12 @@ export class ChartComponent implements OnInit {
     Chart.register(...registerables);
     this.chart = document.getElementById('my_first_chart');
     // this.getAllTickets();
-    if (this.roles.includes(Role.helpDesk) || this.roles.includes(Role.admin))
+    if (this.roles?.includes(Role.helpDesk) || this.roles?.includes(Role.admin))
       this.getAllTickets();
     else if (
-      this.roles.includes(Role.user) &&
-      !this.roles.includes(Role.helpDesk) &&
-      !this.roles.includes(Role.admin)
+      this.roles?.includes(Role.user) &&
+      !this.roles?.includes(Role.helpDesk) &&
+      !this.roles?.includes(Role.admin)
     ) {
       this.getTicketsForUser();
     }

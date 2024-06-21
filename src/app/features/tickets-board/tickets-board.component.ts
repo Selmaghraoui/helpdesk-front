@@ -40,7 +40,7 @@ export class TicketsBoardComponent implements OnInit {
 
   Role = Role;
   roles: string[] = [];
-
+  isGetMyTickets: boolean = false;
   constructor(private ticketService: TicketService, public dialog: MatDialog) {}
 
   ngOnInit() {
@@ -79,7 +79,9 @@ export class TicketsBoardComponent implements OnInit {
   getAllTickets() {
     this.ticketService.getAllTickets().subscribe({
       next: (tickets: Ticket[]) => {
+        this.isGetMyTickets = false;
         this.ticketProcessBoard(tickets);
+        console.log('1 / this.ticketList', this.ticketList);
       },
       error: (error: HttpErrorResponse) => {
         console.log(error.message);
@@ -98,6 +100,14 @@ export class TicketsBoardComponent implements OnInit {
         },
       });
     }
+  }
+
+  getMyTicketsHelpDesk() {
+    this.ticketList = this.ticketList.filter(
+      (ticket) => ticket?.assignedTo?.username === this.user?.username
+    );
+    this.ticketProcessBoard(this.ticketList);
+    this.isGetMyTickets = true;
   }
 
   ticketProcessBoard(tickets: Ticket[]) {
@@ -142,6 +152,23 @@ export class TicketsBoardComponent implements OnInit {
   }
 
   drop(event: CdkDragDrop<any[]>, status: string) {
+    if (
+      (this.ticket.status == TaskStatus.open && status === TaskStatus.open) ||
+      (this.ticket.status == TaskStatus.canceled &&
+        status === TaskStatus.canceled) ||
+      (this.ticket.status == TaskStatus.rejected &&
+        status === TaskStatus.rejected) ||
+      (this.ticket.status == TaskStatus.inProgress &&
+        status === TaskStatus.inProgress) ||
+      (this.ticket.status == TaskStatus.evaluating &&
+        status === TaskStatus.evaluating) ||
+      (this.ticket.status == TaskStatus.testing &&
+        status === TaskStatus.testing) ||
+      (this.ticket.status == TaskStatus.resolved &&
+        status === TaskStatus.resolved)
+    ) {
+      return;
+    }
     if (
       (this.ticket.status != TaskStatus.rejected &&
         status === TaskStatus.rejected) ||

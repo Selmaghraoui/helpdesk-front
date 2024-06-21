@@ -15,7 +15,6 @@ export const FULL_ROUTES: Routes = [
         (m) => m.DashboardModule
       ),
     canActivate: [AuthGuard],
-    // data: { roles: ['ADMIN'] },
   },
   {
     path: 'tickets-board',
@@ -48,6 +47,5 @@ export const FULL_ROUTES: Routes = [
         (m) => m.ProfilModule
       ),
     canActivate: [AuthGuard],
-    resolve: { usersResolver: UsersResolverService },
   },
 ];

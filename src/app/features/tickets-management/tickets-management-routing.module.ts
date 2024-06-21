@@ -18,7 +18,7 @@ const routes: Routes = [
     children: [
       { path: 'application', component: CreateEditTicketComponent },
       { path: 'incedent', component: CreateEditTicketComponent },
-      { path: 'achat', component: CreateEditTicketComponent },
+      { path: 'purchase', component: CreateEditTicketComponent },
     ],
   },
   {

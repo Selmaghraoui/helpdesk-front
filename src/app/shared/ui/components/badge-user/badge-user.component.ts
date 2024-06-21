@@ -7,8 +7,6 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
-import { IUser } from 'src/app/core/modeles/IUser';
-import { Ticket } from 'src/app/core/modeles/Ticket';
 import { UsersService } from 'src/app/core/services/users.service';
 
 export interface badgeUser {
@@ -34,22 +32,9 @@ export class BadgeUserComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     this.badgeUser = changes['badgeUser'].currentValue;
-    // if (this.badgeUser && this.badgeUser?.document?.data) {
-    //   this.imageSrc = this.convertBase64ToDataURL(
-    //     this.badgeUser?.document?.contentType,
-    //     this.badgeUser?.document?.data
-    //   );
-    // }
   }
 
-  ngOnInit() {
-    // if (this.badgeUser != null)
-    //   this.usersService.getUserById(this.badgeUser).subscribe({
-    //     next: (user: IUser) => {
-    //       this.user = user;
-    //     },
-    //   });
-  }
+  ngOnInit() {}
 
   deleteUser() {
     // this.userDeleted.emit(this.badgeUser);

@@ -38,9 +38,9 @@ export class TypesTicketComponent implements OnInit {
     },
     {
       id: 3,
-      code: 'achat',
-      title: 'Achat',
-      lien: '/achat',
+      code: 'purchase',
+      title: 'Purchase',
+      lien: '/purchase',
       description:
         'Create a ticket to request or to change new equipment and device.',
     },

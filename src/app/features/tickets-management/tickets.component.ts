@@ -23,6 +23,7 @@ export class TicketsComponent implements OnInit {
   Role = Role;
   roles: string[] = [];
   user?: IUser;
+  isGetMyTickets: boolean = false;
 
   breadCrumb: IBreadcrumb[] = [
     {
@@ -72,6 +73,7 @@ export class TicketsComponent implements OnInit {
         this.totalTicketListOpen = listOpen.length;
         const listHigh = filterTicket(tickets, 'priority', TaskPriority.high);
         this.totalTicketListHigh = listHigh.length;
+        this.isGetMyTickets = false;
       },
       error: (error: HttpErrorResponse) => {
         console.log(error.message);
@@ -90,5 +92,13 @@ export class TicketsComponent implements OnInit {
         },
       });
     }
+  }
+
+  getMyTicketsHelpDesk() {
+    this.ticketList = this.ticketList.filter(
+      (ticket) => ticket?.assignedTo?.username === this.user?.username
+    );
+    // this.ticketProcessBoard(this.ticketList);
+    this.isGetMyTickets = true;
   }
 }

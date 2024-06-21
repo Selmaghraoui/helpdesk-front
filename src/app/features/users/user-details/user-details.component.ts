@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { IBreadcrumb } from 'src/app/core/modeles/IBreadcrumb';
 import { IUser } from 'src/app/core/modeles/IUser';
-import { UsersService } from 'src/app/core/services/users.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 
@@ -24,20 +23,17 @@ export class UserDetailsComponent implements OnInit {
   ];
   user?: IUser;
 
-  constructor(
-    private usersService: UsersService,
-    private activatedRoute: ActivatedRoute
-  ) {}
+  constructor(private activatedRoute: ActivatedRoute) {}
 
-  ngOnInit() {
-    let userId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
-    this.getUserById(userId);
+  ngOnInit(): void {
+    this.getUserById();
   }
 
-  getUserById(idUser: number) {
-    this.usersService.getUserById(idUser).subscribe({
-      next: (user: IUser) => {
-        this.user = user;
+  getUserById() {
+    this.activatedRoute.data.subscribe({
+      next: (data) => {
+        this.user = data['usersResolver'];
+        console.log('this.user', this.user);
       },
       error: (error: HttpErrorResponse) => {
         console.log(error.message);

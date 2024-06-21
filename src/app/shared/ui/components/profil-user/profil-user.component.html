@@ -7,12 +7,6 @@
   <div class="pl-10 flex py-4 min-w-full -mt-20 rounded-xl justify-between z-0">
     <div class="flex" [ngClass]="isProfil ? 'gap-10' : 'gap-4'">
       <div class="relative avatar-xl avatar inline-block">
-        <!-- <img
-          class="avatar-xl shadow-sm-sm inline-block rounded-2xl ring-4 ring-white dark:ring-neutral-900"
-          [src]="
-            imageUrl ? imageUrl : '../../../../../../../assets/images/user.png'
-          "
-        /> -->
         <app-display-image
           class="avatar-xl"
           [docId]="user?.docId"
@@ -93,6 +87,7 @@
 
   <!--  -->
   <div class="flex gap-4">
+    <!--  -->
     <div class="w-3/5 grid gap-4">
       <div class="shadow-sm p-8 bg-white border rounded-xl flex gap-8 flex-col">
         <div class="border-b pb-8">
@@ -316,7 +311,8 @@
       >
         Recent Activity
       </h5>
-      <div class="flex flex-col max-h-[396px]">
+      <!-- max-h-[396px] -->
+      <div class="flex flex-col">
         <!-- Timeline -->
         <div class="overflow-y-scroll">
           <div
@@ -326,7 +322,7 @@
             <!-- Left Content -->
             <div class="w-16 text-end">
               <span class="text-xs text-gray-500 dark:text-neutral-400">{{
-                activity.time
+                activity.time | date : "dd-MM-yyyy"
               }}</span>
             </div>
 
@@ -344,41 +340,90 @@
 
             <!-- Right Content -->
             <div class="grow pt-0.5" [ngClass]="last ? 'pb-2' : 'pb-8'">
-              <div class="flex justify-between items-start">
-                <div class="flex flex-col gap-1">
-                  <div class="flex gap-x-3">
-                    <h3
+              <div
+                class="flex justify-between items-start gap-3 border rounded-lg p-2"
+              >
+                <div class="flex flex-col gap-1 w-full">
+                  <h4
+                    class="flex gap-x-1.5 font-medium text-xs items-center text-gray-500 dark:text-white"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="size-5"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 0 1 0 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 0 1 0-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375Z"
+                      />
+                    </svg>
+                    AZ-1234
+                    <!-- {{ activity.referenceTicket }} -->
+                  </h4>
+                  <!-- COMMENT -->
+                  <ng-container *ngIf="activity.typeActivity == 'COMMENT'">
+                    <div
                       class="flex gap-x-1.5 font-semibold text-gray-800 dark:text-white"
                     >
-                      {{ activity.ativity }}
-                    </h3>
-                    <h4
-                      class="flex gap-x-1.5 font-medium text-xs items-center text-gray-500 dark:text-white"
+                      Add comment
+                    </div>
+                    <div
+                      class="p-3 text-xs font-normal border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-600 dark:border-gray-500 dark:text-gray-300"
                     >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke-width="1.5"
-                        stroke="currentColor"
-                        class="size-5"
+                      {{ activity.comment }}
+                    </div>
+                  </ng-container>
+                  <!-- Status Changed -->
+                  <ng-container
+                    *ngIf="activity.typeActivity == 'STATUS_CHANGED'"
+                  >
+                    <div class="flex flex-row gap-x-1.5">
+                      <div
+                        class="flex items-center font-semibold text-gray-800 dark:text-white"
                       >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 0 1 0 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 0 1 0-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375Z"
-                        />
-                      </svg>
-                      {{ activity.referenceTicket }}
-                    </h4>
-                  </div>
-                  <!-- <app-badge-user
-                    *ngIf="roles.includes(Role.admin)"
-                    [badgeUser]="activity.author"
-                    [isDeleted]="false"
-                  ></app-badge-user> -->
+                        Changed status to
+                      </div>
+                      <app-badge-status
+                        [badgeStatus]="activity.status"
+                      ></app-badge-status>
+                    </div>
+                  </ng-container>
+                  <!-- SHARED_WITH -->
+                  <ng-container *ngIf="activity.typeActivity == 'SHARED_WITH'">
+                    <div
+                      class="flex gap-x-1.5 font-semibold text-gray-800 dark:text-white"
+                    >
+                      Shared ticket with
+                    </div>
+                    <div class="flex flex-col gap-2">
+                      <app-badge-user
+                        *ngFor="let helpDesk of activity.shared_with"
+                        [isDeleted]="false"
+                        [badgeUser]="helpDesk"
+                      ></app-badge-user>
+                    </div>
+                  </ng-container>
+                  <!-- ASSIGNED_TO -->
+                  <ng-container *ngIf="activity.typeActivity == 'ASSIGNED_TO'">
+                    <div class="flex flex-row gap-x-1.5">
+                      <div
+                        class="flex items-center font-semibold text-gray-800 dark:text-white"
+                      >
+                        Affected ticket to
+                      </div>
+                      <app-badge-user
+                        [isDeleted]="false"
+                        [badgeUser]="activity.assignedTo"
+                      ></app-badge-user>
+                    </div>
+                  </ng-container>
                 </div>
                 <button
+                  [routerLink]="['/tickets/detail', activity.id]"
                   type="button"
                   class="ring-2 ring-white py-2 px-3 inline-flex items-start gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-neutral-800 text-gray-900"
                 >

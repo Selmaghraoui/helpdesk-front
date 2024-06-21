@@ -1,10 +1,43 @@
 <ng-container *ngIf="roles.includes(Role.helpDesk)">
-  <div class=""></div>
+  <div class="flex justify-between w-full mb-8">
+    <div class="text-2xl font-bold">Tickets board</div>
+    <div class="flex gap-2">
+      <button
+        (click)="getAllTickets()"
+        type="button"
+        class="ring-2 ring-white h-full py-2 px-3 inline-flex items-start gap-x-2 text-sm font-medium rounded-lg border bg-white hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-neutral-800"
+        [ngClass]="
+          !isGetMyTickets
+            ? 'border-blue-600 text-blue-600'
+            : 'text-gray-900 border-gray-200'
+        "
+      >
+        Get All Ticket
+      </button>
+      <button
+        (click)="getMyTicketsHelpDesk()"
+        type="button"
+        class="ring-2 ring-white h-full py-2 px-3 inline-flex items-start gap-x-2 text-sm font-medium rounded-lg border bg-white hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-neutral-800"
+        [ngClass]="
+          isGetMyTickets
+            ? 'border-blue-600 text-blue-600'
+            : 'text-gray-900 border-gray-200'
+        "
+      >
+        My Tickets
+      </button>
+    </div>
+  </div>
 </ng-container>
 
 <!--  -->
 <div class="overflowx min-h-full">
-  <div class="flex gap-3" style="max-height: calc(100vh - 100px) !important">
+  <div
+    class="flex gap-3"
+    [ngClass]="
+      roles.includes(Role.helpDesk) ? 'calc-height-170' : 'calc-height-100'
+    "
+  >
     <!-- Open -->
     <div class="example-container rounded-2xl">
       <!-- board header -->
@@ -71,10 +104,23 @@
                   <app-badge-type [type]="item.type"></app-badge-type>
                 </div>
 
-                <div class="flex flex-row items-center">
-                  <!-- <app-badge-user
-                    [badgeUser]="item.assignedTo"
-                  ></app-badge-user> -->
+                <div
+                  class="flex justify-between w-full"
+                  *ngIf="roles.includes(Role.helpDesk)"
+                >
+                  <div class="flex flex-col items-start">
+                    <div class="text-xs text-gray-500">Created By :</div>
+                    <app-badge-user [badgeUser]="item.owner"></app-badge-user>
+                  </div>
+                  <div
+                    class="flex flex-col items-start"
+                    *ngIf="item.assignedTo != null"
+                  >
+                    <div class="text-xs text-gray-500">Affected To :</div>
+                    <app-badge-user
+                      [badgeUser]="item.assignedTo"
+                    ></app-badge-user>
+                  </div>
                 </div>
               </div>
 
@@ -144,8 +190,23 @@
                 <app-badge-type [type]="item.type"></app-badge-type>
               </div>
 
-              <div class="flex flex-row items-center">
-                <!-- <app-badge-user [badgeUser]="item.assignedTo"></app-badge-user> -->
+              <div
+                class="flex justify-between w-full"
+                *ngIf="roles.includes(Role.helpDesk)"
+              >
+                <div class="flex flex-col items-start">
+                  <div class="text-xs text-gray-500">Created By :</div>
+                  <app-badge-user [badgeUser]="item.owner"></app-badge-user>
+                </div>
+                <div
+                  class="flex flex-col items-start"
+                  *ngIf="item.assignedTo != null"
+                >
+                  <div class="text-xs text-gray-500">Affected To :</div>
+                  <app-badge-user
+                    [badgeUser]="item.assignedTo"
+                  ></app-badge-user>
+                </div>
               </div>
             </div>
 
@@ -217,8 +278,23 @@
                 <app-badge-type [type]="item.type"></app-badge-type>
               </div>
 
-              <div class="flex flex-row items-center">
-                <!-- <app-badge-user [badgeUser]="item.assignedTo"></app-badge-user> -->
+              <div
+                class="flex justify-between w-full"
+                *ngIf="roles.includes(Role.helpDesk)"
+              >
+                <div class="flex flex-col items-start">
+                  <div class="text-xs text-gray-500">Created By :</div>
+                  <app-badge-user [badgeUser]="item.owner"></app-badge-user>
+                </div>
+                <div
+                  class="flex flex-col items-start"
+                  *ngIf="item.assignedTo != null"
+                >
+                  <div class="text-xs text-gray-500">Affected To :</div>
+                  <app-badge-user
+                    [badgeUser]="item.assignedTo"
+                  ></app-badge-user>
+                </div>
               </div>
             </div>
 
@@ -287,8 +363,23 @@
                 <app-badge-type [type]="item.type"></app-badge-type>
               </div>
 
-              <div class="flex flex-row items-center">
-                <!-- <app-badge-user [badgeUser]="item.assignedTo"></app-badge-user> -->
+              <div
+                class="flex justify-between w-full"
+                *ngIf="roles.includes(Role.helpDesk)"
+              >
+                <div class="flex flex-col items-start">
+                  <div class="text-xs text-gray-500">Created By :</div>
+                  <app-badge-user [badgeUser]="item.owner"></app-badge-user>
+                </div>
+                <div
+                  class="flex flex-col items-start"
+                  *ngIf="item.assignedTo != null"
+                >
+                  <div class="text-xs text-gray-500">Affected To :</div>
+                  <app-badge-user
+                    [badgeUser]="item.assignedTo"
+                  ></app-badge-user>
+                </div>
               </div>
             </div>
 
@@ -361,10 +452,22 @@
               </div>
 
               <div
-                class="flex flex-row items-center"
+                class="flex justify-between w-full"
                 *ngIf="roles.includes(Role.helpDesk)"
               >
-                <app-badge-user [badgeUser]="item.assignedTo"></app-badge-user>
+                <div class="flex flex-col items-start">
+                  <div class="text-xs text-gray-500">Created By :</div>
+                  <app-badge-user [badgeUser]="item.owner"></app-badge-user>
+                </div>
+                <div
+                  class="flex flex-col items-start"
+                  *ngIf="item.assignedTo != null"
+                >
+                  <div class="text-xs text-gray-500">Affected To :</div>
+                  <app-badge-user
+                    [badgeUser]="item.assignedTo"
+                  ></app-badge-user>
+                </div>
               </div>
             </div>
 
@@ -434,10 +537,22 @@
               </div>
 
               <div
-                class="flex flex-row items-center"
+                class="flex justify-between w-full"
                 *ngIf="roles.includes(Role.helpDesk)"
               >
-                <app-badge-user [badgeUser]="item.assignedTo"></app-badge-user>
+                <div class="flex flex-col items-start">
+                  <div class="text-xs text-gray-500">Created By :</div>
+                  <app-badge-user [badgeUser]="item.owner"></app-badge-user>
+                </div>
+                <div
+                  class="flex flex-col items-start"
+                  *ngIf="item.assignedTo != null"
+                >
+                  <div class="text-xs text-gray-500">Affected To :</div>
+                  <app-badge-user
+                    [badgeUser]="item.assignedTo"
+                  ></app-badge-user>
+                </div>
               </div>
             </div>
 
@@ -532,10 +647,22 @@
               </div>
 
               <div
-                class="flex flex-row items-center"
+                class="flex justify-between w-full"
                 *ngIf="roles.includes(Role.helpDesk)"
               >
-                <app-badge-user [badgeUser]="item.assignedTo"></app-badge-user>
+                <div class="flex flex-col items-start">
+                  <div class="text-xs text-gray-500">Created By :</div>
+                  <app-badge-user [badgeUser]="item.owner"></app-badge-user>
+                </div>
+                <div
+                  class="flex flex-col items-start"
+                  *ngIf="item.assignedTo != null"
+                >
+                  <div class="text-xs text-gray-500">Affected To :</div>
+                  <app-badge-user
+                    [badgeUser]="item.assignedTo"
+                  ></app-badge-user>
+                </div>
               </div>
             </div>
 

@@ -107,9 +107,9 @@
             </div>
           </div>
           <div *ngIf="ticketList.length != 0" class="flex justify-between">
-            <div class="max-w-sm">
+            <div class="flex gap-2">
               <!-- SearchBox -->
-              <div class="relative w-80">
+              <div class="relative max-w-sm w-80">
                 <div
                   class="absolute inset-y-0 start-0 flex items-center pointer-events-none z-20 ps-3.5"
                 >
@@ -136,9 +136,37 @@
                   aria-describedby="search-text"
                   [(ngModel)]="searchText"
                   placeholder="Type title of tiket"
-                  autofocus
                 />
               </div>
+
+              <ng-container *ngIf="roles.includes(Role.helpDesk)">
+                <div class="flex gap-2">
+                  <button
+                    (click)="getAllTickets()"
+                    type="button"
+                    class="ring-2 ring-white h-full py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border bg-white hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-neutral-800"
+                    [ngClass]="
+                      !isGetMyTickets
+                        ? 'border-blue-600 text-blue-600'
+                        : 'text-gray-900 border-gray-200'
+                    "
+                  >
+                    Get All Ticket
+                  </button>
+                  <button
+                    (click)="getMyTicketsHelpDesk()"
+                    type="button"
+                    class="ring-2 ring-white h-full py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border bg-white hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-neutral-800"
+                    [ngClass]="
+                      isGetMyTickets
+                        ? 'border-blue-600 text-blue-600'
+                        : 'text-gray-900 border-gray-200'
+                    "
+                  >
+                    My Tickets
+                  </button>
+                </div>
+              </ng-container>
               <!-- End SearchBox -->
             </div>
 
@@ -317,7 +345,7 @@
                   <td class="min-w-[440px]">
                     <a class="block relative z-10">
                       <div
-                        class="text-base font-semibold text-black py-3 px-1.5 whitespace-nowrap dark:text-white whitespace-break"
+                        class="whitespace-break-spaces text-base font-semibold text-black py-3 px-1.5 dark:text-white whitespace-break"
                       >
                         {{ ticket.title }}
                       </div>
@@ -362,7 +390,7 @@
                   </ng-container>
                   <!-- created time -->
                   <td class="">
-                    <div class="py-3 px-1.5 text-sm font-normal">
+                    <div class="py-3 px-1.5 text-sm font-normal whitespace-pre">
                       {{ ticket.createdTime | date : "dd-MM-yyyy  hh:mm" }}
                     </div>
                   </td>

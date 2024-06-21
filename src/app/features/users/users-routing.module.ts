@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { UsersComponent } from './users.component';
 import { UserDetailsComponent } from './user-details/user-details.component';
 import { CreateUserComponent } from './create-user/create-user.component';
+import { UsersResolverService } from 'src/app/core/resolvers/users-resolver.service';
 
 const routes: Routes = [
   {
@@ -12,6 +13,7 @@ const routes: Routes = [
   {
     path: 'detail/:id',
     component: UserDetailsComponent,
+    resolve: { usersResolver: UsersResolverService },
   },
   {
     path: 'create-user',

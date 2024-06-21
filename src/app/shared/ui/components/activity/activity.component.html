@@ -10,208 +10,158 @@
   </div>
 
   <!-- Body -->
-  <div class="overflow-y-scroll">
-    <div class="!max-h-[550px] mr-[6px]">
+  <div class="overflow-y-scroll" *ngIf="listComments.length > 0">
+    <div class="!max-h-[462px] max-h-[462px] mr-[6px]">
       <ol class="relative border-s border-gray-200 dark:border-gray-700 ms-3.5">
-        <li class="mb-10 ms-6 flex flex-col gap-2">
-          <span
-            class="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900"
+        <ng-container *ngFor="let comment of listComments">
+          <li
+            class="mb-10 ms-6 flex flex-col gap-2"
+            *ngIf="comment.typeActivity != '0' && comment.typeActivity != '3'"
           >
-            <img
-              class="rounded-full shadow-lg"
-              src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-              alt="Thomas Lean image"
-            />
-          </span>
-          <div class="flex justify-between items-center">
-            <div class="font-semibold text-gray-900 text-sm">
-              Soufiane El Maghraoui
-            </div>
-            <time
-              class="mb-1 text-xs font-normal text-gray-400 sm:order-last sm:mb-0"
+            <span
+              class="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900"
             >
-              2 hours ago
-            </time>
-          </div>
-          <div
-            class="p-3 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-700 dark:border-gray-600"
-          >
-            <div class="flex items-center sm:flex gap-2">
-              <div class="text-sm font-normal text-gray-500 dark:text-gray-300">
-                Changed status to
+              <app-display-image
+                class="h-6"
+                [css]="'rounded-full shadow-lg h-6'"
+                [docId]="comment?.author?.docId"
+              ></app-display-image>
+            </span>
+            <div class="flex justify-between items-center">
+              <div class="font-semibold text-gray-900 text-sm">
+                {{ comment?.author?.firstName }}
+                {{ comment?.author?.lastName }}
               </div>
-              <app-badge-status
-                [badgeStatus]="TaskStatus.canceled"
-              ></app-badge-status>
-            </div>
-            <div
-              class="mb-1 text-sm font-normal text-gray-500 lex dark:text-gray-300"
-            >
-              Explication :
-            </div>
-            <div
-              class="p-3 text-xs font-normal border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-600 dark:border-gray-500 dark:text-gray-300"
-            >
-              Hi ya'll! I wanted to share a webinar zeroheight is having
-              regarding how to best measure your design system! This is the
-              second session of our new webinar series on #DesignSystems
-              discussions where we'll be speaking about Measurement.
-            </div>
-          </div>
-        </li>
-
-        <li class="mb-10 ms-6 flex flex-col gap-2">
-          <span
-            class="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900"
-          >
-            <img
-              class="rounded-full shadow-lg"
-              src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-              alt="Thomas Lean image"
-            />
-          </span>
-          <div class="flex justify-between items-center">
-            <div class="font-semibold text-gray-900 text-sm">
-              Soufiane El Maghraoui
-            </div>
-            <time
-              class="mb-1 text-xs font-normal text-gray-400 sm:order-last sm:mb-0"
-            >
-              2 hours ago
-            </time>
-          </div>
-          <div
-            class="p-3 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-700 dark:border-gray-600"
-          >
-            <div class="flex items-center sm:flex gap-2">
-              <div class="text-sm font-normal text-gray-500 dark:text-gray-300">
-                Affected this ticket to
-              </div>
-              <!-- <app-badge-user
-                [isDeleted]="false"
-                [badgeUser]="helpDesk"
-              ></app-badge-user> -->
-            </div>
-          </div>
-        </li>
-
-        <li class="mb-10 ms-6 flex flex-col gap-2">
-          <span
-            class="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900"
-          >
-            <img
-              class="rounded-full shadow-lg"
-              src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-              alt="Thomas Lean image"
-            />
-          </span>
-          <div class="flex justify-between items-center">
-            <div class="font-semibold text-gray-900 text-sm">
-              Soufiane El Maghraoui
-            </div>
-            <time
-              class="mb-1 text-xs font-normal text-gray-400 sm:order-last sm:mb-0"
-            >
-              2 hours ago
-            </time>
-          </div>
-          <div
-            class="p-3 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-700 dark:border-gray-600"
-          >
-            <div class="flex sm:flex gap-2">
-              <div
-                class="text-sm font-normal text-gray-500 dark:text-gray-300 h-full flex items-start"
+              <time
+                class="mb-1 text-xs font-normal text-gray-400 sm:order-last sm:mb-0"
               >
-                Shared this ticket with
-              </div>
-              <div class="flex flex-col gap-2">
-                <!-- <app-badge-user
-                  *ngFor="let helpDesk of helpDeskList"
-                  [isDeleted]="false"
-                  [badgeUser]="helpDesk"
-                ></app-badge-user> -->
-              </div>
+                {{ comment?.time | date : "dd-MM-yyyy" }}
+              </time>
             </div>
-          </div>
-        </li>
 
-        <li class="mb-10 ms-6 flex flex-col gap-2">
-          <span
-            class="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900"
-          >
-            <img
-              class="rounded-full shadow-lg"
-              src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-              alt="Thomas Lean image"
-            />
-          </span>
-          <div class="flex justify-between items-center">
-            <div class="font-semibold text-gray-900 text-sm">
-              Soufiane El Maghraoui
-            </div>
-            <time
-              class="mb-1 text-xs font-normal text-gray-400 sm:order-last sm:mb-0"
+            <!-- Status Changed -->
+            <div
+              *ngIf="comment.typeActivity == 'STATUS_CHANGED'"
+              class="p-3 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-700 dark:border-gray-600"
             >
-              2 hours ago
-            </time>
-          </div>
-          <div
-            class="p-3 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-700 dark:border-gray-600"
-          >
-            <div class="flex sm:flex gap-2">
+              <div class="flex items-center sm:flex gap-2">
+                <div
+                  class="text-sm font-normal text-gray-500 dark:text-gray-300"
+                >
+                  Changed status to
+                </div>
+                <app-badge-status
+                  [badgeStatus]="comment.status"
+                ></app-badge-status>
+              </div>
+              <!-- explication -->
+            </div>
+
+            <!-- SHARED_WITH -->
+            <div
+              class="p-3 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-700 dark:border-gray-600"
+              *ngIf="comment.typeActivity == 'SHARED_WITH'"
+            >
+              <div class="flex sm:flex gap-2">
+                <div
+                  class="text-sm font-normal text-gray-500 dark:text-gray-300 h-full flex items-start"
+                >
+                  Shared this ticket with
+                </div>
+                <div class="flex flex-col gap-2">
+                  <app-badge-user
+                    *ngFor="let helpDesk of comment.shared_with"
+                    [isDeleted]="false"
+                    [badgeUser]="helpDesk"
+                  ></app-badge-user>
+                </div>
+              </div>
+            </div>
+
+            <!-- ASSIGNED_TO -->
+            <div
+              *ngIf="comment.typeActivity == 'ASSIGNED_TO'"
+              class="p-3 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-700 dark:border-gray-600"
+            >
+              <div class="flex items-center sm:flex gap-2">
+                <div
+                  class="text-sm font-normal text-gray-500 dark:text-gray-300"
+                >
+                  Affected this ticket to
+                </div>
+                <app-badge-user
+                  [isDeleted]="false"
+                  [badgeUser]="comment.assignedTo"
+                ></app-badge-user>
+              </div>
+            </div>
+
+            <!-- COMMENT -->
+            <div
+              *ngIf="comment.typeActivity == 'COMMENT'"
+              class="p-3 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-700 dark:border-gray-600"
+            >
               <div
-                class="text-sm font-normal text-gray-500 dark:text-gray-300 h-full flex items-start"
+                class="mb-1 text-sm font-normal text-gray-500 lex dark:text-gray-300"
               >
-                Shared this ticket with
+                Commented
               </div>
-              <div class="flex flex-col gap-2">
-                <!-- <app-badge-user
-                  *ngFor="let helpDesk of helpDeskList"
-                  [isDeleted]="false"
-                  [badgeUser]="helpDesk"
-                ></app-badge-user> -->
+              <div
+                class="p-3 text-xs font-normal border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-600 dark:border-gray-500 dark:text-gray-300"
+              >
+                {{ comment.comment }}
               </div>
+              <!-- <div class="container image-upload rounded-lg w-full">
+                <div
+                  class="preview-container flex flex-row gap-4 overflow-x-scroll py-1"
+                  *ngIf="previewImages.length > 0"
+                >
+                  <ng-container
+                    *ngFor="let image of previewImages; let i = index"
+                  >
+                    <div class="relative">
+                      <img [src]="image" />
+                    </div>
+                  </ng-container>
+                </div>
+              </div> -->
             </div>
-          </div>
-        </li>
+          </li>
+        </ng-container>
+      </ol>
+    </div>
+  </div>
 
-        <li class="mb-10 ms-6 flex flex-col gap-2">
-          <span
-            class="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900"
-          >
-            <img
-              class="rounded-full shadow-lg"
-              src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-              alt="Thomas Lean image"
-            />
-          </span>
-          <div class="flex justify-between items-center">
-            <div class="font-semibold text-gray-900 text-sm">
-              Soufiane El Maghraoui
-            </div>
-            <time
-              class="mb-1 text-xs font-normal text-gray-400 sm:order-last sm:mb-0"
-            >
-              2 hours ago
-            </time>
-          </div>
+  <!-- Add comment -->
+  <form [formGroup]="commentFormGroup">
+    <div class="relative ms-3.5 pt-6 mr-[6px]">
+      <div class="mb-10 ms-6">
+        <span
+          class="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900"
+        >
+          <app-display-image
+            class="h-6"
+            [css]="'rounded-full shadow-lg h-6'"
+            [docId]="user?.docId"
+          ></app-display-image>
+        </span>
+
+        <div class="relative">
           <div
-            class="p-3 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-700 dark:border-gray-600"
+            class="rounded-lg overflow-hidden bbm bbs bbw bce bgy bhd"
+            [ngClass]="previewImages.length > 0 ? 'pb-52' : 'pb-12'"
           >
-            <div
-              class="mb-1 text-sm font-normal text-gray-500 lex dark:text-gray-300"
-            >
-              Commented
-            </div>
-            <div
-              class="p-3 text-xs font-normal border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-600 dark:border-gray-500 dark:text-gray-300"
-            >
-              Hi ya'll! I wanted to share a webinar zeroheight is having
-              regarding how to best measure your design system! This is the
-              second session of our new webinar series on #DesignSystems
-              discussions where we'll be speaking about Measurement.
-            </div>
-            <div class="container image-upload rounded-lg w-full">
+            <textarea
+              name=""
+              id=""
+              placeholder="Add a comment ..."
+              class="block w-full !resize-none !border-0 !bg-transparent !pt-3 !pb-1.5 axu bgc bnb cia cic"
+              formControlName="text"
+            ></textarea>
+          </div>
+
+          <div class="absolute left-0 right-0 bottom-0 pr-2 pl-3 pt-2 pb-2">
+            <!-- <div class="container image-upload rounded-lg w-full">
               <div
                 class="preview-container flex flex-row gap-4 overflow-x-scroll py-1"
                 *ngIf="previewImages.length > 0"
@@ -219,156 +169,80 @@
                 <ng-container
                   *ngFor="let image of previewImages; let i = index"
                 >
-                  <div class="relative">
-                    <img [src]="image" />
+                  <div
+                    class="relative"
+                    style="min-width: max-content; width: max-content"
+                  >
+                    <img [src]="image" alt="Image Preview" />
+                    <svg
+                      (click)="onDeleteImage(i)"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="w-6 h-6 cursor-pointer"
+                      style="
+                        position: absolute;
+                        background: white;
+                        border-radius: 100%;
+                        right: 6px;
+                        top: 4%;
+                        width: auto;
+                      "
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M6 18 18 6M6 6l12 12"
+                      />
+                    </svg>
                   </div>
                 </ng-container>
               </div>
-            </div>
-          </div>
-        </li>
-
-        <li class="mb-10 ms-6 flex flex-col gap-2">
-          <span
-            class="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900"
-          >
-            <img
-              class="rounded-full shadow-lg"
-              src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-              alt="Thomas Lean image"
-            />
-          </span>
-          <div class="flex justify-between items-center">
-            <div class="font-semibold text-gray-900 text-sm">
-              Soufiane El Maghraoui
-            </div>
-            <time
-              class="mb-1 text-xs font-normal text-gray-400 sm:order-last sm:mb-0"
-            >
-              2 hours ago
-            </time>
-          </div>
-          <div
-            class="p-3 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-700 dark:border-gray-600"
-          >
-            <div class="flex items-center sm:flex gap-2">
-              <div class="text-sm font-normal text-gray-500 dark:text-gray-300">
-                Affected this ticket to
-              </div>
-              <!-- <app-badge-user
-                [isDeleted]="false"
-                [badgeUser]="helpDesk"
-              ></app-badge-user> -->
-            </div>
-          </div>
-        </li>
-      </ol>
-    </div>
-  </div>
-
-  <!-- Add comment -->
-  <div class="relative ms-3.5 pt-6 mr-[6px]">
-    <div class="mb-10 ms-6">
-      <span
-        class="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900"
-      >
-        <img
-          class="rounded-full shadow-lg"
-          src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-          alt="Thomas Lean image"
-        />
-      </span>
-
-      <div class="relative">
-        <div
-          class="rounded-lg overflow-hidden bbm bbs bbw bce bgy bhd"
-          [ngClass]="previewImages.length > 0 ? 'pb-52' : 'pb-12'"
-        >
-          <textarea
-            name=""
-            id=""
-            placeholder="Add a comment ..."
-            class="block w-full !resize-none !border-0 !bg-transparent !pt-3 !pb-1.5 axu bgc bnb cia cic"
-          ></textarea>
-        </div>
-
-        <div class="absolute left-0 right-0 bottom-0 pr-2 pl-3 pt-2 pb-2">
-          <div class="container image-upload rounded-lg w-full">
-            <div
-              class="preview-container flex flex-row gap-4 overflow-x-scroll py-1"
-              *ngIf="previewImages.length > 0"
-            >
-              <ng-container *ngFor="let image of previewImages; let i = index">
-                <div class="relative">
-                  <img [src]="image" alt="Image Preview" />
-                  <svg
-                    (click)="onDeleteImage(i)"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    class="w-6 h-6 cursor-pointer border"
-                    style="
-                      position: absolute;
-                      background: white;
-                      border-radius: 100%;
-                      left: 88%;
-                      top: 4%;
-                      width: auto;
-                    "
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M6 18 18 6M6 6l12 12"
-                    />
-                  </svg>
-                </div>
-              </ng-container>
-            </div>
-          </div>
-          <div class="flex justify-between">
-            <!-- image -->
-            <div class="hover:bg-gray-100 p-1.5 rounded-lg">
-              <input
-                type="file"
-                id="imageInput"
-                multiple
-                accept="image/*"
-                style="display: none"
-                (change)="onImageChange($event)"
-              />
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                width="16"
-                height="16"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="w-6 h-6"
-                (click)="openFileInput()"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
+            </div> -->
+            <div class="flex justify-end">
+              <!-- image -->
+              <!-- <div class="hover:bg-gray-100 p-1.5 rounded-lg">
+                <input
+                  type="file"
+                  id="imageInput"
+                  multiple
+                  accept="image/*"
+                  style="display: none"
+                  (change)="onImageChange($event)"
                 />
-              </svg>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  width="16"
+                  height="16"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="w-6 h-6"
+                  (click)="openFileInput()"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
+                  />
+                </svg>
+              </div> -->
+              <!-- send -->
+              <button
+                (click)="addComment(commentFormGroup)"
+                class="flex justify-end rounded-md bg-indigo-600 px-7 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                type="button"
+              >
+                Send
+              </button>
             </div>
-            <!-- send -->
-            <button
-              (click)="addComment(commentFormGroup)"
-              class="rounded-md bg-indigo-600 px-7 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              type="button"
-            >
-              Send
-            </button>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </form>
 </div>

@@ -20,11 +20,15 @@
     border-radius: 8px;
     border: 1px solid rgba(227, 226, 224, 0.5);
     cursor: zoom-in;
-    min-width: 240px;
-    width: 240px;
-    height: auto;
-    max-height: 240px !important;
+    min-width: max-content;
+    width: max-content;
+    height: 136px;
+    max-height: 136px !important;
   }
+}
+
+.h-6 {
+  min-height: 24px !important;
 }
 
 .content-comment {
