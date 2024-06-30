@@ -40,15 +40,6 @@ export class DepartmentComponent implements OnInit {
   getDepartments() {
     const departmentsData = localStorage.getItem('departments');
     this.departments = departmentsData ? JSON.parse(departmentsData) : null;
-    // this.departmentService.getAllDepartment().subscribe({
-    //   next: (departmentsList: Department[]) => {
-    //     this.departments = departmentsList;
-    //     this.totalDepartments.emit(departmentsList.length);
-    //   },
-    //   error: (error: HttpErrorResponse) => {
-    //     console.log(error.message);
-    //   },
-    // });
   }
 
   saveDepartments(departments: Department[]): void {

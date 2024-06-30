@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 
 import { Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { TaskStatus } from 'src/app/core/modeles/TaskStatus';
 import { Ticket } from 'src/app/core/modeles/Ticket';
 import { TicketService } from 'src/app/core/services/ticket.service';
 import { UpdateAssignedToDto } from 'src/app/shared/ui/components/affected-shared/affected-shared.component';
@@ -16,6 +17,7 @@ export class ExplanationComponent {
   explanation: string = '';
   isExplanationValid: boolean = false;
   isAffectedValid: boolean = false;
+  TaskStatus = TaskStatus;
 
   constructor(
     public dialogRef: MatDialogRef<ExplanationComponent>,
@@ -28,11 +30,15 @@ export class ExplanationComponent {
   }
 
   onYesClick(): void {
-    if (this.data.status === 'Rejected' && this.explanation.trim()) {
+    if (
+      (this.data.status === TaskStatus.canceled ||
+        this.data.status === TaskStatus.rejected) &&
+      this.explanation.trim()
+    ) {
       this.isExplanationValid = true;
       this.dialogRef.close({ explanation: this.explanation });
     } else if (
-      this.data.status === 'In Progress' &&
+      this.data.status === TaskStatus.inProgress &&
       this.isAffectedValid == true
     ) {
       this.dialogRef.close({});

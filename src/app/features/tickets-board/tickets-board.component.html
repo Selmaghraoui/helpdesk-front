@@ -1,53 +1,80 @@
 <ng-container *ngIf="roles.includes(Role.helpDesk)">
-  <div class="flex justify-between w-full mb-8">
-    <div class="text-2xl font-bold">Tickets board</div>
-    <div class="flex gap-2">
-      <button
+  <div class="flex justify-between w-full mb-4">
+    <div class="flex border-b">
+      <!--  -->
+      <div
         (click)="getAllTickets()"
-        type="button"
-        class="ring-2 ring-white h-full py-2 px-3 inline-flex items-start gap-x-2 text-sm font-medium rounded-lg border bg-white hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-neutral-800"
         [ngClass]="
-          !isGetMyTickets
-            ? 'border-blue-600 text-blue-600'
-            : 'text-gray-900 border-gray-200'
+          !isGetAffectedToMe && !isGetCreatedByMe
+            ? 'border-b-2 border-blue-600 text-blue-600'
+            : ' text-gray-900 border-gray-200'
         "
       >
-        Get All Ticket
-      </button>
-      <button
-        (click)="getMyTicketsHelpDesk()"
-        type="button"
-        class="ring-2 ring-white h-full py-2 px-3 inline-flex items-start gap-x-2 text-sm font-medium rounded-lg border bg-white hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-neutral-800"
+        <button
+          type="button"
+          class="h-full py-2 px-3 inline-flex items-center justify-center gap-x-2 text-sm font-medium hover:bg-white hover:rounded-lg disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-neutral-800"
+        >
+          All Ticket
+        </button>
+      </div>
+      <!-- Affected to me -->
+      <div
+        (click)="getAffectedToMe()"
         [ngClass]="
-          isGetMyTickets
-            ? 'border-blue-600 text-blue-600'
-            : 'text-gray-900 border-gray-200'
+          isGetAffectedToMe
+            ? 'border-b-2 border-blue-600 text-blue-600'
+            : ' text-gray-900 border-gray-200'
         "
       >
-        My Tickets
-      </button>
+        <button
+          type="button"
+          class="h-full py-2 px-3 inline-flex items-center justify-center gap-x-2 text-sm font-medium hover:bg-white hover:rounded-lg disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-neutral-800"
+        >
+          Affected to me
+        </button>
+      </div>
+      <!-- Created by me -->
+      <div
+        (click)="getCreatedByMe()"
+        [ngClass]="
+          isGetCreatedByMe
+            ? 'border-b-2 border-blue-600 text-blue-600'
+            : ' text-gray-900 border-gray-200'
+        "
+      >
+        <button
+          type="button"
+          class="h-full py-2 px-3 inline-flex items-center justify-center gap-x-2 text-sm font-medium hover:bg-white hover:rounded-lg disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-neutral-800"
+        >
+          Created by me
+        </button>
+      </div>
     </div>
   </div>
 </ng-container>
 
 <!--  -->
-<div class="overflowx min-h-full">
-  <div
-    class="flex gap-3"
-    [ngClass]="
-      roles.includes(Role.helpDesk) ? 'calc-height-170' : 'calc-height-100'
-    "
-  >
+<div
+  class="overflowx"
+  style="overflow-y: hidden"
+  [ngClass]="
+    roles.includes(Role.helpDesk) ? 'calc-height-149' : 'calc-height-94'
+  "
+>
+  <div class="flex gap-3">
     <!-- Open -->
     <div class="example-container rounded-2xl">
       <!-- board header -->
-      <div class="text-xl dark:bg-neutral-500 font-semibold mb-4">Open</div>
+      <div class="text-xl dark:bg-neutral-500 font-semibold mb-4 text-gray-500">
+        Open
+      </div>
       <!-- board card -->
       <div
         cdkDropList
         #openList="cdkDropList"
         [cdkDropListData]="ticketListOpen"
-        class="example-list h-full"
+        class="example-list h-full overflowy"
+        [ngClass]="roles.includes(Role.helpDesk) ? 'pb-11' : ''"
         (cdkDropListDropped)="drop($event, 'Open')"
         [cdkDropListConnectedTo]="
           roles.includes(Role.user) &&
@@ -73,27 +100,28 @@
               *cdkDragPlaceholder
             ></div>
             <div
-              class="flex flex-col gap-4 p-5 mb-4 bg-white border border-gray-300 rounded-lg shadow-sm dark:bg-gray-700 dark:border-gray-600"
+              class="flex flex-col gap-4 p-5 mb-4 bg-white border card rounded-lg hover:shadow-sm dark:bg-gray-700 dark:border-gray-600"
             >
-              <div class="flex justify-between">
-                <div class="flex flex-col gap-1">
+              <div class="flex flex-col gap-1.5">
+                <div class="flex justify-between">
                   <div
-                    class="text-base text-gray-500 dark:bg-neutral-500 font-medium"
+                    class="flex items-center text-base text-gray-500 dark:bg-neutral-500 font-medium"
                   >
                     {{ item.reference }}
                   </div>
-                  <div class="text-lg dark:bg-neutral-500 font-medium">
-                    {{ item.title }}
-                  </div>
+
+                  <button
+                    [routerLink]="['/tickets/detail', item.id]"
+                    type="button"
+                    class="ring-2 ring-white h-full py-2 px-3 inline-flex items-start gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-neutral-800 text-gray-900"
+                  >
+                    View
+                  </button>
                 </div>
 
-                <button
-                  [routerLink]="['/tickets/detail', item.id]"
-                  type="button"
-                  class="ring-2 ring-white h-full py-2 px-3 inline-flex items-start gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-neutral-800 text-gray-900"
-                >
-                  View
-                </button>
+                <div class="text-lg dark:bg-neutral-500 font-medium">
+                  {{ item.title }}
+                </div>
               </div>
 
               <div class="flex flex-col gap-2">
@@ -109,15 +137,21 @@
                   *ngIf="roles.includes(Role.helpDesk)"
                 >
                   <div class="flex flex-col items-start">
-                    <div class="text-xs text-gray-500">Created By :</div>
-                    <app-badge-user [badgeUser]="item.owner"></app-badge-user>
+                    <div class="text-xs text-gray-500 mb-0.5">Created By :</div>
+                    <app-badge-user
+                      class="ring-2 ring-white rounded-full"
+                      [badgeUser]="item.owner"
+                    ></app-badge-user>
                   </div>
                   <div
                     class="flex flex-col items-start"
                     *ngIf="item.assignedTo != null"
                   >
-                    <div class="text-xs text-gray-500">Affected To :</div>
+                    <div class="text-xs text-gray-500 mb-0.5">
+                      Affected To :
+                    </div>
                     <app-badge-user
+                      class="ring-2 ring-white rounded-full"
                       [badgeUser]="item.assignedTo"
                     ></app-badge-user>
                   </div>
@@ -136,7 +170,9 @@
     <!-- Canceled -->
     <div class="example-container rounded-2xl">
       <!-- board header -->
-      <div class="text-xl dark:bg-neutral-500 font-semibold mb-4">Canceled</div>
+      <div class="text-xl dark:bg-neutral-500 font-semibold mb-4 text-red-500">
+        Canceled
+      </div>
 
       <!-- board card -->
       <div
@@ -144,7 +180,8 @@
         #canceledList="cdkDropList"
         [cdkDropListData]="ticketListCanceled"
         [cdkDropListConnectedTo]="[]"
-        class="example-list h-full"
+        class="example-list h-full overflowy"
+        [ngClass]="roles.includes(Role.helpDesk) ? 'pb-10' : ''"
         (cdkDropListDropped)="drop($event, 'Canceled')"
       >
         <div
@@ -159,7 +196,7 @@
             *cdkDragPlaceholder
           ></div>
           <div
-            class="flex flex-col gap-4 p-5 mb-4 bg-white border border-gray-300 rounded-lg shadow-sm dark:bg-gray-700 dark:border-gray-600"
+            class="flex flex-col gap-4 p-5 mb-4 bg-white border card rounded-lg hover:shadow-sm dark:bg-gray-700 dark:border-gray-600"
           >
             <div class="flex justify-between">
               <div class="flex flex-col gap-1">
@@ -195,15 +232,19 @@
                 *ngIf="roles.includes(Role.helpDesk)"
               >
                 <div class="flex flex-col items-start">
-                  <div class="text-xs text-gray-500">Created By :</div>
-                  <app-badge-user [badgeUser]="item.owner"></app-badge-user>
+                  <div class="text-xs text-gray-500 mb-0.5">Created By :</div>
+                  <app-badge-user
+                    class="ring-2 ring-white rounded-full"
+                    [badgeUser]="item.owner"
+                  ></app-badge-user>
                 </div>
                 <div
                   class="flex flex-col items-start"
                   *ngIf="item.assignedTo != null"
                 >
-                  <div class="text-xs text-gray-500">Affected To :</div>
+                  <div class="text-xs text-gray-500 mb-0.5">Affected To :</div>
                   <app-badge-user
+                    class="ring-2 ring-white rounded-full"
                     [badgeUser]="item.assignedTo"
                   ></app-badge-user>
                 </div>
@@ -221,7 +262,10 @@
     <!-- Evaluating -->
     <div class="example-container rounded-2xl">
       <!-- board header -->
-      <div class="text-xl dark:bg-neutral-500 font-semibold mb-4">
+      <div
+        class="text-xl dark:bg-neutral-500 font-semibold mb-4"
+        style="color: rgb(189, 197, 129)"
+      >
         Evaluating
       </div>
 
@@ -230,7 +274,8 @@
         cdkDropList
         #evaluatingList="cdkDropList"
         [cdkDropListData]="ticketListEvaluating"
-        class="example-list h-full"
+        class="example-list h-full overflowy"
+        [ngClass]="roles.includes(Role.helpDesk) ? 'pb-10' : ''"
         (cdkDropListDropped)="drop($event, 'Evaluating')"
         [cdkDropListConnectedTo]="
           roles.includes(Role.admin) ? [inProgressList, rejectedList] : []
@@ -247,7 +292,7 @@
             *cdkDragPlaceholder
           ></div>
           <div
-            class="flex flex-col gap-4 p-5 mb-4 bg-white border border-gray-300 rounded-lg shadow-sm dark:bg-gray-700 dark:border-gray-600"
+            class="flex flex-col gap-4 p-5 mb-4 bg-white border card rounded-lg hover:shadow-sm dark:bg-gray-700 dark:border-gray-600"
           >
             <div class="flex justify-between">
               <div class="flex flex-col gap-1">
@@ -283,15 +328,19 @@
                 *ngIf="roles.includes(Role.helpDesk)"
               >
                 <div class="flex flex-col items-start">
-                  <div class="text-xs text-gray-500">Created By :</div>
-                  <app-badge-user [badgeUser]="item.owner"></app-badge-user>
+                  <div class="text-xs text-gray-500 mb-0.5">Created By :</div>
+                  <app-badge-user
+                    class="ring-2 ring-white rounded-full"
+                    [badgeUser]="item.owner"
+                  ></app-badge-user>
                 </div>
                 <div
                   class="flex flex-col items-start"
                   *ngIf="item.assignedTo != null"
                 >
-                  <div class="text-xs text-gray-500">Affected To :</div>
+                  <div class="text-xs text-gray-500 mb-0.5">Affected To :</div>
                   <app-badge-user
+                    class="ring-2 ring-white rounded-full"
                     [badgeUser]="item.assignedTo"
                   ></app-badge-user>
                 </div>
@@ -309,7 +358,11 @@
     <!-- Rejected -->
     <div class="example-container rounded-2xl">
       <!-- board header -->
-      <div class="text-xl dark:bg-neutral-500 font-semibold mb-4">Rejected</div>
+      <div
+        class="text-xl dark:bg-neutral-500 font-semibold mb-4 text-yellow-500"
+      >
+        Rejected
+      </div>
 
       <!-- board card -->
       <div
@@ -317,7 +370,8 @@
         #rejectedList="cdkDropList"
         [cdkDropListData]="ticketListRejected"
         [cdkDropListConnectedTo]="[]"
-        class="example-list h-full"
+        class="example-list h-full overflowy"
+        [ngClass]="roles.includes(Role.helpDesk) ? 'pb-10' : ''"
         (cdkDropListDropped)="drop($event, 'Rejected')"
       >
         <div
@@ -332,7 +386,7 @@
             *cdkDragPlaceholder
           ></div>
           <div
-            class="flex flex-col gap-4 p-5 mb-4 bg-white border border-gray-300 rounded-lg shadow-sm dark:bg-gray-700 dark:border-gray-600"
+            class="flex flex-col gap-4 p-5 mb-4 bg-white border card rounded-lg hover:shadow-sm dark:bg-gray-700 dark:border-gray-600"
           >
             <div class="flex justify-between">
               <div class="flex flex-col gap-1">
@@ -368,15 +422,19 @@
                 *ngIf="roles.includes(Role.helpDesk)"
               >
                 <div class="flex flex-col items-start">
-                  <div class="text-xs text-gray-500">Created By :</div>
-                  <app-badge-user [badgeUser]="item.owner"></app-badge-user>
+                  <div class="text-xs text-gray-500 mb-0.5">Created By :</div>
+                  <app-badge-user
+                    class="ring-2 ring-white rounded-full"
+                    [badgeUser]="item.owner"
+                  ></app-badge-user>
                 </div>
                 <div
                   class="flex flex-col items-start"
                   *ngIf="item.assignedTo != null"
                 >
-                  <div class="text-xs text-gray-500">Affected To :</div>
+                  <div class="text-xs text-gray-500 mb-0.5">Affected To :</div>
                   <app-badge-user
+                    class="ring-2 ring-white rounded-full"
                     [badgeUser]="item.assignedTo"
                   ></app-badge-user>
                 </div>
@@ -394,7 +452,7 @@
     <!-- In Progress -->
     <div class="example-container rounded-2xl">
       <!-- board header -->
-      <div class="text-xl dark:bg-neutral-500 font-semibold mb-4">
+      <div class="text-xl dark:bg-neutral-500 font-semibold mb-4 text-blue-600">
         In Progress
       </div>
 
@@ -403,7 +461,8 @@
         cdkDropList
         #inProgressList="cdkDropList"
         [cdkDropListData]="ticketListInProgress"
-        class="example-list h-full"
+        class="example-list h-full overflowy"
+        [ngClass]="roles.includes(Role.helpDesk) ? 'pb-10' : ''"
         (cdkDropListDropped)="drop($event, 'In Progress')"
         [cdkDropListConnectedTo]="
           user?.username == ticket?.assignedTo?.username ? [testingList] : []
@@ -420,7 +479,7 @@
             *cdkDragPlaceholder
           ></div>
           <div
-            class="flex flex-col gap-4 p-5 mb-4 bg-white border border-gray-300 rounded-lg shadow-sm dark:bg-gray-700 dark:border-gray-600"
+            class="flex flex-col gap-4 p-5 mb-4 bg-white border card rounded-lg hover:shadow-sm dark:bg-gray-700 dark:border-gray-600"
           >
             <div class="flex justify-between">
               <div class="flex flex-col gap-1">
@@ -456,15 +515,19 @@
                 *ngIf="roles.includes(Role.helpDesk)"
               >
                 <div class="flex flex-col items-start">
-                  <div class="text-xs text-gray-500">Created By :</div>
-                  <app-badge-user [badgeUser]="item.owner"></app-badge-user>
+                  <div class="text-xs text-gray-500 mb-0.5">Created By :</div>
+                  <app-badge-user
+                    class="ring-2 ring-white rounded-full"
+                    [badgeUser]="item.owner"
+                  ></app-badge-user>
                 </div>
                 <div
                   class="flex flex-col items-start"
                   *ngIf="item.assignedTo != null"
                 >
-                  <div class="text-xs text-gray-500">Affected To :</div>
+                  <div class="text-xs text-gray-500 mb-0.5">Affected To :</div>
                   <app-badge-user
+                    class="ring-2 ring-white rounded-full"
                     [badgeUser]="item.assignedTo"
                   ></app-badge-user>
                 </div>
@@ -482,14 +545,19 @@
     <!-- Testing -->
     <div class="example-container rounded-2xl">
       <!-- board header -->
-      <div class="text-xl dark:bg-neutral-500 font-semibold mb-4">Testing</div>
+      <div
+        class="text-xl dark:bg-neutral-500 font-semibold mb-4 text-purple-500"
+      >
+        Testing
+      </div>
 
       <!-- board card -->
       <div
         cdkDropList
         #testingList="cdkDropList"
         [cdkDropListData]="ticketListTesting"
-        class="example-list h-full"
+        class="example-list h-full overflowy"
+        [ngClass]="roles.includes(Role.helpDesk) ? 'pb-10' : ''"
         (cdkDropListDropped)="drop($event, 'Testing')"
         [cdkDropListConnectedTo]="[]"
       >
@@ -505,7 +573,7 @@
             *cdkDragPlaceholder
           ></div>
           <div
-            class="flex flex-col gap-4 p-5 mb-4 bg-white border border-gray-300 rounded-lg shadow-sm dark:bg-gray-700 dark:border-gray-600"
+            class="flex flex-col gap-4 p-5 mb-4 bg-white border card rounded-lg hover:shadow-sm dark:bg-gray-700 dark:border-gray-600"
           >
             <div class="flex justify-between">
               <div class="flex flex-col gap-1">
@@ -541,15 +609,19 @@
                 *ngIf="roles.includes(Role.helpDesk)"
               >
                 <div class="flex flex-col items-start">
-                  <div class="text-xs text-gray-500">Created By :</div>
-                  <app-badge-user [badgeUser]="item.owner"></app-badge-user>
+                  <div class="text-xs text-gray-500 mb-0.5">Created By :</div>
+                  <app-badge-user
+                    class="ring-2 ring-white rounded-full"
+                    [badgeUser]="item.owner"
+                  ></app-badge-user>
                 </div>
                 <div
                   class="flex flex-col items-start"
                   *ngIf="item.assignedTo != null"
                 >
-                  <div class="text-xs text-gray-500">Affected To :</div>
+                  <div class="text-xs text-gray-500 mb-0.5">Affected To :</div>
                   <app-badge-user
+                    class="ring-2 ring-white rounded-full"
                     [badgeUser]="item.assignedTo"
                   ></app-badge-user>
                 </div>
@@ -591,7 +663,9 @@
     <!-- Resolved -->
     <div class="example-container rounded-2xl">
       <!-- board header -->
-      <div class="text-xl dark:bg-neutral-500 font-semibold mb-4">Resolved</div>
+      <div class="text-xl dark:bg-neutral-500 font-semibold mb-4 text-teal-500">
+        Resolved
+      </div>
 
       <!-- board card -->
       <div
@@ -599,7 +673,8 @@
         #resolvedList="cdkDropList"
         [cdkDropListData]="ticketListResolved"
         [cdkDropListConnectedTo]="[]"
-        class="example-list h-full"
+        class="example-list h-full overflowy"
+        [ngClass]="roles.includes(Role.helpDesk) ? 'pb-10' : ''"
         (cdkDropListDropped)="drop($event, 'Resolved')"
       >
         <div
@@ -615,7 +690,7 @@
             *cdkDragPlaceholder
           ></div>
           <div
-            class="flex flex-col gap-4 p-5 mb-4 bg-white border border-gray-300 rounded-lg shadow-sm dark:bg-gray-700 dark:border-gray-600"
+            class="flex flex-col gap-4 p-5 mb-4 bg-white border card rounded-lg hover:shadow-sm dark:bg-gray-700 dark:border-gray-600"
           >
             <div class="flex justify-between">
               <div class="flex flex-col gap-1">
@@ -651,15 +726,19 @@
                 *ngIf="roles.includes(Role.helpDesk)"
               >
                 <div class="flex flex-col items-start">
-                  <div class="text-xs text-gray-500">Created By :</div>
-                  <app-badge-user [badgeUser]="item.owner"></app-badge-user>
+                  <div class="text-xs text-gray-500 mb-0.5">Created By :</div>
+                  <app-badge-user
+                    class="ring-2 ring-white rounded-full"
+                    [badgeUser]="item.owner"
+                  ></app-badge-user>
                 </div>
                 <div
                   class="flex flex-col items-start"
                   *ngIf="item.assignedTo != null"
                 >
-                  <div class="text-xs text-gray-500">Affected To :</div>
+                  <div class="text-xs text-gray-500 mb-0.5">Affected To :</div>
                   <app-badge-user
+                    class="ring-2 ring-white rounded-full"
                     [badgeUser]="item.assignedTo"
                   ></app-badge-user>
                 </div>

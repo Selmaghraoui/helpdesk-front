@@ -1,0 +1,38 @@
+<div class="relative">
+  <input
+    type="text"
+    id="search-text"
+    class="py-3 px-4 block w-full border-gray-200 bg-gray-50 rounded-xl text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+    aria-describedby="search-text"
+    [(ngModel)]="searchText"
+    [placeholder]="
+      isCreatedBy ? 'Filter by Created by' : 'Filter by Affected to '
+    "
+    (keyup.enter)="getEmpty()"
+  />
+  <div
+    *ngIf="searchText != ''"
+    class="absolute top-[50px] w-full rounded-xl border p-2 flex flex-col bg-white z-50"
+  >
+    <ng-container
+      *ngFor="let user of usersSearched | appFilterBadgeUsers : searchText"
+    >
+      <app-badge-user
+        class="hover:bg-gray-100 rounded-lg flex items-center"
+        [badgeUser]="user"
+        [searchable]="false"
+        (click)="getUser(user)"
+      ></app-badge-user>
+    </ng-container>
+    <!--  -->
+    <ng-container
+      *ngIf="(usersSearched | appFilterBadgeUsers : searchText)?.length == 0"
+    >
+      <div class="bg-gray-100 rounded-lg w-full items-center p-3 pe-3">
+        <div class="text-sm font-medium text-gray-800 dark:text-white">
+          No result.
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

@@ -52,7 +52,6 @@
       <ng-container *ngFor="let user of usersShared; let index = index">
         <app-badge-user
           [badgeUser]="user"
-          [isDeleted]="roles.includes(Role.user)"
           [isDeleted]="true"
           (userDeleted)="removeUser($event)"
         ></app-badge-user>
@@ -63,8 +62,7 @@
   <ng-container *ngIf="!isSharedWhith && userAffected">
     <app-badge-user
       [badgeUser]="userAffected"
-      [isDeleted]="roles.includes(Role.user)"
-      [isDeleted]="true"
+      [isDeleted]="false"
       (userDeleted)="removeUser($event)"
     ></app-badge-user>
   </ng-container>

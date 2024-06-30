@@ -24,6 +24,11 @@ import { AffectedSharedComponent } from './ui/components/affected-shared/affecte
 import { DisplayImageComponent } from './ui/components/display-image/display-image.component';
 import { FilterUsersPipe } from '../core/pipes/filter-users.pipe';
 import { FilterBadgeUsersPipe } from '../core/pipes/filter-badge-users.pipe';
+import { ExplanationComponent } from './ui/components/explanation/explanation.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { FilterByUserComponent } from './ui/components/filter-by-user/filter-by-user.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +45,8 @@ import { FilterBadgeUsersPipe } from '../core/pipes/filter-badge-users.pipe';
     ActivityComponent,
     AffectedSharedComponent,
     DisplayImageComponent,
+    ExplanationComponent,
+    FilterByUserComponent,
 
     BadgePriorityComponent,
     BadgeStatusComponent,
@@ -59,6 +66,10 @@ import { FilterBadgeUsersPipe } from '../core/pipes/filter-badge-users.pipe';
 
     FormsModule,
     ReactiveFormsModule,
+
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
   ],
   exports: [
     HeaderComponent,
@@ -74,6 +85,8 @@ import { FilterBadgeUsersPipe } from '../core/pipes/filter-badge-users.pipe';
     ActivityComponent,
     AffectedSharedComponent,
     DisplayImageComponent,
+    ExplanationComponent,
+    FilterByUserComponent,
 
     BadgePriorityComponent,
     BadgeStatusComponent,

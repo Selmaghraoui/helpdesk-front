@@ -7,6 +7,10 @@ import { CreateEditTicketComponent } from './create-edit-ticket/create-edit-tick
 import { TypesTicketComponent } from './types-ticket/types-ticket.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FilterTicketsPipe } from 'src/app/core/pipes/filter-tickets.pipe';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { ReviewComponent } from './Review/Review.component';
 
 @NgModule({
   imports: [
@@ -15,11 +19,17 @@ import { FilterTicketsPipe } from 'src/app/core/pipes/filter-tickets.pipe';
     SharedModule,
     FormsModule,
     ReactiveFormsModule,
+
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    ReactiveFormsModule,
   ],
   declarations: [
     TicketsComponent,
     CreateEditTicketComponent,
     TypesTicketComponent,
+    ReviewComponent,
 
     FilterTicketsPipe,
   ],

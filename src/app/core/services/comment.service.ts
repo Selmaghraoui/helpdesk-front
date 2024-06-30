@@ -22,6 +22,13 @@ export interface CommentResDto {
   status?: string;
   assignedTo?: UserResCommentDto;
   shared_with?: Array<UserResCommentDto>;
+  ticket: CommentTicketResDto;
+}
+
+export interface CommentTicketResDto {
+  id?: number;
+  reference?: string;
+  title?: string;
 }
 
 export interface IComment {

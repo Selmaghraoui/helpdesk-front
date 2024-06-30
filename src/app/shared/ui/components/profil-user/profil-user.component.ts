@@ -193,7 +193,7 @@ export class ProfilUserComponent implements OnInit, OnChanges {
       .updatePasswordUser(this.passwordFormGroup.value)
       .subscribe({
         next: () => {
-          console.log('password changed');
+          // toaster
         },
       });
   }
@@ -203,7 +203,7 @@ export class ProfilUserComponent implements OnInit, OnChanges {
     if (this.user?.id) {
       this.documentService.uploadProfilPhoto(file, this.user?.id).subscribe({
         next: () => {
-          console.log('file uploaded .. ');
+          // toaster
         },
         error: (error: HttpErrorResponse) => {
           console.log(error.message);

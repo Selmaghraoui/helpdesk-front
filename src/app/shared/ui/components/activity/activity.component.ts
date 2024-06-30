@@ -12,6 +12,8 @@ import {
 import { HttpErrorResponse } from '@angular/common/http';
 import { Ticket } from 'src/app/core/modeles/Ticket';
 import { ActivatedRoute } from '@angular/router';
+import { Role } from 'src/app/core/modeles/Role';
+import { badgeUser } from '../badge-user/badge-user.component';
 
 @Component({
   selector: 'app-activity',
@@ -32,6 +34,10 @@ export class ActivityComponent implements OnInit {
   user?: IUser;
   comments: any[] = [];
   idTicket?: number;
+  Role = Role;
+  roles: string[] = [];
+
+  isSharedWithMe: boolean = false;
 
   constructor(
     private webSocketService: WebSocketService,
@@ -43,6 +49,7 @@ export class ActivityComponent implements OnInit {
 
   ngOnInit() {
     this.getUser();
+    this.getRoles();
 
     this.commentFormGroup = new FormGroup({
       text: new FormControl('', Validators.required),
@@ -50,11 +57,12 @@ export class ActivityComponent implements OnInit {
     });
 
     this.getComments();
+    this.checkIfTicketSharedWithMe();
+  }
 
-    // this.webSocketService.getCommentUpdates().subscribe((comment: any) => {
-    //   console.log('New comment received: ', comment);
-    //   this.comments.push(comment);
-    // });
+  getRoles(): void {
+    const rolesData = localStorage.getItem('roles');
+    this.roles = rolesData ? JSON.parse(rolesData) : null;
   }
 
   getUser(): void {
@@ -96,12 +104,12 @@ export class ActivityComponent implements OnInit {
             status: undefined,
             assignedTo: undefined,
             shared_with: [],
+            ticket: {},
           };
 
           this.commentFormGroup.get('text')?.setValue('');
           this.listComments.push(comment);
-
-          console.log('comment added ..');
+          // toaster
         },
         error: (error: HttpErrorResponse) => {
           console.log(error.message);
@@ -117,8 +125,6 @@ export class ActivityComponent implements OnInit {
   }
 
   onImageChange(event: any) {
-    console.log('onImageChange event , ', event);
-
     if (event.target.files && event.target.files.length > 0) {
       const files = event.target.files;
 
@@ -150,5 +156,11 @@ export class ActivityComponent implements OnInit {
   validateFileType(file: File): boolean {
     const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
     return allowedTypes.includes(file.type);
+  }
+
+  checkIfTicketSharedWithMe() {
+    this.ticket?.sharedWith?.forEach((user: badgeUser) => {
+      if (user?.username == this.user?.username) this.isSharedWithMe = true;
+    });
   }
 }

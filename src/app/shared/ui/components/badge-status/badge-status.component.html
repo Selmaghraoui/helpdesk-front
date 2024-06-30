@@ -1,12 +1,12 @@
 <span
-  class="whitespace-pre ring-2 ring-white !bg-white inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium border"
+  class="ring-2 ring-white !bg-white inline-flex items-center py-1.5 px-3 rounded-full text-xs font-medium border"
   [ngClass]="{
     'border-gray-500 text-gray-500 dark:text-neutral-400':
       badgeStatus === TaskStatus.open,
     'evaluating dark:border-neutral-200 dark:text-white':
       badgeStatus === TaskStatus.evaluating,
     'border-teal-500 text-teal-500': badgeStatus == TaskStatus.resolved,
-    'border-blue-600 text-blue-600 dark:text-blue-500':
+    'border-blue-600 text-blue-600 dark:text-blue-500 whitespace-pre':
       badgeStatus === TaskStatus.inProgress,
     'border-red-500 text-red-500': badgeStatus === TaskStatus.canceled,
     'border-yellow-500 text-yellow-500': badgeStatus === TaskStatus.rejected,

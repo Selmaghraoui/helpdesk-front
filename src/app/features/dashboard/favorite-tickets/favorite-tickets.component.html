@@ -1,0 +1,427 @@
+<div class="bg-white border border-gray-200 rounded-xl shadow-sm flex flex-col">
+  <div class="overflow-x-auto">
+    <div class="min-w-full inline-block align-middle">
+      <div
+        class="p-8 overflow-hidden dark:bg-neutral-800 dark:border-neutral-700"
+      >
+        <!-- Header -->
+        <h5 class="pb-8 text-3xl font-bold text-gray-900 dark:text-white">
+          Favorits Tickets
+        </h5>
+        <!-- End Header -->
+
+        <!-- Table -->
+        <table
+          class="min-w-full divide-y divide-gray-200 dark:divide-neutral-700"
+        >
+          <ng-container
+            *ngIf="
+              favoriteTicketList?.length != 0;
+              else emptyfavoriteTicketList
+            "
+          >
+            <thead class="dark:bg-neutral-800">
+              <tr>
+                <!-- favoris -->
+                <th scope="col" class="py-3 px-1.5 text-start"></th>
+
+                <!-- Reference ticket -->
+                <th scope="col" class="p-3 text-start">
+                  <div class="flex items-center gap-x-2">
+                    <span
+                      class="text-lg font-semibold tracking-wide text-gray-800 dark:text-neutral-200"
+                    >
+                      Reference ticket
+                    </span>
+                  </div>
+                </th>
+
+                <!-- title -->
+                <th scope="col" class="py-3 px-1.5 text-start min-w-[440px]">
+                  <div class="group inline-flex items-center gap-x-2">
+                    <span
+                      class="text-lg font-semibold tracking-wide text-gray-800 dark:text-neutral-200"
+                    >
+                      Title
+                    </span>
+                  </div>
+                </th>
+
+                <!-- type -->
+                <!-- <th scope="col" class="py-3 px-1.5 text-start">
+                <a class="group inline-flex items-center gap-x-2">
+                  <span
+                    class="text-lg font-semibold tracking-wide text-gray-800 dark:text-neutral-200"
+                  >
+                    Type
+                  </span>
+                </a>
+              </th> -->
+
+                <!-- priority -->
+                <th scope="col" class="py-3 px-1.5 text-start">
+                  <a class="group inline-flex items-center gap-x-2">
+                    <span
+                      class="text-lg font-semibold tracking-wide text-gray-800 dark:text-neutral-200"
+                    >
+                      Priority
+                    </span>
+                  </a>
+                </th>
+
+                <!-- created by -->
+                <!-- *ngIf="roleUser == Role.helpDesk || roleUser == Role.admin" -->
+                <ng-container
+                  *ngIf="
+                    roles?.includes(Role.admin) ||
+                    roles?.includes(Role.helpDesk)
+                  "
+                >
+                  <th scope="col" class="py-3 px-1.5 text-start">
+                    <a class="group inline-flex items-center gap-x-2">
+                      <span
+                        class="text-lg font-semibold tracking-wide text-gray-800 dark:text-neutral-200"
+                      >
+                        Created By
+                      </span>
+                    </a>
+                  </th>
+                </ng-container>
+
+                <!-- created time -->
+                <!-- <th scope="col" class="py-3 px-1.5 text-start">
+                <a class="group inline-flex items-center gap-x-2">
+                  <span
+                    class="text-lg font-semibold tracking-wide text-gray-800 dark:text-neutral-200"
+                  >
+                    Created Time
+                  </span>
+                </a>
+              </th> -->
+
+                <!-- status -->
+                <th scope="col" class="py-3 px-1.5 text-start">
+                  <a class="group inline-flex items-center gap-x-2">
+                    <span
+                      class="text-lg font-semibold tracking-wide text-gray-800 dark:text-neutral-200"
+                    >
+                      Status
+                    </span>
+                  </a>
+                </th>
+
+                <!-- affected to -->
+                <!-- *ngIf="roleUser == Role.admin" -->
+                <ng-container *ngIf="roles?.includes(Role.admin)">
+                  <th scope="col" class="py-3 px-1.5 text-start">
+                    <a class="group inline-flex items-center gap-x-2">
+                      <span
+                        class="text-lg font-semibold tracking-wide text-gray-800 dark:text-neutral-200"
+                      >
+                        Affected to
+                      </span>
+                    </a>
+                  </th>
+                </ng-container>
+
+                <!-- actions -->
+                <th scope="col" class="py-3 px-1.5 text-end"></th>
+              </tr>
+            </thead>
+
+            <tbody class="divide-y divide-gray-200 dark:divide-neutral-700">
+              <tr
+                class="bg-white dark:bg-neutral-900 dark:hover:bg-neutral-800"
+                *ngFor="let ticket of favoriteTicketList"
+                [ngClass]="
+                  ticket.status == TaskStatus.canceled
+                    ? '!border-b !border-t !border-red-200 hover:bg-red-50'
+                    : 'hover:bg-gray-50'
+                "
+              >
+                <!-- favoris -->
+                <td class="">
+                  <a class="block relative z-10">
+                    <div class="py-3 px-1.5" (click)="toggleFavorits(ticket)">
+                      <ng-container *ngIf="ticket.favorite == true">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          fill="currentColor"
+                          class="size-6"
+                        >
+                          <path
+                            clip-rule="evenodd"
+                            fill-rule="evenodd"
+                            d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z"
+                          />
+                        </svg>
+                      </ng-container>
+                      <ng-container *ngIf="ticket.favorite == false">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke-width="1.5"
+                          stroke="currentColor"
+                          class="size-6"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z"
+                          />
+                        </svg>
+                      </ng-container>
+                    </div>
+                  </a>
+                </td>
+
+                <!-- Reference ticket -->
+                <td class="whitespace-nowrap">
+                  <div class="p-3 font-medium">{{ ticket.reference }}</div>
+                </td>
+
+                <!-- title -->
+                <td class="min-w-[440px]">
+                  <div class="block relative z-10">
+                    <div
+                      class="text-sm font-semibold py-3 px-1.5 whitespace-nowrap dark:text-white"
+                    >
+                      {{ ticket.title }}
+                    </div>
+                  </div>
+                </td>
+                <!-- type -->
+                <!-- <td class="">
+                <a class="block relative z-10">
+                  <div class="py-3 px-1.5">
+                    <app-badge-type [type]="ticket?.type"></app-badge-type>
+                  </div>
+                </a>
+              </td> -->
+                <!-- priority -->
+                <td class="">
+                  <a class="block relative z-10">
+                    <div class="py-3 px-1.5">
+                      <app-badge-priority
+                        [badgePriority]="ticket.priority"
+                      ></app-badge-priority>
+                    </div>
+                  </a>
+                </td>
+                <!-- created by -->
+                <!-- *ngIf="roleUser == Role.helpDesk || roleUser == Role.admin" -->
+                <ng-container
+                  *ngIf="
+                    roles?.includes(Role.admin) ||
+                    roles?.includes(Role.helpDesk)
+                  "
+                >
+                  <td class="">
+                    <a class="block relative z-10">
+                      <div class="py-3 px-1.5 flex -space-x-2">
+                        <app-badge-user
+                          [badgeUser]="ticket.owner"
+                          [isDeleted]="false"
+                        ></app-badge-user>
+                      </div>
+                    </a>
+                  </td>
+                </ng-container>
+                <!-- created time -->
+                <!-- <td class="">
+                <div class="py-3 px-1.5 text-sm font-normal">
+                  {{ ticket.createdTime }}
+                </div>
+              </td> -->
+                <!-- status -->
+                <td class="">
+                  <a class="block relative z-10">
+                    <div class="py-3 px-1.5 flex gap-x-1">
+                      <app-badge-status
+                        [badgeStatus]="ticket.status"
+                      ></app-badge-status>
+                    </div>
+                  </a>
+                </td>
+                <!-- affected to -->
+                <ng-container *ngIf="roles?.includes(Role.helpDesk)">
+                  <td class="">
+                    <a class="block relative z-10">
+                      <div class="flex py-3 px-1.5 flex-col gap-1">
+                        <app-badge-user
+                          [badgeUser]="ticket.assignedTo"
+                          [isDeleted]="false"
+                        ></app-badge-user>
+                      </div>
+                    </a>
+                  </td>
+                </ng-container>
+                <!-- actions -->
+                <td class="">
+                  <div class="py-3 px-1.5 flex gap-2 justify-end">
+                    <button
+                      [routerLink]="['/tickets/detail', ticket.id]"
+                      type="button"
+                      class="ring-2 ring-white py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-neutral-800 text-gray-900"
+                    >
+                      View
+                    </button>
+                    <ng-container
+                      *ngIf="
+                        !roles?.includes(Role.helpDesk) ||
+                        !roles?.includes(Role.admin)
+                      "
+                    >
+                      <button
+                        [disabled]="ticket.status == TaskStatus.canceled"
+                        type="button"
+                        class="ring-2 ring-white py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-red-500 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-neutral-800"
+                      >
+                        {{
+                          ticket.status == TaskStatus.canceled
+                            ? "Canceled"
+                            : "Cancel"
+                        }}
+                      </button>
+                    </ng-container>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </ng-container>
+        </table>
+        <!-- End Table -->
+
+        <!-- Footer -->
+        <div
+          class="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-t border-gray-200 dark:border-neutral-700"
+        >
+          <div>
+            <p class="text-sm text-gray-600 dark:text-neutral-400">
+              <span class="font-semibold text-gray-800 dark:text-neutral-200">{{
+                favoriteTicketList?.length
+              }}</span>
+              results
+            </p>
+          </div>
+
+          <div>
+            <div class="inline-flex gap-x-2">
+              <button
+                [disabled]="favoriteTicketList?.length == 0"
+                type="button"
+                class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800"
+              >
+                <svg
+                  class="flex-shrink-0 size-4"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="m15 18-6-6 6-6" />
+                </svg>
+                Prev
+              </button>
+
+              <button
+                [disabled]="favoriteTicketList?.length == 0"
+                type="button"
+                class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800"
+              >
+                Next
+                <svg
+                  class="flex-shrink-0 size-4"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="m9 18 6-6-6-6" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- End Footer -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #emptyfavoriteTicketList>
+  <div
+    class="max-w-md w-full min-h-[400px] flex flex-col justify-center mx-auto px-6 py-4"
+  >
+    <div
+      class="flex justify-center items-center size-[46px] bg-gray-100 rounded-lg dark:bg-neutral-800"
+    >
+      <svg
+        class="flex-shrink-0 size-6 text-gray-600 dark:text-neutral-400"
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        fill="currentColor"
+        viewBox="0 0 16 16"
+      >
+        <path
+          d="M1.92.506a.5.5 0 0 1 .434.14L3 1.293l.646-.647a.5.5 0 0 1 .708 0L5 1.293l.646-.647a.5.5 0 0 1 .708 0L7 1.293l.646-.647a.5.5 0 0 1 .708 0L9 1.293l.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .801.13l.5 1A.5.5 0 0 1 15 2v12a.5.5 0 0 1-.053.224l-.5 1a.5.5 0 0 1-.8.13L13 14.707l-.646.647a.5.5 0 0 1-.708 0L11 14.707l-.646.647a.5.5 0 0 1-.708 0L9 14.707l-.646.647a.5.5 0 0 1-.708 0L7 14.707l-.646.647a.5.5 0 0 1-.708 0L5 14.707l-.646.647a.5.5 0 0 1-.708 0L3 14.707l-.646.647a.5.5 0 0 1-.801-.13l-.5-1A.5.5 0 0 1 1 14V2a.5.5 0 0 1 .053-.224l.5-1a.5.5 0 0 1 .367-.27zm.217 1.338L2 2.118v11.764l.137.274.51-.51a.5.5 0 0 1 .707 0l.646.647.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.509.509.137-.274V2.118l-.137-.274-.51.51a.5.5 0 0 1-.707 0L12 1.707l-.646.647a.5.5 0 0 1-.708 0L10 1.707l-.646.647a.5.5 0 0 1-.708 0L8 1.707l-.646.647a.5.5 0 0 1-.708 0L6 1.707l-.646.647a.5.5 0 0 1-.708 0L4 1.707l-.646.647a.5.5 0 0 1-.708 0l-.509-.51z"
+        />
+        <path
+          d="M3 4.5a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5zm8-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5z"
+        />
+      </svg>
+    </div>
+
+    <h2 class="mt-5 font-semibold text-gray-800 dark:text-white">
+      No draft tickets
+    </h2>
+    <p class="mt-2 text-sm text-gray-600 dark:text-neutral-400">
+      Draft an invoice and send it to a customer.
+    </p>
+
+    <div class="mt-5 grid sm:flex gap-2">
+      <button
+        routerLink="/tickets/create-ticket"
+        type="button"
+        class="py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
+      >
+        <svg
+          class="flex-shrink-0 size-4"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M5 12h14" />
+          <path d="M12 5v14" />
+        </svg>
+        Create a new ticket
+      </button>
+      <button
+        type="button"
+        routerLink="/tickets"
+        class="p-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800"
+      >
+        Add ticket to Favorites
+      </button>
+    </div>
+  </div>
+</ng-template>

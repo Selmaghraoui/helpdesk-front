@@ -91,7 +91,7 @@
         class="p-8 overflow-hidden dark:bg-neutral-800 dark:border-neutral-700"
       >
         <!-- Header -->
-        <div class="pb-8">
+        <div class="pb-8 flex flex-col gap-2">
           <div
             class="pb-4 grid gap-3 md:flex md:justify-between md:items-center dark:border-neutral-700"
           >
@@ -106,7 +106,7 @@
               </p>
             </div>
           </div>
-          <div *ngIf="ticketList.length != 0" class="flex justify-between">
+          <div class="flex justify-between">
             <div class="flex gap-2">
               <!-- SearchBox -->
               <div class="relative max-w-sm w-80">
@@ -131,45 +131,177 @@
                 </div>
                 <input
                   type="text"
-                  class="py-3 ps-10 pe-4 block w-full border-gray-200 bg-gray-50 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+                  class="py-3 ps-10 pe-4 block w-full border-gray-200 bg-gray-50 rounded-xl text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
                   id="search-text"
                   aria-describedby="search-text"
                   [(ngModel)]="searchText"
                   placeholder="Type title of tiket"
                 />
               </div>
-
-              <ng-container *ngIf="roles.includes(Role.helpDesk)">
-                <div class="flex gap-2">
-                  <button
-                    (click)="getAllTickets()"
-                    type="button"
-                    class="ring-2 ring-white h-full py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border bg-white hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-neutral-800"
-                    [ngClass]="
-                      !isGetMyTickets
-                        ? 'border-blue-600 text-blue-600'
-                        : 'text-gray-900 border-gray-200'
-                    "
-                  >
-                    Get All Ticket
-                  </button>
-                  <button
-                    (click)="getMyTicketsHelpDesk()"
-                    type="button"
-                    class="ring-2 ring-white h-full py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border bg-white hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-neutral-800"
-                    [ngClass]="
-                      isGetMyTickets
-                        ? 'border-blue-600 text-blue-600'
-                        : 'text-gray-900 border-gray-200'
-                    "
-                  >
-                    My Tickets
-                  </button>
+              <!-- Filters -->
+              <div class="flex gap-2">
+                <!-- Filter By Created By -->
+                <div class="relative inline-flex">
+                  <app-filter-by-user
+                    [isCreatedBy]="true"
+                    (usersSelected)="filterByCreatedByAffectedTo($event, true)"
+                  ></app-filter-by-user>
                 </div>
-              </ng-container>
-              <!-- End SearchBox -->
-            </div>
+                <!-- Filter By Affected to -->
+                <div class="relative inline-flex">
+                  <app-filter-by-user
+                    [isCreatedBy]="false"
+                    (usersSelected)="filterByCreatedByAffectedTo($event, false)"
+                  ></app-filter-by-user>
+                </div>
+                <!-- Filter By Priority -->
+                <div class="relative inline-flex">
+                  <div (click)="toggleDisplay('priority')">
+                    <button
+                      class="ring-2 ring-white py-3 ps-3 pe-2 inline-flex items-center gap-x-4 text-sm font-medium rounded-xl border border-gray-200 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-neutral-800 text-gray-900"
+                      type="button"
+                    >
+                      <span> Priority </span>
+                      <svg
+                        class="-mr-1 h-5 w-5 text-gray-400 after::rotate-180"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        aria-hidden="true"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                          clip-rule="evenodd"
+                        />
+                      </svg>
+                    </button>
+                  </div>
 
+                  <div
+                    *ngIf="isDisplayPriority"
+                    class="absolute z-50 top-[50px] left-[0] border min-w-60 bg-white shadow-md rounded-xl p-2 dark:bg-neutral-800 dark:border dark:border-neutral-700"
+                  >
+                    <div class="first:pt-0 last:pb-0">
+                      <div
+                        *ngFor="let priority of priorities"
+                        class="cursor-pointer flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300"
+                        (click)="filterByPriority(priority)"
+                      >
+                        <div class="flex items-center gap-3">
+                          <input
+                            id="default-checkbox"
+                            type="checkbox"
+                            value=""
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                            [checked]="filterByPriorityList.includes(priority)"
+                          />
+                          <app-badge-priority
+                            [badgePriority]="priority"
+                          ></app-badge-priority>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Filter By Type -->
+                <div class="relative inline-flex">
+                  <div (click)="toggleDisplay('type')">
+                    <button
+                      class="ring-2 ring-white py-3 ps-3 pe-2 inline-flex items-center gap-x-4 text-sm font-medium rounded-xl border border-gray-200 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-neutral-800 text-gray-900"
+                      type="button"
+                    >
+                      <span> Type </span>
+                      <svg
+                        class="-mr-1 h-5 w-5 text-gray-400 target:rotate-180"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        aria-hidden="true"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                          clip-rule="evenodd"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+
+                  <div
+                    *ngIf="isDisplayType"
+                    class="absolute z-50 top-[50px] left-[0] border min-w-60 bg-white shadow-md rounded-xl p-2 dark:bg-neutral-800 dark:border dark:border-neutral-700"
+                  >
+                    <div class="first:pt-0 last:pb-0">
+                      <div
+                        *ngFor="let type of types"
+                        class="cursor-pointer flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300"
+                        (click)="filterByType(type)"
+                      >
+                        <div class="flex items-center gap-3">
+                          <input
+                            id="default-checkbox"
+                            type="checkbox"
+                            value=""
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                            [checked]="filterByTypeList.includes(type.code)"
+                          />
+                          <app-badge-type [type]="type"></app-badge-type>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Filter By Status -->
+                <div class="relative inline-flex">
+                  <div (click)="toggleDisplay('status')">
+                    <button
+                      class="ring-2 ring-white py-3 ps-3 pe-2 inline-flex items-center gap-x-4 text-sm font-medium rounded-xl border border-gray-200 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-neutral-800 text-gray-900"
+                      type="button"
+                    >
+                      <span> Status </span>
+                      <svg
+                        class="-mr-1 h-5 w-5 text-gray-400 after::rotate-180"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        aria-hidden="true"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                          clip-rule="evenodd"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+
+                  <div
+                    *ngIf="isDisplayStatus"
+                    class="absolute z-50 top-[50px] left-[0] border min-w-60 bg-white shadow-md rounded-xl p-2 dark:bg-neutral-800 dark:border dark:border-neutral-700"
+                  >
+                    <div class="first:pt-0 last:pb-0">
+                      <div
+                        *ngFor="let status of Status"
+                        class="cursor-pointer flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300"
+                        (click)="filterByStatus(status)"
+                      >
+                        <div class="flex items-center gap-3">
+                          <input
+                            id="default-checkbox"
+                            type="checkbox"
+                            value=""
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                            [checked]="filterByStatusList.includes(status)"
+                          />
+                          <app-badge-status
+                            [badgeStatus]="status"
+                          ></app-badge-status>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Create ticket -->
             <div *ngIf="ticketList.length != 0">
               <div class="inline-flex gap-x-2">
                 <div>
@@ -217,7 +349,7 @@
                     <span
                       class="text-lg font-semibold tracking-wide text-gray-800 dark:text-neutral-200"
                     >
-                      Reference ticket
+                      Reference
                     </span>
                   </div>
                 </th>
@@ -339,7 +471,7 @@
                 >
                   <!-- Reference ticket -->
                   <td class="whitespace-nowrap">
-                    <div class="p-3 font-medium">{{ ticket.reference }}</div>
+                    <div class="p-3 font-normal">{{ ticket.reference }}</div>
                   </td>
                   <!-- title -->
                   <td class="min-w-[440px]">
@@ -399,6 +531,7 @@
                     <a class="block relative z-10">
                       <div class="py-3 px-1.5 flex gap-x-1">
                         <app-badge-status
+                          class=""
                           [badgeStatus]="ticket.status"
                         ></app-badge-status>
                       </div>
@@ -441,6 +574,7 @@
                         "
                       >
                         <button
+                          (click)="canceledTicket(ticket)"
                           type="button"
                           class="ring-2 ring-white py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-red-500 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-neutral-800"
                         >
@@ -644,12 +778,6 @@
         </svg>
         Create a new ticket
       </button>
-      <!-- <button
-        type="button"
-        class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800"
-      >
-        Use a Template
-      </button> -->
     </div>
   </div>
 </ng-template>

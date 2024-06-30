@@ -33,7 +33,6 @@ export class UserDetailsComponent implements OnInit {
     this.activatedRoute.data.subscribe({
       next: (data) => {
         this.user = data['usersResolver'];
-        console.log('this.user', this.user);
       },
       error: (error: HttpErrorResponse) => {
         console.log(error.message);

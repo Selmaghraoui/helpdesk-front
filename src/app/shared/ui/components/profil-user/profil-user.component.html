@@ -91,12 +91,15 @@
     <div class="w-3/5 grid gap-4">
       <div class="shadow-sm p-8 bg-white border rounded-xl flex gap-8 flex-col">
         <div class="border-b pb-8">
-          <h2 class="text-xl font-bold text-gray-800 dark:text-neutral-200">
+          <div
+            class="leading-none text-xl font-bold text-gray-900 dark:text-white pb-2"
+          >
             Profile
-          </h2>
-          <p class="text-sm text-gray-600 dark:text-neutral-400">
+          </div>
+
+          <div class="text-sm text-gray-600 dark:text-neutral-400">
             Manage your name, password and account settings.
-          </p>
+          </div>
         </div>
         <!-- Account informations -->
         <div class="grid gap-4 border-b pb-8">
@@ -321,9 +324,10 @@
           >
             <!-- Left Content -->
             <div class="w-16 text-end">
-              <span class="text-xs text-gray-500 dark:text-neutral-400">{{
-                activity.time | date : "dd-MM-yyyy"
-              }}</span>
+              <span
+                class="text-xs text-gray-500 dark:text-neutral-400 whitespace-pre"
+                >{{ activity.time | date : "dd-MM-yyyy" }}</span
+              >
             </div>
 
             <!-- Icon -->
@@ -361,9 +365,23 @@
                         d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 0 1 0 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 0 1 0-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375Z"
                       />
                     </svg>
-                    AZ-1234
-                    <!-- {{ activity.referenceTicket }} -->
+                    {{ activity.ticket.reference }}
                   </h4>
+                  <!-- TICKET_CREATED -->
+                  <ng-container
+                    *ngIf="activity.typeActivity == 'TICKET_CREATED'"
+                  >
+                    <div
+                      class="flex gap-x-1.5 font-semibold text-gray-800 dark:text-white"
+                    >
+                      Created this ticket
+                    </div>
+                    <div
+                      class="p-3 text-xs font-normal rounded-lg bg-gray-50 dark:bg-gray-600 dark:border-gray-500 dark:text-gray-300"
+                    >
+                      {{ activity.ticket?.title }}
+                    </div>
+                  </ng-container>
                   <!-- COMMENT -->
                   <ng-container *ngIf="activity.typeActivity == 'COMMENT'">
                     <div
@@ -423,7 +441,7 @@
                   </ng-container>
                 </div>
                 <button
-                  [routerLink]="['/tickets/detail', activity.id]"
+                  [routerLink]="['/tickets/detail', activity.ticket.id]"
                   type="button"
                   class="ring-2 ring-white py-2 px-3 inline-flex items-start gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:hover:bg-neutral-800 text-gray-900"
                 >

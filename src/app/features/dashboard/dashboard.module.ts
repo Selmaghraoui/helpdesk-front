@@ -4,9 +4,10 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { DashboardComponent } from './dashboard.component';
+import { FavoriteTicketsComponent } from './favorite-tickets/favorite-tickets.component';
 
 @NgModule({
   imports: [CommonModule, DashboardRoutingModule, SharedModule, DragDropModule],
-  declarations: [DashboardComponent],
+  declarations: [DashboardComponent, FavoriteTicketsComponent],
 })
 export class DashboardModule {}

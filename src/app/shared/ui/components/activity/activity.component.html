@@ -1,6 +1,17 @@
 <!-- Activity -->
 <div
   class="activity flex flex-col px-4 bg-white border border-gray-200 rounded-xl shadow-sm"
+  [ngClass]="
+    ticket?.status != TaskStatus.resolved &&
+    (roles.includes(Role.admin) ||
+      (roles.includes(Role.helpDesk) &&
+        !roles.includes(Role.admin) &&
+        (ticket?.assignedTo?.username == user?.username || isSharedWithMe)) ||
+      (roles.includes(Role.user) &&
+        (ticket?.owner?.username == user?.username || isSharedWithMe)))
+      ? ''
+      : 'pb-8'
+  "
 >
   <!-- Header -->
   <div
@@ -11,19 +22,26 @@
 
   <!-- Body -->
   <div class="overflow-y-scroll" *ngIf="listComments.length > 0">
-    <div class="!max-h-[462px] max-h-[462px] mr-[6px]">
-      <ol class="relative border-s border-gray-200 dark:border-gray-700 ms-3.5">
+    <div
+      class="mr-[6px]"
+      [ngClass]="
+        ticket?.status == TaskStatus.resolved
+          ? 'max-h-[600px]'
+          : '!max-h-[462px] max-h-[462px]'
+      "
+    >
+      <ol class="relative border-s border-gray-200 dark:border-gray-700 ms-4">
         <ng-container *ngFor="let comment of listComments">
           <li
-            class="mb-10 ms-6 flex flex-col gap-2"
+            class="mb-10 ms-6 flex flex-col gap-1"
             *ngIf="comment.typeActivity != '0' && comment.typeActivity != '3'"
           >
             <span
-              class="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900"
+              class="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-4 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900"
             >
               <app-display-image
                 class="h-6"
-                [css]="'rounded-full shadow-lg h-6'"
+                [css]="'rounded-full shadow-md h-8'"
                 [docId]="comment?.author?.docId"
               ></app-display-image>
             </span>
@@ -39,10 +57,44 @@
               </time>
             </div>
 
+            <!-- TICKET_CREATED -->
+            <div
+              *ngIf="comment.typeActivity == 'TICKET_CREATED'"
+              class="p-3 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-700 dark:border-gray-600"
+            >
+              <div class="flex items-center sm:flex gap-2">
+                <div
+                  class="text-sm font-normal text-gray-500 dark:text-gray-300"
+                >
+                  Created this ticket
+                </div>
+                <div
+                  class="flex gap-x-1.5 text-lg font-bold items-center text-black dark:text-white"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="size-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 0 1 0 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 0 1 0-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375Z"
+                    />
+                  </svg>
+                  {{ comment.ticket.reference }}
+                </div>
+              </div>
+              <!-- explication -->
+            </div>
+
             <!-- Status Changed -->
             <div
               *ngIf="comment.typeActivity == 'STATUS_CHANGED'"
-              class="p-3 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-700 dark:border-gray-600"
+              class="p-3 flex flex-col gap-1 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-700 dark:border-gray-600"
             >
               <div class="flex items-center sm:flex gap-2">
                 <div
@@ -55,6 +107,23 @@
                 ></app-badge-status>
               </div>
               <!-- explication -->
+              <ng-container
+                *ngIf="
+                  comment.status == TaskStatus.canceled ||
+                  comment.status == TaskStatus.rejected
+                "
+              >
+                <div
+                  class="mb-1 text-sm font-normal text-gray-500 lex dark:text-gray-300"
+                >
+                  Explication :
+                </div>
+                <div
+                  class="p-3 text-xs font-normal border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-600 dark:border-gray-500 dark:text-gray-300"
+                >
+                  {{ comment.comment }}
+                </div>
+              </ng-container>
             </div>
 
             <!-- SHARED_WITH -->
@@ -62,7 +131,7 @@
               class="p-3 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-700 dark:border-gray-600"
               *ngIf="comment.typeActivity == 'SHARED_WITH'"
             >
-              <div class="flex sm:flex gap-2">
+              <div class="flex items-center sm:flex gap-2">
                 <div
                   class="text-sm font-normal text-gray-500 dark:text-gray-300 h-full flex items-start"
                 >
@@ -133,15 +202,26 @@
   </div>
 
   <!-- Add comment -->
-  <form [formGroup]="commentFormGroup">
-    <div class="relative ms-3.5 pt-6 mr-[6px]">
+  <form
+    [formGroup]="commentFormGroup"
+    *ngIf="
+      ticket?.status != TaskStatus.resolved &&
+      (roles.includes(Role.admin) ||
+        (roles.includes(Role.helpDesk) &&
+          !roles.includes(Role.admin) &&
+          (ticket?.assignedTo?.username == user?.username || isSharedWithMe)) ||
+        (roles.includes(Role.user) &&
+          (ticket?.owner?.username == user?.username || isSharedWithMe)))
+    "
+  >
+    <div class="relative ms-4 pt-6 mr-[6px]">
       <div class="mb-10 ms-6">
         <span
-          class="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900"
+          class="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-4 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900"
         >
           <app-display-image
             class="h-6"
-            [css]="'rounded-full shadow-lg h-6'"
+            [css]="'rounded-full shadow-lg h-8'"
             [docId]="user?.docId"
           ></app-display-image>
         </span>

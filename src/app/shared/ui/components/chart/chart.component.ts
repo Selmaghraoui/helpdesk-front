@@ -67,7 +67,6 @@ export class ChartComponent implements OnInit {
   }
 
   getTicketsForUser() {
-    console.log('this.user?.username, ', this.user?.username);
     if (this.user?.username) {
       this.ticketService.getTickestForUser(this.user?.username).subscribe({
         next: (tickets: Ticket[]) => {

@@ -1,16 +1,16 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, async, inject } from '@angular/core/testing';
-import { KeycloakService } from './keycloak.service';
+import { FeedbackService } from './feedback.service';
 
-describe('Service: Keycloak', () => {
+describe('Service: Feedback', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [KeycloakService]
+      providers: [FeedbackService]
     });
   });
 
-  it('should ...', inject([KeycloakService], (service: KeycloakService) => {
+  it('should ...', inject([FeedbackService], (service: FeedbackService) => {
     expect(service).toBeTruthy();
   }));
 });

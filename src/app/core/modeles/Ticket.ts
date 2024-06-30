@@ -1,5 +1,4 @@
 import { badgeUser } from 'src/app/shared/ui/components/badge-user/badge-user.component';
-import { IUser } from './IUser';
 import { TaskStatus } from './TaskStatus';
 import { TypesTicket } from './TypesTicket';
 

@@ -22,7 +22,6 @@ export class WebSocketService {
   //   this.stompClient = Stomp.over(socket);
 
   //   this.stompClient.connect({}, (frame: any) => {
-  //     console.log('Connected: ' + frame);
   //     this.stompClient.subscribe('/topic/comments', (message: any) => {
   //       this.commentUpdates.next(JSON.parse(message.body));
   //     });

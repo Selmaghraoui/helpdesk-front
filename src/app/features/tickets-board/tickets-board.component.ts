@@ -14,9 +14,9 @@ import {
   TicketService,
   TicketStatusDto,
 } from 'src/app/core/services/ticket.service';
-import { ExplanationComponent } from './explanation/explanation.component';
 import { MatDialog } from '@angular/material/dialog';
 import { filterTicket } from 'src/app/core/utils/helpers';
+import { ExplanationComponent } from 'src/app/shared/ui/components/explanation/explanation.component';
 
 @Component({
   selector: 'app-tickets-board',
@@ -25,10 +25,11 @@ import { filterTicket } from 'src/app/core/utils/helpers';
 })
 export class TicketsBoardComponent implements OnInit {
   TaskStatus = TaskStatus;
+  initTicketList: Ticket[] = [];
   ticketList: Ticket[] = [];
   breadCrumb: IBreadcrumb[] = [
     {
-      title: 'Tickets',
+      title: 'Tickets board',
       isLien: false,
       lien: '/tickets',
     },
@@ -37,10 +38,12 @@ export class TicketsBoardComponent implements OnInit {
   ticket!: Ticket;
   index?: number;
   user?: IUser;
-
+  isDisplay: boolean = false;
+  priorities = ['High', 'Low', 'Medium'];
   Role = Role;
   roles: string[] = [];
-  isGetMyTickets: boolean = false;
+  isGetAffectedToMe: boolean = false;
+  isGetCreatedByMe: boolean = false;
   constructor(private ticketService: TicketService, public dialog: MatDialog) {}
 
   ngOnInit() {
@@ -79,9 +82,10 @@ export class TicketsBoardComponent implements OnInit {
   getAllTickets() {
     this.ticketService.getAllTickets().subscribe({
       next: (tickets: Ticket[]) => {
-        this.isGetMyTickets = false;
+        this.initTicketList = tickets;
+        this.isGetAffectedToMe = false;
+        this.isGetCreatedByMe = false;
         this.ticketProcessBoard(tickets);
-        console.log('1 / this.ticketList', this.ticketList);
       },
       error: (error: HttpErrorResponse) => {
         console.log(error.message);
@@ -102,12 +106,24 @@ export class TicketsBoardComponent implements OnInit {
     }
   }
 
-  getMyTicketsHelpDesk() {
+  getAffectedToMe() {
+    this.ticketList = this.initTicketList;
     this.ticketList = this.ticketList.filter(
       (ticket) => ticket?.assignedTo?.username === this.user?.username
     );
     this.ticketProcessBoard(this.ticketList);
-    this.isGetMyTickets = true;
+    this.isGetAffectedToMe = true;
+    this.isGetCreatedByMe = false;
+  }
+
+  getCreatedByMe() {
+    this.ticketList = this.initTicketList;
+    this.ticketList = this.ticketList.filter(
+      (ticket) => ticket?.owner?.username === this.user?.username
+    );
+    this.ticketProcessBoard(this.ticketList);
+    this.isGetCreatedByMe = true;
+    this.isGetAffectedToMe = false;
   }
 
   ticketProcessBoard(tickets: Ticket[]) {
@@ -196,7 +212,7 @@ export class TicketsBoardComponent implements OnInit {
             this.ticketListEvaluating.splice(this.index!, 1);
             this.ticketListInProgress.push(this.ticket);
           }
-          this.changeStatus(this.ticket, status);
+          this.changeStatus(this.ticket, status, result?.explanation);
         } else {
           console.log('No explanation provided. Status change aborted.');
         }
@@ -221,9 +237,9 @@ export class TicketsBoardComponent implements OnInit {
     }
   }
 
-  changeStatus(ticket: Ticket, status: string) {
+  changeStatus(ticket: Ticket, status: string, explication?: string) {
     const ticketStatus: TicketStatusDto = {
-      explication: ticket?.title,
+      explication: explication ?? '',
       status: status,
     };
 
@@ -231,8 +247,6 @@ export class TicketsBoardComponent implements OnInit {
       this.ticketService.changeStatus(ticket?.id, ticketStatus).subscribe({
         next: () => {
           // toaster of changing status
-          console.log('status changed');
-          this.ticket;
         },
         error: (error: HttpErrorResponse) => {
           console.log(error.message);
@@ -256,5 +270,9 @@ export class TicketsBoardComponent implements OnInit {
     }
 
     this.ticketListTesting.splice(index, 1);
+  }
+
+  toggleDisplay() {
+    this.isDisplay = !this.isDisplay;
   }
 }

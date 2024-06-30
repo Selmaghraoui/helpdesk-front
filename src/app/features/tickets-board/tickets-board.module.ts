@@ -4,7 +4,6 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { TicketsBoardRoutingModule } from './tickets-board-routing.module';
 import { TicketsBoardComponent } from './tickets-board.component';
-import { ExplanationComponent } from './explanation/explanation.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -17,7 +16,6 @@ import { MatInputModule } from '@angular/material/input';
     TicketsBoardRoutingModule,
     SharedModule,
     DragDropModule,
-    MatDialogModule,
     ReactiveFormsModule,
 
     MatDialogModule,
@@ -25,6 +23,6 @@ import { MatInputModule } from '@angular/material/input';
     MatInputModule,
     FormsModule,
   ],
-  declarations: [TicketsBoardComponent, ExplanationComponent],
+  declarations: [TicketsBoardComponent],
 })
 export class TicketBoardModule {}

@@ -31,6 +31,10 @@ export interface TicketStatusDto {
   status: string;
 }
 
+export interface IsFavoriteDto {
+  isFavorite: boolean;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -38,6 +42,12 @@ export class TicketService {
   url = 'http://localhost:8082/api';
 
   constructor(private http: HttpClient) {}
+
+  getFavoriteTickets(idUser: number): Observable<Array<Ticket>> {
+    return this.http.get<Array<Ticket>>(
+      this.url + '/favorite-tickets/' + idUser
+    );
+  }
 
   getAllTickets(): Observable<Array<Ticket>> {
     return this.http.get<Array<Ticket>>(this.url + '/tickets');
@@ -81,6 +91,16 @@ export class TicketService {
     return this.http.put<any>(
       this.url + '/tickets/status/' + ticketId,
       ticketStatus
+    );
+  }
+
+  toggleFavoriteTicket(
+    ticketId: number,
+    isFavoriteDto: IsFavoriteDto
+  ): Observable<Ticket> {
+    return this.http.put<Ticket>(
+      this.url + '/tickets/isFavorite/' + ticketId,
+      isFavoriteDto
     );
   }
 }

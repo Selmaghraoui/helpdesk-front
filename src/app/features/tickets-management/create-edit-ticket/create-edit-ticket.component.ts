@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -14,6 +14,7 @@ import {
   IDocument,
 } from 'src/app/core/services/document.service';
 import {
+  IsFavoriteDto,
   TicketService,
   TicketStatusDto,
   UpdateSharedWithDto,
@@ -21,19 +22,6 @@ import {
 } from 'src/app/core/services/ticket.service';
 import { UpdateAssignedToDto } from 'src/app/shared/ui/components/affected-shared/affected-shared.component';
 import { badgeUser } from 'src/app/shared/ui/components/badge-user/badge-user.component';
-
-// export interface IComment {
-//   id: number;
-//   user: {
-//     image: string;
-//     firstName: string;
-//     lastName: string;
-//   };
-//   comment: {
-//     text: string;
-//     images: { imageAlt: string }[];
-//   };
-// }
 
 @Component({
   selector: 'app-create-edit-ticket',
@@ -48,7 +36,7 @@ export class CreateEditTicketComponent implements OnInit {
 
   selectedFiles: FileList | null = null;
   previewImages: string[] = [];
-  // imageUrl: SafeUrl | string | ArrayBuffer | null | undefined;
+
   docs: IDocument[] = [];
 
   TaskPriority = TaskPriority;
@@ -58,6 +46,8 @@ export class CreateEditTicketComponent implements OnInit {
   user?: IUser;
 
   ticket?: Ticket;
+  isFavoriteTicket: boolean = false;
+  favoriteTicketList: Ticket[] = [];
 
   constructor(
     private ticketService: TicketService,
@@ -105,6 +95,7 @@ export class CreateEditTicketComponent implements OnInit {
           this.ticket = value;
           this.getDoc();
           this.initBreadcrumb();
+          this.getFavoriteTicket();
         },
         error: (error: HttpErrorResponse) => {
           error.message;
@@ -200,13 +191,9 @@ export class CreateEditTicketComponent implements OnInit {
   }
 
   createTicket(ticketFormGroup: FormGroup) {
-    console.log('0 - ticketFormGroup , ', ticketFormGroup);
     this.ticketService.createTicket(ticketFormGroup.getRawValue()).subscribe({
       next: (ticket: Ticket) => {
-        console.log('1 - this.docs.length , ', this.docs.length);
-
         if (this.docs.length > 0) {
-          console.log('2 - 3ayat l upload');
           this.uploadFile(ticket.id);
         } else {
           this.router.navigateByUrl('tickets');
@@ -272,19 +259,52 @@ export class CreateEditTicketComponent implements OnInit {
     }
   }
 
-  toggleFavorits() {
-    if (this.ticket?.favorite) this.ticket.favorite = !this.ticket?.favorite;
+  // favorite
+  getFavoriteTicket() {
+    const FavoriteTicketsData = localStorage.getItem('FavoriteTickets');
+    this.favoriteTicketList = FavoriteTicketsData
+      ? JSON.parse(FavoriteTicketsData)
+      : null;
+
+    this.favoriteTicketList.forEach((ticket: Ticket) => {
+      if (ticket.id == this.ticket?.id) this.isFavoriteTicket = true;
+    });
+  }
+  toggleFavorits(isFavorite?: boolean) {
+    if (this.ticket?.id != undefined && isFavorite != undefined) {
+      const isFavoriteDto: IsFavoriteDto = {
+        isFavorite: !isFavorite!,
+      };
+      this.ticketService
+        ?.toggleFavoriteTicket(this.ticket?.id, isFavoriteDto)
+        .subscribe({
+          next: () => {
+            const index = this.favoriteTicketList.indexOf(this.ticket!);
+            if (index === -1) {
+              this.favoriteTicketList.push(this.ticket!);
+            } else {
+              this.favoriteTicketList.splice(index, 1);
+            }
+
+            this.saveFavoriteTickets(this.favoriteTicketList);
+            this.isFavoriteTicket = !this.isFavoriteTicket;
+          },
+          error: (error: HttpErrorResponse) => {
+            console.log(error.message);
+          },
+        });
+    }
+  }
+  saveFavoriteTickets(tickets: Ticket[]): void {
+    localStorage.setItem('FavoriteTickets', JSON.stringify(tickets));
   }
 
   // Upload image
   files: File[] = [];
   uploadFile(idTicket: number) {
-    console.log('1 - idTicket , ', idTicket);
-
     this.documentService.uploadDocForTicket(this.files, idTicket).subscribe({
       next: () => {
         this.router.navigateByUrl('tickets');
-        console.log('file uploaded .. ');
       },
       error: (error: HttpErrorResponse) => {
         console.log(error.message);
@@ -293,9 +313,6 @@ export class CreateEditTicketComponent implements OnInit {
   }
 
   onSelectFile(fileEvent: any) {
-    console.log('fileEvent,, ', fileEvent);
-    console.log('fileEvent.target.files[0],, ', fileEvent.target.files[0]);
-
     if (fileEvent.target.files && fileEvent.target.files[0]) {
       var reader = new FileReader();
 

@@ -13,7 +13,6 @@ import { IUser } from 'src/app/core/modeles/IUser';
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
-  favoriteTicketList: Ticket[] = [];
   TaskStatus = TaskStatus;
   Activity = TypeActivity;
   Role = Role;
@@ -32,9 +31,10 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.getUser();
     this.getRoles();
-    if (this.roles?.includes(Role.helpDesk) || this.roles?.includes(Role.admin))
-      this.getFavoriteTickets();
-    else if (
+    // if (this.roles?.includes(Role.helpDesk) || this.roles?.includes(Role.admin))
+    // this.getFavoriteTickets();
+    // else
+    if (
       this.roles?.includes(Role.user) &&
       !this.roles?.includes(Role.helpDesk) &&
       !this.roles?.includes(Role.admin)
@@ -53,40 +53,20 @@ export class DashboardComponent implements OnInit {
     this.roles = rolesData ? JSON.parse(rolesData) : null;
   }
 
-  getFavoriteTickets() {
-    this.ticketService.getAllTickets().subscribe({
-      next: (tickets: Ticket[]) => {
-        this.totalTickets = tickets.length;
-        tickets.forEach((ticket) => {
-          if (ticket.favorite == true) this.favoriteTicketList.push(ticket);
-        });
-      },
-      error: (error: HttpErrorResponse) => {
-        console.log(error.message);
-      },
-    });
-  }
-
   getTicketsForUser() {
     if (this.user?.username) {
       this.ticketService.getTickestForUser(this.user?.username).subscribe({
         next: (tickets: Ticket[]) => {
           this.totalTickets = tickets.length;
-          tickets.forEach((ticket) => {
-            if (ticket.favorite == true) this.favoriteTicketList.push(ticket);
-          });
+          // tickets.forEach((ticket) => {
+          //   if (ticket.favorite == true) this.favoriteTicketList.push(ticket);
+          // });
         },
         error: (error: HttpErrorResponse) => {
           console.log(error.message);
         },
       });
     }
-  }
-
-  toggleFavorits(ticketSelected?: Ticket) {
-    this.favoriteTicketList.forEach((ticket: Ticket) => {
-      if (ticket.id === ticketSelected?.id) ticket.favorite = !ticket.favorite;
-    });
   }
 
   getTotalDepartments(event: number) {
