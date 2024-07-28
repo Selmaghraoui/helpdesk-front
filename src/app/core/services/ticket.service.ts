@@ -53,6 +53,12 @@ export class TicketService {
     return this.http.get<Array<Ticket>>(this.url + '/tickets');
   }
 
+  getAllTicketsSharedWith(username: string): Observable<Array<Ticket>> {
+    return this.http.get<Array<Ticket>>(
+      this.url + '/tickets/shared-with/' + username
+    );
+  }
+
   getTickestForUser(username: string): Observable<Ticket[]> {
     return this.http.get<Ticket[]>(
       this.url + '/user-tickets/' + username + '/'

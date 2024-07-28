@@ -26,14 +26,25 @@
     <button
       (click)="toggleDisplay()"
       type="button"
-      class="hs-dropdown-toggle w-[2.375rem] h-[2.375rem] inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-400 dark:hover:bg-neutral-700"
+      class="hs-dropdown-toggle h-[2.375rem] inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:text-neutral-400 dark:hover:bg-neutral-700"
     >
       <app-display-image
         [docId]="user?.docId"
         [css]="
-          'inline-block size-[38px] rounded-full ring-2 ring-white dark:ring-neutral-900'
+          'inline-block size-[44px] rounded-full ring-2 ring-white dark:ring-neutral-900'
         "
       ></app-display-image>
+      <div class="flex flex-col gap-0.5">
+        <div
+          class="flex justify-start text-base font-medium text-black"
+          style="line-height: 1rem"
+        >
+          {{ user?.firstName }} {{ user?.firstName }}
+        </div>
+        <div class="flex justify-start text-gray-400" style="line-height: 1rem">
+          {{ user?.username }}
+        </div>
+      </div>
     </button>
 
     <div

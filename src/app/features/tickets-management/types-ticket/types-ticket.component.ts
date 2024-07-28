@@ -27,7 +27,7 @@ export class TypesTicketComponent implements OnInit {
       code: 'application',
       title: 'Application',
       lien: '/application',
-      description: 'Create ticket to install a new application or ',
+      description: 'Create ticket to install a new application.',
     },
     {
       id: 2,

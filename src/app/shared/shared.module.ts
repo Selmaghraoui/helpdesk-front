@@ -29,6 +29,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FilterByUserComponent } from './ui/components/filter-by-user/filter-by-user.component';
+import { AdvancedRatingHelpdeskComponent } from './ui/components/advanced-rating-helpdesk/advanced-rating-helpdesk.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { FilterByUserComponent } from './ui/components/filter-by-user/filter-by-
     DisplayImageComponent,
     ExplanationComponent,
     FilterByUserComponent,
+    AdvancedRatingHelpdeskComponent,
 
     BadgePriorityComponent,
     BadgeStatusComponent,
@@ -87,6 +89,7 @@ import { FilterByUserComponent } from './ui/components/filter-by-user/filter-by-
     DisplayImageComponent,
     ExplanationComponent,
     FilterByUserComponent,
+    AdvancedRatingHelpdeskComponent,
 
     BadgePriorityComponent,
     BadgeStatusComponent,

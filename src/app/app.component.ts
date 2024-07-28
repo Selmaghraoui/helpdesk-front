@@ -84,7 +84,7 @@ export class AppComponent implements OnInit {
     localStorage.setItem('departments', JSON.stringify(departments));
   }
 
-  // Departments
+  // favorites
   getFavoriteTickets() {
     if (this.user?.id != undefined)
       this.ticketService.getFavoriteTickets(this.user?.id).subscribe({

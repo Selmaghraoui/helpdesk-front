@@ -10,17 +10,16 @@ import {
 } from 'src/app/core/services/ticket.service';
 
 @Component({
-  selector: 'app-favorite-tickets',
-  templateUrl: './favorite-tickets.component.html',
-  styleUrls: ['./favorite-tickets.component.scss'],
+  selector: 'app-shared-tickets',
+  templateUrl: './sharedTickets.component.html',
+  styleUrls: ['./sharedTickets.component.scss'],
 })
-export class FavoriteTicketsComponent implements OnInit {
+export class SharedTicketsComponent implements OnInit {
   Role = Role;
   roles: string[] = [];
   user?: IUser;
+  sharedTicketList: Ticket[] = [];
   TaskStatus = TaskStatus;
-
-  favoriteTicketList: Ticket[] = [];
 
   constructor(private ticketService: TicketService) {}
 
@@ -28,7 +27,7 @@ export class FavoriteTicketsComponent implements OnInit {
     this.getUser();
     this.getRoles();
 
-    this.getFavoriteTickets();
+    this.getTicketsSharedWithForUser();
   }
 
   getUser(): void {
@@ -41,14 +40,20 @@ export class FavoriteTicketsComponent implements OnInit {
     this.roles = rolesData ? JSON.parse(rolesData) : null;
   }
 
-  getFavoriteTickets() {
-    const FavoriteTicketsData = localStorage.getItem('FavoriteTickets');
-    this.favoriteTicketList = FavoriteTicketsData
-      ? JSON.parse(FavoriteTicketsData)
-      : null;
-    this.favoriteTicketList?.forEach((ticket: Ticket) => {
-      ticket.favorite = true;
-    });
+  getTicketsSharedWithForUser() {
+    if (this.user?.username) {
+      this.ticketService.getAllTicketsSharedWith(this.user.username).subscribe({
+        next: (tickets: Ticket[]) => {
+          console.log('tickets', tickets);
+
+          this.sharedTicketList = tickets;
+          console.log('this.sharedTicketList .. ', this.sharedTicketList);
+        },
+        error: (error: HttpErrorResponse) => {
+          console.log(error.message);
+        },
+      });
+    }
   }
 
   toggleFavorits(ticketSelected?: Ticket) {
@@ -63,15 +68,15 @@ export class FavoriteTicketsComponent implements OnInit {
         ?.toggleFavoriteTicket(ticketSelected?.id, isFavoriteDto)
         .subscribe({
           next: () => {
-            const index = this.favoriteTicketList.indexOf(ticketSelected);
+            const index = this.sharedTicketList.indexOf(ticketSelected);
             if (index === -1) {
-              this.favoriteTicketList.push(ticketSelected);
+              this.sharedTicketList.push(ticketSelected);
             } else {
-              this.favoriteTicketList.splice(index, 1);
+              this.sharedTicketList.splice(index, 1);
             }
 
-            this.saveFavoriteTickets(this.favoriteTicketList);
-            this.favoriteTicketList.forEach((ticket: Ticket) => {
+            this.saveFavoriteTickets(this.sharedTicketList);
+            this.sharedTicketList.forEach((ticket: Ticket) => {
               if (ticket.id === ticketSelected?.id)
                 ticket.favorite = !ticket.favorite;
             });

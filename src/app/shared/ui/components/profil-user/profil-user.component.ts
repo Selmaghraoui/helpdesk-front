@@ -1,10 +1,14 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import {
+  AfterViewInit,
   Component,
+  ElementRef,
+  HostListener,
   Input,
   OnChanges,
   OnInit,
   SimpleChanges,
+  ViewChild,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -52,7 +56,7 @@ export function passwordMatchValidator(): ValidatorFn {
   templateUrl: './profil-user.component.html',
   styleUrls: ['./profil-user.component.scss'],
 })
-export class ProfilUserComponent implements OnInit, OnChanges {
+export class ProfilUserComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() isProfil: boolean = true;
   @Input() user?: IUser;
 
@@ -68,11 +72,19 @@ export class ProfilUserComponent implements OnInit, OnChanges {
   recentActivities: CommentResDto[] = [];
   imageUrl: SafeUrl | string | ArrayBuffer | null | undefined;
 
+  @ViewChild('div1') div1!: ElementRef;
+  @ViewChild('div2') div2!: ElementRef;
+  @ViewChild('div3') div3!: ElementRef;
+
   constructor(
     private usersService: UsersService,
     private documentService: DocumentService,
     private commentService: CommentService
   ) {}
+
+  ngAfterViewInit(): void {
+    this.adjustHeights();
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.user = changes['user'].currentValue;
@@ -229,14 +241,15 @@ export class ProfilUserComponent implements OnInit, OnChanges {
     document?.getElementById('imageInput')?.click();
   }
 
-  // Download Profil Photo
-  // loadImage() {
-  //   if (this.user?.docId)
-  //     this.documentService
-  //       .downloadProfilPhoto(this.user.docId)
-  //       .subscribe((response: IDocument) => {
-  //         // const objectURL = URL.createObjectURL(response.data);
-  //         // this.imageUrl = this.sanitizer.bypassSecurityTrustUrl(objectURL);
-  //       });
-  // }
+  @HostListener('window:resize')
+  onWindowResize() {
+    this.adjustHeights();
+  }
+
+  private adjustHeights(): void {
+    const div2Height = this.div2?.nativeElement.offsetHeight;
+
+    if (this.div1) this.div1.nativeElement.style.maxHeight = `${div2Height}px`;
+    if (this.div3) this.div3.nativeElement.style.maxHeight = `${div2Height}px`;
+  }
 }

@@ -52,8 +52,8 @@ export class ActivityComponent implements OnInit {
     this.getRoles();
 
     this.commentFormGroup = new FormGroup({
-      text: new FormControl('', Validators.required),
-      images: new FormArray([]),
+      text: new FormControl(null, Validators.required),
+      // images: new FormArray([]),
     });
 
     this.getComments();
